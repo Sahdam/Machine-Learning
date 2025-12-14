@@ -74,13 +74,13 @@ with st.sidebar:
     if st.button("Show unique values"):
             st.session_state.show_plot = False
     feature_btn = st.button("Show unique values of selected column")
-if feature:
+  if feature:
   value_list = df[feature].unique().tolist()
   unique_btn = st.button("Show unique values")
-if unique_btn:
+  if unique_btn:
   st.write("Unique values:", value_list)
 st.session_state.feat_val = st.selectbox("Select feature value", value_list)
-if st.button("Plot visualization"):
+  if st.button("Plot visualization"):
     st.session_state.show_plot = True
 if st.session_state.show_plot and st.session_state.feat_val is not None:
     data_to_plot = (df[df[feature]== st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
