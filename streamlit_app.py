@@ -111,7 +111,7 @@ with st.sidebar:
   with st.expander("Correlation Matrix: Numeric Columns Relationship"):
     corr_btn = st.button("Show Correlations")
   if corr_btn:
-    sns.heatmap(df.corr(), annot=True, cmap="Blues")
+    sns.heatmap(df.select_dtypes(include="number")corr(), annot=True, cmap="Blues")
     st.pyplot(plt.gcf())
 with st.sidebar:
     with st.expander("**Feature Engineering**"):
