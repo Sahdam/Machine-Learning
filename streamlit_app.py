@@ -62,4 +62,7 @@ with st.expander("Groupby Table"):
       st.warning("Please select at least one index, one column, and one aggregate function.")
 
 with st.sidebar:
-  st.write("Select Feature for feature engineering")
+  with st.expander("Select Feature for feature engineering"):
+    st.multiselect("Choose feature", list(df.columns))
+    st.multiselect("Choose another feature", list(df.columns))
+    st.selectbox("Choose arithmetic operator", [*, /, +, -])
