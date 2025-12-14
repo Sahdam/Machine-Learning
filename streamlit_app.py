@@ -65,7 +65,7 @@ if grp_table and idx_feat and column_feat and agg:
 
 with st.sidebar:
   with st.expander("**Drill down visualization of features on sleep disorders**"):
-    feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").unique().index))
+    feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").nunique().index))
     feature_btn = st.button("Show unique values of selected column")
 if feature_btn and feature:
   value_list = st.write("Unique values", df[feature].unique())
