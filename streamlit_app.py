@@ -59,12 +59,10 @@ with st.expander("Groupby Table"):
       st.warning("Please select at least one index, one column, and one aggregate function.")
 
 
-if "df_original" not in st.session_state:
-    st.session_state.df_original = df.copy()
+if "df_stack" not in st.session_state:
+    st.session_state.df_stack = [df.copy()]  # stack of dataframes
 if "df_current" not in st.session_state:
     st.session_state.df_current = df.copy()
-if "df_previous" not in st.session_state:
-    st.session_state.df_previous = df.copy()
 
 ops = {
     '+': operator.add,
@@ -74,31 +72,40 @@ ops = {
 }
 
 with st.sidebar:
-  with st.expander("Select Feature for feature engineering"):
-    col_1 = st.multiselect("Choose feature", list(df.columns))
-    col_2= st.multiselect("Choose another feature", list(df.columns))
-    op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
-    add_button = st.button("Add Feature")
-    undo_button = st.button("Undo Last Change")
-    if add_button and col_1 and col_2 and op:
-            st.session_state.df_previous = st.session_state.df_current.copy()
+    with st.expander("Feature Engineering"):
+        col_1 = st.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
+        col_2 = st.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
+        op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
+        
+        add_button = st.button("Add Feature")
+        undo_button = st.button("Undo Last Change")
+        reset_button = st.button("Reset to Original Data")
+
+        # Add feature
+        if add_button and col_1 and col_2 and op:
+            st.session_state.df_stack.append(st.session_state.df_current.copy())
             for c1 in col_1:
                 for c2 in col_2:
-                    new_col_name = f"{c1}{op}{c2}"
+                    new_col = f"{c1}{op}{c2}"
                     try:
                         if op == '/':
-                            st.session_state.df_current[new_col_name] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
+                            st.session_state.df_current[new_col] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
                         else:
-                            st.session_state.df_current[new_col_name] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
+                            st.session_state.df_current[new_col] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
                     except Exception as e:
-                        st.error(f"Error creating column {new_col_name}: {e}")
-            st.success("Dataframe successfully updated")
-    if undo_button:
-      if "df_previous" in st.session_state:
-                st.session_state.df_current = st.session_state.df_previous.copy()
-                st.success("Last change undone.")
-      else:
-                st.warning("Nothing to undo.")
-      st.success("Dataframe Undone")
+                        st.error(f"Error creating column {new_col}: {e}")
 
-st.write("**Updated DataFrame:**", st.session_state.df_current)
+        if undo_button:
+            if len(st.session_state.df_stack) > 1:
+                st.session_state.df_current = st.session_state.df_stack.pop()
+                st.success("Last change undone.")
+            else:
+                st.warning("Already at original data!")
+
+        if reset_button:
+            st.session_state.df_current = st.session_state.df_stack[0].copy()
+            st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
+            st.success("Data reset to original.")
+
+st.write("**Updated DataFrame:**")
+st.dataframe(st.session_state.df_current)
