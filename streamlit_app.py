@@ -92,6 +92,7 @@ with st.sidebar:
                             st.session_state.df_current[new_col] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
                         else:
                             st.session_state.df_current[new_col] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
+                            st.success("Dataframe succefully updated")
                     except Exception as e:
                         st.error(f"Error creating column {new_col}: {e}")
 
