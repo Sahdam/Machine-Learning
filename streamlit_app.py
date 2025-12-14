@@ -74,7 +74,7 @@ with st.sidebar:
 if feature:
   value_list = df[feature].unique().tolist()
   st.write("Unique values:", value_list)
-   if st.button("Plot visualization"):
+  if st.button("Plot visualization"):
         st.session_state.show_plot = True
 if st.session_state.show_plot:
     data_to_plot = (df[df[feature]== feat_val]["sleep Disorder"].value_counts(normalize=True))
