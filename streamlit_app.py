@@ -39,8 +39,8 @@ df["BMI Category"] = df["BMI Category"].replace({
 
 
 with st.sidebar:
-  plot_btn = st.button("Plot Feature")
   with st.expander("Visualize how the features are distributed in the dataset"):
+    plot_btn = st.button("Plot Feature")
     st.markdown("## Make Your Own Plot")
     select_column= st.selectbox("Select the category feature you want to visualize",list(df.select_dtypes("object").nunique().index))
     fig, ax = plt.subplots()
