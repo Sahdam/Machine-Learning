@@ -77,11 +77,11 @@ with st.sidebar:
     if st.button("Show unique values"):
             st.session_state.show_plot = False
             st.session_state.feat_val = None
-if st.session_state.feature in df.columns:
-    value_list = df[st.session_state.feature].dropna().unique().tolist()
-    st.session_state.feat_val = st.selectbox("Select feature value", value_list,key="feat_val_select")
-if st.button("Plot visualization"):
-    st.session_state.show_plot = True
+  if st.session_state.feature in df.columns:
+      value_list = df[st.session_state.feature].dropna().unique().tolist()
+      st.session_state.feat_val = st.selectbox("Select feature value", value_list,key="feat_val_select")
+  if st.button("Plot visualization"):
+      st.session_state.show_plot = True
 if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
     data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
     fig, ax = plt.subplots()
