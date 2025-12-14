@@ -26,3 +26,16 @@ with st.expander("Visualize how the features are distributed in the dataset"):
   df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
                                                     title=f"{select_column} Proportion(counts in percentage)", color="green", ax=ax)
   st.pyplot(fig)
+
+with st.expander("Groupby Table"):
+  st.markdown("## Create Your own Group Table")
+  idx_feat =st.multiselect("Select the features for the index", list(sleep_df.columns))
+  column_feat =st.multiselect("Select the features for your group table column", list(sleep_df.columns))
+  agg = st.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
+  
+  if idx_feat and column_feat and agg:
+      st.dataframe(
+          sleep_df.groupby(idx_feat)[column_feat].agg(agg)
+      )
+  else:
+      st.warning("Please select at least one index, one column, and one aggregate function.")
