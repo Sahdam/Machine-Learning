@@ -13,7 +13,7 @@ with st.expander("Data"):
   df.fillna("None", inplace=True)
   df
   st.write(df.info())
-  df.describe()
+  st.dataframe(df.describe())
 
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
