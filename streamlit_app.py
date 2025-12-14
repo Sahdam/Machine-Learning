@@ -70,7 +70,7 @@ with st.sidebar:
 if feature_btn and feature:
   value_list = st.write("Unique values", df[feature].unique())
   with st.expander("**Choose feature value to plot**"):
-    feat_val = st.selectbox(value_list)
+    feat_val = st.selectbox(list(value_list))
     select_feat_val = df[df[feature]==select_feat_val]["sleep Disorder"].value_counts(normalize=True)
     feat_val_btn = st.button("plot visual")
     fig, ax = plt.subplots()
