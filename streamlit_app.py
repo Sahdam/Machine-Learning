@@ -29,13 +29,13 @@ with st.expander("Visualize how the features are distributed in the dataset"):
 
 with st.expander("Groupby Table"):
   st.markdown("## Create Your own Group Table")
-  idx_feat =st.multiselect("Select the features for the index", list(sleep_df.columns))
-  column_feat =st.multiselect("Select the features for your group table column", list(sleep_df.columns))
+  idx_feat =st.multiselect("Select the features for the index", list(df.columns))
+  column_feat =st.multiselect("Select the features for your group table column", list(df.columns))
   agg = st.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
   
   if idx_feat and column_feat and agg:
       st.dataframe(
-          sleep_df.groupby(idx_feat)[column_feat].agg(agg)
+          df.groupby(idx_feat)[column_feat].agg(agg)
       )
   else:
       st.warning("Please select at least one index, one column, and one aggregate function.")
