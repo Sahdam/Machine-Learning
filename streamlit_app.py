@@ -83,4 +83,4 @@ with st.sidebar:
                     except Exception as e:
                         st.error(f"Error creating column {new_col_name}: {e}")
 
-st.write("Updated DataFrame:", df)
+st.write("## Updated DataFrame:", df)
