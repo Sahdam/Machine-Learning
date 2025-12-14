@@ -67,8 +67,8 @@ with st.sidebar:
   with st.expander("Drill down visualization of dataset columns"):
     feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").nunique().index))
     feature_btn = st.button("Show unique values of selected column")
-    if feature_btn and feature:
-      st.write("Unique values", df[feature].unique())
+if feature_btn and feature:
+  st.write("Unique values", df[feature].unique())
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
