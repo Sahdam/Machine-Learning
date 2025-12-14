@@ -61,3 +61,5 @@ with st.expander("Groupby Table"):
   else:
       st.warning("Please select at least one index, one column, and one aggregate function.")
 
+with st.sidebar:
+  st.write("Select Feature for feature engineering")
