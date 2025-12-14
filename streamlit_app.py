@@ -63,6 +63,13 @@ if grp_table and idx_feat and column_feat and agg:
   df.groupby(idx_feat)[column_feat].agg(agg)
         )
 
+with st.sidebar:
+  with st.expander("Drill down visualization of dataset columns"):
+    feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").nunique().index))
+    feature_btn = st.button("Show unique values of selected column")
+    if feature_btn and feature:
+      st.write(list(df[feature].unique()))
+
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
 if "df_current" not in st.session_state:
