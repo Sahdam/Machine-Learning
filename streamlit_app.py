@@ -76,9 +76,7 @@ if feature_btn and feature:
     fig, ax = plt.subplots()
     select_feat_val.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
                       title=f"{select_feat_val} Sleep Disorder")
-if feat_val_btn and feat_val:
-  st.pyplot(fig)
-  st.success("Plot successfully created")
+
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
