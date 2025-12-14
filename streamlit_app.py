@@ -79,7 +79,7 @@ with st.sidebar:
     unique_btn = st.button("Show unique values")
   if unique_btn:
     st.write("Unique values:", value_list)
-st.session_state.feat_val = st.selectbox("Select feature value", value_list)
+  st.session_state.feat_val = st.selectbox("Select feature value", value_list)
 with st.sidebar:
   if st.button("Plot visualization"):
     st.session_state.show_plot = True
