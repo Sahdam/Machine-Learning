@@ -108,6 +108,12 @@ ops = {
 }
 
 with st.sidebar:
+  with st.expander("Correlation Matrix: Numeric Columns Relationship")
+  corr_btn = st.button("Show Correlations")
+  if corr_btn:
+    fig = sns.heatmap(df.select_dytpes("number").corr(), annot=True, cmap="Blues"])
+    st.pyplot(fig)
+with st.sidebar:
     with st.expander("**Feature Engineering**"):
         col_1 = st.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
         col_2 = st.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
