@@ -46,6 +46,7 @@ with st.expander("Visualize how the features are distributed in the dataset"):
   df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
                                                     title=f"{select_column} Proportion(counts in percentage)", color="green", ax=ax)
   st.pyplot(fig)
+  st.success("Plot successfully created")
 
 with st.expander("Groupby Table"):
   st.markdown("## Create Your own Group Table")
