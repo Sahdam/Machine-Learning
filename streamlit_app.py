@@ -65,4 +65,4 @@ with st.sidebar:
   with st.expander("Select Feature for feature engineering"):
     st.multiselect("Choose feature", list(df.columns))
     st.multiselect("Choose another feature", list(df.columns))
-    st.selectbox("Choose arithmetic operator", [*, /, +, -])
+    st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
