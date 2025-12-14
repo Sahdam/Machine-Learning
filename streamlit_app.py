@@ -30,6 +30,7 @@ with st.expander("Data"):
   df.info(buf=buffer)
   st.code(buffer.getvalue(), language="text")
   st.dataframe(df.describe())
+  st.dataframe(df.select_dtypes("object").describe())
 
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
