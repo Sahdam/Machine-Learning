@@ -65,20 +65,21 @@ if grp_table and idx_feat and column_feat and agg:
 
 with st.sidebar:
   with st.expander("**Drill down visualization of features on sleep disorders**"):
-    feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").nunique().index))
+    feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist())
     feature_btn = st.button("Show unique values of selected column")
 if feature_btn and feature:
-  value_list = st.write("Unique values", df[feature].unique())
+  value_list = df[feature].unique().tolist()
+  st.write("Unique values:", value_list)
   with st.expander("**Choose feature value to plot**"):
-    feat_val = st.selectbox(list(value_list))
-    select_feat_val = df[df[feature]==select_feat_val]["sleep Disorder"].value_counts(normalize=True)
-    feat_val_btn = st.button("plot visual")
-    fig, ax = plt.subplots()
-    select_feat_val.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
-                      title=f"{select_feat_val} Sleep Disorder")
+    feat_val = st.selectbox("Select feature value", value_list)
+    feat_val_btn = st.button("plot visualizaton")
 if feature and feature_btn and feat_val_btn and feat_val:
-  st.pyplot(fig)
-  st.success("Plot successfully created")
+    data_to_plot = (df[df[feature]== feat_val]["sleep Disorder"].value_counts(normalize=True))
+    fig, ax = plt.subplots()
+    data_to_plot.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
+                      title=f"{feat_val}  → Sleep Disorder Distribution")
+    st.pyplot(fig)
+    st.success("Plot successfully created")
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
