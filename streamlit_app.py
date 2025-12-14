@@ -64,11 +64,21 @@ if grp_table and idx_feat and column_feat and agg:
         )
 
 with st.sidebar:
-  with st.expander("**Drill down visualization of dataset columns**"):
+  with st.expander("**Drill down visualization of features on sleep disorders**"):
     feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").nunique().index))
     feature_btn = st.button("Show unique values of selected column")
 if feature_btn and feature:
-  st.write("Unique values", df[feature].unique())
+  value_list = st.write("Unique values", df[feature].unique())
+  with st.expander("**Choose feature value to plot**"):
+    feat_val = st.selectbox(value_list)
+    select_feat_val = df[feature]==select_feat_val]["sleep Disorder"].value_counts(normalize=True)
+    feat_val_btn = st.button("plot visual")
+    fig, ax = plt.subplots()
+    select_feat_val.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
+                      title=f"{select_feat_val} Sleep Disorder")
+if feat_val_btn and feat_val:
+  st.pyplot(fig)
+  st.success("Plot successfully created")
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
