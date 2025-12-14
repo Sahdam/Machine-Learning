@@ -25,9 +25,6 @@ with st.expander("Data"):
   df.drop(columns="index", inplace=True)
   df.set_index("Person ID", inplace=True)
   df.fillna("None", inplace=True)
-  df["Stress_HR"] = df["Stress Level"] * df["Heart Rate"]
-  df["Sleep Efficiency"] = df["Quality of Sleep"]/df["Sleep Duration"]
-  df["Short Sleep"] = (df["Sleep Duration"]<6).astype(int)
   df
   buffer = io.StringIO()
   df.info(buf=buffer)
