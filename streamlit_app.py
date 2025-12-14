@@ -56,8 +56,9 @@ with st.sidebar:
     idx_feat =st.multiselect("Select the features for the index", list(df.columns))
     column_feat =st.multiselect("Select the features for your group table column", list(df.columns))
     agg = st.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
+    grp_table = st.button("Show group table")
     
-if idx_feat and column_feat and agg:
+if grp_table and idx_feat and column_feat and agg:
   st.dataframe(
   df.groupby(idx_feat)[column_feat].agg(agg)
         )
