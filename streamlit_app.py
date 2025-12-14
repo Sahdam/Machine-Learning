@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import io
 st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
