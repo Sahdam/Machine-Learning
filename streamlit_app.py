@@ -92,12 +92,13 @@ with st.sidebar:
                             st.session_state.df_current[new_col_name] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
                     except Exception as e:
                         st.error(f"Error creating column {new_col_name}: {e}")
-        
+            st.success("Dataframe successfully updated")
     if undo_button:
       if "df_previous" in st.session_state:
                 st.session_state.df_current = st.session_state.df_previous.copy()
                 st.success("Last change undone.")
       else:
                 st.warning("Nothing to undo.")
+      st.success("Dataframe Undone")
 
 st.write("**Updated DataFrame:**", st.session_state.df_current)
