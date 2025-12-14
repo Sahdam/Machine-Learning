@@ -62,9 +62,6 @@ if grp_table and idx_feat and column_feat and agg:
   st.dataframe(
   df.groupby(idx_feat)[column_feat].agg(agg)
         )
-else:
-  st.warning("Please select at least one index, one column, and one aggregate function.")
-
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
