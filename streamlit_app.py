@@ -12,7 +12,12 @@ with st.expander("Data"):
   df.fillna("None", inplace=True)
   df
 
-sleep_df["BMI Category"] = sleep_df["BMI Category"].replace({
+df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
     "Normal Weight": "Normalweight"
 })
+
+with st.expander("Visualize how the features are distributed in the dataset"):
+  st.markdown("## Make Your Own Plot")
+  select_column= st.selectbox("Select the category feature you want to visualize",
+                              ["Gender", "Occupation", "BMI Category", "Blood Pressure"])
