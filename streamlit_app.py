@@ -62,18 +62,21 @@ if grp_table and idx_feat and column_feat and agg:
   st.dataframe(
   df.groupby(idx_feat)[column_feat].agg(agg)
         )
-
+if "show_plot" not in st.session_state:
+    st.session_state.show_plot = False
+  
 with st.sidebar:
   with st.expander("**Drill down visualization of features on sleep disorders**"):
     feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist())
+    if st.button("Show unique values"):
+            st.session_state.show_plot = False
     feature_btn = st.button("Show unique values of selected column")
-if feature_btn and feature:
+if feature:
   value_list = df[feature].unique().tolist()
   st.write("Unique values:", value_list)
-  with st.expander("**Choose feature value to plot**"):
-    feat_val = st.selectbox("Select feature value", value_list)
-    feat_val_btn = st.button("plot visualizaton")
-if feature and feature_btn and feat_val_btn and feat_val:
+   if st.button("Plot visualization"):
+        st.session_state.show_plot = True
+if st.session_state.show_plot:
     data_to_plot = (df[df[feature]== feat_val]["sleep Disorder"].value_counts(normalize=True))
     fig, ax = plt.subplots()
     data_to_plot.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
