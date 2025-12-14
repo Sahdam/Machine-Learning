@@ -24,5 +24,5 @@ with st.expander("Visualize how the features are distributed in the dataset"):
                               ["Gender", "Occupation", "BMI Category", "Blood Pressure"])
   fig, ax = plt.subplots()
   df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
-                                                    title=f"{select_column} Proportion(counts in percentage)", color="red")
+                                                    title=f"{select_column} Proportion(counts in percentage)", color="red", ax=ax)
   st.pyplot(fig)
