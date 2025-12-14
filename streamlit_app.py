@@ -112,7 +112,7 @@ with st.sidebar:
     corr_btn = st.button("Show Correlations")
   if corr_btn:
     sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
-    st.pyplot(plt.gcf())
+st.pyplot(plt.gcf())
 with st.sidebar:
     with st.expander("**Feature Engineering**"):
         col_1 = st.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
