@@ -73,18 +73,17 @@ if "feature" not in st.session_state:
     st.session_state.feature = None
 with st.sidebar:
   with st.expander("**Drill down visualization of features on sleep disorders**"):
-    feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist, key="feature")
-    if feature != st.session_state.feature:
+    st.session_state.feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist, key="feature_select")
+    if st.button("Show unique values"):
             st.session_state.show_plot = False
-            st.session_state.feature = feature
-if feature:
-  value_list = df[feature].unique().tolist()
-  st.write("Unique values:", value_list)
-  feat_val = st.selectbox("Select feature value", value_list, key="feat_val")
+            st.session_state.feat_val = None
+if st.session_state.feature in df.columns:
+    value_list = df[st.session_state.feature].dropna().unique().tolist()
+    st.session_state.feat_val = st.selectbox("Select feature value", value_list, key="feat_val_select")
 if st.button("Plot visualization"):
     st.session_state.show_plot = True
-if st.session_state.show_plot:
-    data_to_plot = (df[df[feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
+if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
+    data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
     fig, ax = plt.subplots()
     data_to_plot.plot(
         kind="bar",
