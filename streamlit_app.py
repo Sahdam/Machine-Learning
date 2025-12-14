@@ -44,8 +44,8 @@ with st.sidebar:
     fig, ax = plt.subplots()
     df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
                                                       title=f"{select_column} Proportion(counts in percentage)", color="green", ax=ax)
-    st.pyplot(fig)
-    st.success("Plot successfully created")
+st.pyplot(fig)
+st.success("Plot successfully created")
 
 with st.sidebar:
   with st.expander("Groupby Table"):
@@ -54,12 +54,12 @@ with st.sidebar:
     column_feat =st.multiselect("Select the features for your group table column", list(df.columns))
     agg = st.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
     
-    if idx_feat and column_feat and agg:
-        st.dataframe(
-            df.groupby(idx_feat)[column_feat].agg(agg)
+if idx_feat and column_feat and agg:
+  st.dataframe(
+  df.groupby(idx_feat)[column_feat].agg(agg)
         )
-    else:
-        st.warning("Please select at least one index, one column, and one aggregate function.")
+else:
+  st.warning("Please select at least one index, one column, and one aggregate function.")
 
 
 if "df_stack" not in st.session_state:
