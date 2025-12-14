@@ -65,6 +65,8 @@ if grp_table and idx_feat and column_feat and agg:
 if "show_plot" not in st.session_state:
     st.session_state.show_plot = False
   
+if "feat_val" not in st.session_state:
+    st.session_state.feat_val = None
 with st.sidebar:
   with st.expander("**Drill down visualization of features on sleep disorders**"):
     feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist())
@@ -74,13 +76,14 @@ with st.sidebar:
 if feature:
   value_list = df[feature].unique().tolist()
   st.write("Unique values:", value_list)
+  st.session_state.feat_val = st.selectbox("Select feature value" value_list)
   if st.button("Plot visualization"):
         st.session_state.show_plot = True
-if st.session_state.show_plot:
-    data_to_plot = (df[df[feature]== feat_val]["sleep Disorder"].value_counts(normalize=True))
+if st.session_state.show_plot and st.session_state.feat_val is not None:
+    data_to_plot = (df[df[feature]== st.session_state.feat_val]["sleep Disorder"].value_counts(normalize=True))
     fig, ax = plt.subplots()
     data_to_plot.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
-                      title=f"{feat_val}  → Sleep Disorder Distribution")
+                      title=f"{st.session_state.feat_val}  → Sleep Disorder Distribution")
     st.pyplot(fig)
     st.success("Plot successfully created")
 
