@@ -76,7 +76,7 @@ with st.sidebar:
 if feature:
   value_list = df[feature].unique().tolist()
   st.write("Unique values:", value_list)
-  st.session_state.feat_val = st.selectbox("Select feature value" value_list)
+  st.session_state.feat_val = st.selectbox("Select feature value", value_list)
   if st.button("Plot visualization"):
         st.session_state.show_plot = True
 if st.session_state.show_plot and st.session_state.feat_val is not None:
