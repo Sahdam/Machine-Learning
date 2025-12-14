@@ -74,22 +74,21 @@ with st.sidebar:
     if st.button("Show unique values"):
             st.session_state.show_plot = False
     feature_btn = st.button("Show unique values of selected column")
-  if feature:
-    value_list = df[feature].unique().tolist()
-    unique_btn = st.button("Show unique values")
-  if unique_btn:
-    st.write("Unique values:", value_list)
-  st.session_state.feat_val = st.selectbox("Select feature value", value_list)
-with st.sidebar:
-  if st.button("Plot visualization"):
-    st.session_state.show_plot = True
-  if st.session_state.show_plot and st.session_state.feat_val is not None:
-    data_to_plot = (df[df[feature]== st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
-    fig, ax = plt.subplots()
-    data_to_plot.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
+if feature:
+  value_list = df[feature].unique().tolist()
+  unique_btn = st.button("Show unique values")
+if unique_btn:
+  st.write("Unique values:", value_list)
+st.session_state.feat_val = st.selectbox("Select feature value", value_list)
+if st.button("Plot visualization"):
+  st.session_state.show_plot = True
+if st.session_state.show_plot and st.session_state.feat_val is not None:
+  data_to_plot = (df[df[feature]== st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
+  fig, ax = plt.subplots()
+  data_to_plot.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
                       title=f"{st.session_state.feat_val}  → Sleep Disorder Distribution")
-    st.pyplot(fig)
-    st.success("Plot successfully created")
+  st.pyplot(fig)
+  st.success("Plot successfully created")
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
