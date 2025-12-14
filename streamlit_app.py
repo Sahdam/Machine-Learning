@@ -2,6 +2,21 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import io
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.pipeline import make_pipeline, Pipeline
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
+from sklearn.model_selection import cross_val_score, train_test_split, GridSearchCV
+from category_encoders import OneHotEncoder, OrdinalEncoder
+from sklearn.preprocessing import StandardScaler
+from imblearn.over_sampling import RandomOverSampler, SMOTE
+from imblearn.under_sampling import RandomUnderSampler
+from sklearn.compose import ColumnTransformer
+
+
 st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
@@ -12,6 +27,9 @@ with st.expander("Data"):
   df.drop(columns="index", inplace=True)
   df.set_index("Person ID", inplace=True)
   df.fillna("None", inplace=True)
+  df["Stress_HR"] = df["Stress Level"] * df["Heart Rate"]
+  df["Sleep Efficiency"] = df["Quality of Sleep"]/df["Sleep Duration"]
+  df["Short Sleep"] = (df["Sleep Duration"]<6).astype(int)
   df
   buffer = io.StringIO()
   df.info(buf=buffer)
