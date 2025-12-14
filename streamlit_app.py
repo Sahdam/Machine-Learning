@@ -63,6 +63,8 @@ with st.expander("Groupby Table"):
 
 with st.sidebar:
   with st.expander("Select Feature for feature engineering"):
-    st.multiselect("Choose feature", list(df.columns))
-    st.multiselect("Choose another feature", list(df.columns))
-    st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
+    col_1 = st.multiselect("Choose feature", list(df.columns))
+    col_2= st.multiselect("Choose another feature", list(df.columns))
+    op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
+    if col_1 and col_2 and op:
+      df[col_1 + op + col2] = col_1 op col_2
