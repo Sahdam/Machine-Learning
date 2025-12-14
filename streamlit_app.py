@@ -12,7 +12,9 @@ with st.expander("Data"):
   df.set_index("Person ID", inplace=True)
   df.fillna("None", inplace=True)
   df
-  st.write(df.info())
+  buffer = io.StringIO()
+  df.info(buf=buffer)
+  st.code(buffer.getvalue(), language="text")
   st.dataframe(df.describe())
 
 df["BMI Category"] = df["BMI Category"].replace({
