@@ -11,3 +11,8 @@ with st.expander("Data"):
   df.set_index("Person ID", inplace=True)
   df.fillna("None", inplace=True)
   df
+
+sleep_df["BMI Category"] = sleep_df["BMI Category"].replace({
+    "Normal": "Normalweight",
+    "Normal Weight": "Normalweight"
+})
