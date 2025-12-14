@@ -84,7 +84,7 @@ if feature:
 if st.button("Plot visualization"):
     st.session_state.show_plot = True
 if st.session_state.show_plot:
-    data_to_plot = ( df[df[feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
+    data_to_plot = (df[df[feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
     fig, ax = plt.subplots()
     data_to_plot.plot(
         kind="bar",
