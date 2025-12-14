@@ -13,7 +13,7 @@ from sklearn.model_selection import cross_val_score, train_test_split, GridSearc
 from category_encoders import OneHotEncoder, OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
-
+import operator
 
 st.title('Machine Learning: Sleep Disorders Classification')
 
@@ -61,10 +61,29 @@ with st.expander("Groupby Table"):
   else:
       st.warning("Please select at least one index, one column, and one aggregate function.")
 
+ops = {
+    '+': operator.add,
+    '-': operator.sub,
+    '*': operator.mul,
+    '/': operator.truediv  # we will handle division by zero
+}
+
 with st.sidebar:
   with st.expander("Select Feature for feature engineering"):
     col_1 = st.multiselect("Choose feature", list(df.columns))
     col_2= st.multiselect("Choose another feature", list(df.columns))
     op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
     if col_1 and col_2 and op:
-      df[col_1 + op + col2] = col_1 op col_2
+      for c1 in col_1:
+                for c2 in col_2:
+                    new_col_name = f"{c1}{op}{c2}"
+                    try:
+                        # Handle division by zero safely
+                        if op == '/':
+                            df[new_col_name] = df[c1] / df[c2].replace(0, 1e-10)
+                        else:
+                            df[new_col_name] = ops[op](df[c1], df[c2])
+                    except Exception as e:
+                        st.error(f"Error creating column {new_col_name}: {e}")
+
+st.write("Updated DataFrame:", df)
