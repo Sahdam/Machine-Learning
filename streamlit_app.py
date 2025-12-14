@@ -70,17 +70,26 @@ with st.sidebar:
     col_1 = st.multiselect("Choose feature", list(df.columns))
     col_2= st.multiselect("Choose another feature", list(df.columns))
     op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
-    if col_1 and col_2 and op:
-      for c1 in col_1:
+    add_button = st.button("Add Feature")
+    undo_button = st.button("Undo Last Change")
+    if add_button and col_1 and col_2 and op:
+            st.session_state.df_previous = st.session_state.df_current.copy()
+            for c1 in col_1:
                 for c2 in col_2:
                     new_col_name = f"{c1}{op}{c2}"
                     try:
-                        # Handle division by zero safely
                         if op == '/':
-                            df[new_col_name] = df[c1] / df[c2].replace(0, 1e-10)
+                            st.session_state.df_current[new_col_name] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
                         else:
-                            df[new_col_name] = ops[op](df[c1], df[c2])
+                            st.session_state.df_current[new_col_name] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
                     except Exception as e:
                         st.error(f"Error creating column {new_col_name}: {e}")
+        
+        if undo_button:
+            if "df_previous" in st.session_state:
+                st.session_state.df_current = st.session_state.df_previous.copy()
+                st.success("Last change undone.")
+            else:
+                st.warning("Nothing to undo.")
 
-st.write("## Updated DataFrame:", df)
+st.write("**Updated DataFrame:**", st.session_state.df_current)
