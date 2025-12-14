@@ -76,7 +76,7 @@ if feature_btn and feature:
     fig, ax = plt.subplots()
     select_feat_val.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
                       title=f"{select_feat_val} Sleep Disorder")
-if feature and feature_btn andfeat_val_btn and feat_val:
+if feature and feature_btn and feat_val_btn and feat_val:
   st.pyplot(fig)
   st.success("Plot successfully created")
 
