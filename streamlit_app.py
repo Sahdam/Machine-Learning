@@ -19,7 +19,7 @@ st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
 
-with st.expander("Data"):
+with st.expander("**Data**"):
   st.write("## Sleep, health and Lifestyle Data")
   df = pd.read_csv("sleep_health_lifestyle.csv")
   df.drop(columns="index", inplace=True)
@@ -39,7 +39,7 @@ df["BMI Category"] = df["BMI Category"].replace({
 
 
 with st.sidebar:
-  with st.expander("Visualize how the features are distributed in the dataset"):
+  with st.expander("**Visualize how the features are distributed in the dataset**"):
     st.markdown("## Make Your Own Plot")
     select_column= st.selectbox("Select the category feature you want to visualize",list(df.select_dtypes("object").nunique().index))
     fig, ax = plt.subplots()
@@ -51,7 +51,7 @@ if plot_btn and select_column:
   st.success("Plot successfully created")
 
 with st.sidebar:
-  with st.expander("Groupby Table"):
+  with st.expander("**Groupby Table**"):
     st.markdown("## Create Your own Group Table")
     idx_feat =st.multiselect("Select the features for the index", list(df.columns))
     column_feat =st.multiselect("Select the features for your group table column", list(df.columns))
@@ -64,7 +64,7 @@ if grp_table and idx_feat and column_feat and agg:
         )
 
 with st.sidebar:
-  with st.expander("Drill down visualization of dataset columns"):
+  with st.expander("**Drill down visualization of dataset columns**"):
     feature = st.selectbox("Choose prefered column", list(df.select_dtypes("object").nunique().index))
     feature_btn = st.button("Show unique values of selected column")
 if feature_btn and feature:
@@ -83,7 +83,7 @@ ops = {
 }
 
 with st.sidebar:
-    with st.expander("Feature Engineering"):
+    with st.expander("**Feature Engineering**"):
         col_1 = st.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
         col_2 = st.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
         op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
