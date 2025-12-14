@@ -12,8 +12,6 @@ from sklearn.metrics import confusion_matrix, classification_report, ConfusionMa
 from sklearn.model_selection import cross_val_score, train_test_split, GridSearchCV
 from category_encoders import OneHotEncoder, OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
-from imblearn.over_sampling import RandomOverSampler, SMOTE
-from imblearn.under_sampling import RandomUnderSampler
 from sklearn.compose import ColumnTransformer
 
 
