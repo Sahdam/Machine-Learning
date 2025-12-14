@@ -12,6 +12,8 @@ with st.expander("Data"):
   df.set_index("Person ID", inplace=True)
   df.fillna("None", inplace=True)
   df
+  df.info()
+  df.describe()
 
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
@@ -38,3 +40,4 @@ with st.expander("Groupby Table"):
       )
   else:
       st.warning("Please select at least one index, one column, and one aggregate function.")
+
