@@ -73,13 +73,13 @@ if "feature" not in st.session_state:
     st.session_state.feature = None
 with st.sidebar:
   with st.expander("**Drill down visualization of features on sleep disorders**"):
-    st.session_state.feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist)
+    st.session_state.feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
     if st.button("Show unique values"):
             st.session_state.show_plot = False
             st.session_state.feat_val = None
 if st.session_state.feature in df.columns:
     value_list = df[st.session_state.feature].dropna().unique().tolist()
-    st.session_state.feat_val = st.selectbox("Select feature value", value_list)
+    st.session_state.feat_val = st.selectbox("Select feature value", value_list,key="feat_val_select")
 if st.button("Plot visualization"):
     st.session_state.show_plot = True
 if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
