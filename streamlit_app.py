@@ -143,5 +143,5 @@ with st.sidebar:
             st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
             st.success("Data reset to original.")
 
-with st.expander("**Updated DataFrame**"):
-  st.dataframe(st.session_state.df_current)
+  with st.expander("**Updated DataFrame**"):
+    st.dataframe(st.session_state.df_current)
