@@ -58,6 +58,14 @@ with st.expander("Groupby Table"):
   else:
       st.warning("Please select at least one index, one column, and one aggregate function.")
 
+
+if "df_original" not in st.session_state:
+    st.session_state.df_original = df.copy()
+if "df_current" not in st.session_state:
+    st.session_state.df_current = df.copy()
+if "df_previous" not in st.session_state:
+    st.session_state.df_previous = df.copy()
+
 ops = {
     '+': operator.add,
     '-': operator.sub,
