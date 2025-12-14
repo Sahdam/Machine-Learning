@@ -15,7 +15,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 import operator
 
-st.title('Machine Learning: Sleep Disorders Classification')
+st.title('Machine Learning: Sleep Disorders Classification', color="gold")
 
 st.info('This app is a machine learning app')
 
