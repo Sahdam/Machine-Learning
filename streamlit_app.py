@@ -37,15 +37,18 @@ df["BMI Category"] = df["BMI Category"].replace({
     "Normal Weight": "Normalweight"
 })
 
+
 with st.sidebar:
+  plot_btn = st.button("Plot Feature")
   with st.expander("Visualize how the features are distributed in the dataset"):
     st.markdown("## Make Your Own Plot")
     select_column= st.selectbox("Select the category feature you want to visualize",list(df.select_dtypes("object").nunique().index))
     fig, ax = plt.subplots()
     df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
                                                       title=f"{select_column} Proportion(counts in percentage)", color="green", ax=ax)
-st.pyplot(fig)
-st.success("Plot successfully created")
+if plot_btn and select_column:
+  st.pyplot(fig)
+  st.success("Plot successfully created")
 
 with st.sidebar:
   with st.expander("Groupby Table"):
@@ -84,7 +87,6 @@ with st.sidebar:
         undo_button = st.button("Undo Last Change")
         reset_button = st.button("Reset to Original Data")
 
-        # Add feature
         if add_button and col_1 and col_2 and op:
             st.session_state.df_stack.append(st.session_state.df_current.copy())
             for c1 in col_1:
