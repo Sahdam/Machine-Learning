@@ -22,4 +22,4 @@ with st.expander("Visualize how the features are distributed in the dataset"):
   select_column= st.selectbox("Select the category feature you want to visualize",
                               ["Gender", "Occupation", "BMI Category", "Blood Pressure"])
   df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
-                                                    titel=f"{select_column} Proportion(counts in percentage)", color="red")
+                                                    title=f"{select_column} Proportion(counts in percentage)", color="red")
