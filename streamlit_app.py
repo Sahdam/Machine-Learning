@@ -80,7 +80,7 @@ if feature:
   if st.button("Plot visualization"):
         st.session_state.show_plot = True
 if st.session_state.show_plot and st.session_state.feat_val is not None:
-    data_to_plot = (df[df[feature]== st.session_state.feat_val]["sleep Disorder"].value_counts(normalize=True))
+    data_to_plot = (df[df[feature]== st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
     fig, ax = plt.subplots()
     data_to_plot.plot(kind="bar", xlabel="Sleep Disorders", ylabel="Proportion",
                       title=f"{st.session_state.feat_val}  → Sleep Disorder Distribution")
