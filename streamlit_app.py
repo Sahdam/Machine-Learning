@@ -38,7 +38,8 @@ df["BMI Category"] = df["BMI Category"].replace({
     "Normal Weight": "Normalweight"
 })
 
-
+if "show_plot" not in st.session_state:
+    st.session_state.show_plot = False
 with st.sidebar:
   with st.expander("**Visualize how the features are distributed in the dataset**"):
     st.markdown("## Make Your Own Plot")
