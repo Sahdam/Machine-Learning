@@ -224,7 +224,7 @@ if show_split_btn and st.session_state.df_dropped is not None:
   y = df_1["Sleep Disorder"]
   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =float(testsize), random_state=42)
   st.subheader("Processed Dataset")
-  st.dataframe(df)
+  st.dataframe(df_1)
   st.subheader("X_train")
   st.dataframe(X_train)
   st.subheader("y_train")
