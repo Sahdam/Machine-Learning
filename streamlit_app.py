@@ -248,7 +248,7 @@ cat_col = model_df.select_dtypes("object").columns.tolist()
 column_trans = ColumnTransformer(
     [
         ("num", StandardScaler(), num_col),
-        ("cat",OneHotEncoder(handle_unknown="ignore", sparse_output=False), cat_col)
+        ("cat",OneHotEncoder(use_cat_names=True), cat_col)
     ]
 )
 model_lr = Pipeline(
