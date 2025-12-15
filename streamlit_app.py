@@ -60,7 +60,6 @@ if plot_btn:
 if reset_btn:
     st.session_state.show_plot_1 = False
     st.session_state.selected_column = None
-    st.return()
   
 if st.session_state.show_plot_1 and st.session_state.selected_column:
     fig, ax = plt.subplots()
