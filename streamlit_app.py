@@ -295,6 +295,7 @@ if feat_imp_btn:
                              ylabel="Features",ax=ax[1])
   ax[1].axvline(1, linestyle="--", color="red")
   ax[1].set_title("Insomnia Odd_Ratio: Feature Importances")
+  st.pyplot(fig)
   
   fig1, ax1 =plt.subplots(1,2, figsize=(15,8))
   none_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
@@ -305,6 +306,7 @@ if feat_imp_btn:
                              ylabel="Features",ax=ax1[1])
   ax1[1].axvline(1, linestyle="--", color="red")
   ax1[1].set_title("None Odd_Ratio: Feature Importances")
+  st.pyplot(fig1)
   
   fig2, ax2 =plt.subplots(1,2, figsize=(15,8))
   sa_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
@@ -315,7 +317,4 @@ if feat_imp_btn:
                              ylabel="Features",ax=ax2[1] )
   ax2[1].axvline(1, linestyle="--", color="red")
   ax2[1].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
-  
-  st.pyplot(fig)
-  st.pyplot(fig1)
   st.pyplot(fig2)
