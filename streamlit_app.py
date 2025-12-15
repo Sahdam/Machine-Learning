@@ -284,4 +284,3 @@ sa_odds_sorted = sa_odds.sort_values()
 
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
-    
