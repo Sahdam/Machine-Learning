@@ -112,6 +112,20 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
     st.pyplot(fig)
     st.success("Plot successfully created")
 
+with st.sidebar:
+  with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
+    corr_btn = st.button("Show Correlations")
+  if corr_btn:
+    sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
+st.pyplot(plt.gcf())
+  with st.expander("**Plot Relationship**"):
+    x_var = st.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
+    y_var = st.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
+    rel_plot_btn = st.button("Plot Relationship")
+if x_var and y_var and rel_plot_btn:
+  sns.relplot(df, x=df[x_var], y=d[y_var])
+st.pyplot(plt.gcf())
+
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
 if "df_current" not in st.session_state:
@@ -123,13 +137,6 @@ ops = {
     '*': operator.mul,
     '/': operator.truediv  # we will handle division by zero
 }
-
-with st.sidebar:
-  with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
-    corr_btn = st.button("Show Correlations")
-  if corr_btn:
-    sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
-st.pyplot(plt.gcf())
 with st.sidebar:
     with st.expander("**Feature Engineering**"):
         col_1 = st.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
