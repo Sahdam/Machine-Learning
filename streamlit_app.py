@@ -240,3 +240,79 @@ if show_split_btn:
         st.dataframe(X_train)
         st.subheader("y_train")
         st.dataframe(y_train)
+
+num_col = X.select_dtypes("number").columns.tolist()
+cat_col = X.select_dtypes("object").columns.tolist()
+
+column_trans = ColumnTransformer(
+    [
+        ("num", StandardScaler(), num_col),
+        ("cat", OneHotEncoder(use_cat_names=True), cat_col)
+    ]
+)
+model_lr = Pipeline(
+    [
+        ("preprocess", column_trans),
+        ("model", LogisticRegression(class_weight="balanced"))
+    ]
+)
+model_lr.fit(X_train, y_train)
+
+features = model_lr.named_steps["preprocess"].get_feature_names_out()
+importances = model_lr.named_steps["model"].coef_
+classes = model_lr.named_steps["model"].classes_
+odds_ratio = pd.DataFrame(np.exp(importances),index=classes, columns=features)
+
+class_idx_ins = list(model_lr.named_steps["model"].classes_).index("Insomnia")
+coef_insomnia = model_lr.named_steps["model"].coef_[class_idx_ins]
+insomnia_odds = pd.Series(np.exp(coef_insomnia), index=features)
+insomnia_odds_sorted = insomnia_odds.sort_values()
+
+class_idx_none = list(model_lr.named_steps["model"].classes_).index("None")
+coef_none = model_lr.named_steps["model"].coef_[class_idx_none]
+none_odds = pd.Series(np.exp(coef_none), index=features)
+none_odds_sorted = none_odds.sort_values()
+
+class_idx_sa = list(model_lr.named_steps["model"].classes_).index("Sleep Apnea")
+coef_sa = model_lr.named_steps["model"].coef_[class_idx_sa]
+sa_odds = pd.Series(np.exp(coef_sa), index=features)
+sa_odds_sorted = sa_odds.sort_values()
+
+baseline_lr = y_train.value_counts(normalize=True).max()
+
+with st.sidebar:
+  with st.expander("**Logistic Regression**"):
+    fig, ax =plt.subplots(1,2, figsize=(15,8))
+    insomnia_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
+                           ylabel="Features",ax=ax[0])
+    plt.axvline(1, linestyle="--", color="red")
+    insomnia_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
+                           ylabel="Features",ax=ax[1])
+    plt.axvline(1, linestyle="--", color="red")
+    ax[0].set_title("Insomnia Odd_Ratio: Feature Importances")
+    ax[1].set_title("Insomnia Odd_Ratio: Feature Importances")
+
+    fig1, ax1 =plt.subplots(1,2, figsize=(15,8))
+    none_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
+                           ylabel="Features",ax=ax1[0])
+    plt.axvline(1, linestyle="--", color="red")
+    none_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
+                           ylabel="Features",ax=ax1[1])
+    plt.axvline(1, linestyle="--", color="red")
+    ax1[0].set_title("None Odd_Ratio: Feature Importances")
+    ax1[1].set_title("None Odd_Ratio: Feature Importances")
+
+    fig2, ax2 =plt.subplots(1,2, figsize=(15,8))
+    sa_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
+                           ylabel="Features", ax=ax2[0])
+    plt.axvline(1, linestyle="--", color="red")
+    sa_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
+                           ylabel="Features",ax=ax2[1] )
+    plt.axvline(1, linestyle="--", color="red")
+    ax2[0].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
+    ax2[1].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
+    feat_imp_btn = st.button("Feature Importances; odd ratios", key="feat_imp_btn")
+if feat_imp_btn:
+  st.pyplot(fig)
+  st.pyplot(fig1)
+  st.pyplot(fig2)
