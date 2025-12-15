@@ -240,6 +240,14 @@ if show_split_btn:
         st.dataframe(X_train)
         st.subheader("y_train")
         st.dataframe(y_train)
+st.session_state.X_train = X_train
+st.session_state.X_test = X_test
+st.session_state.y_train = y_train
+st.session_state.y_test = y_test
+
+if "X_train" not in st.session_state:
+    st.warning("Split the data first.")
+    st.stop()
 
 X_train = st.session_state.X_train
 y_train = st.session_state.y_train
