@@ -61,7 +61,7 @@ if reset_btn:
     st.session_state.show_plot_1 = False
     st.session_state.selected_column = None
   
-if st.session_state.show_plot and st.session_state.selected_column:
+if st.session_state.show_plot_1 and st.session_state.selected_column:
     fig, ax = plt.subplots()
     df[st.session_state.selected_column].value_counts(normalize=True).plot(kind="bar", xlabel=st.session_state.selected_column, ylabel="Proportion",
                                                       title=f"{st.session_state.selected_column} Proportion(counts in percentage)", color="green", ax=ax)
