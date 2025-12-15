@@ -229,3 +229,64 @@ if show_split_btn and st.session_state.df_dropped is not None:
   st.dataframe(X_train)
   st.subheader("y_train")
   st.dataframe(y_train)
+
+
+if "df_original" not in st.session_state:
+    st.session_state.df_original = df.copy()
+
+if "df_current" not in st.session_state:
+    st.session_state.df_current = df.copy()
+
+with st.sidebar:
+    with st.expander("**Splitting Data into Train and Test**"):
+
+        select_columns = st.multiselect(
+            "Choose features to drop",
+            st.session_state.df_current.columns.tolist(),
+            key="drop_cols_select"
+        )
+
+        testsize = st.number_input(
+            "Enter Test size (e.g 0.2 for 20%)",
+            min_value=0.1,
+            max_value=0.9,
+            step=0.05,
+            key="test_size"
+        )
+
+        drop_btn = st.button("Drop Columns", key="drop_btn")
+        reset_btn = st.button("Reset Dataset", key="reset_btn")
+        show_split_btn = st.button("Show Split Data", key="show_split_btn")
+
+if drop_btn and select_columns:
+    st.session_state.df_current = st.session_state.df_current.drop(
+        columns=select_columns
+    )
+    st.success("Columns dropped successfully")
+if reset_btn:
+    st.session_state.df_current = st.session_state.df_original.copy()
+    st.success("Dataset has been reset to original state")
+st.subheader("Current Dataset")
+st.dataframe(st.session_state.df_current)
+
+if show_split_btn:
+    df_working = st.session_state.df_current
+
+    if "Sleep Disorder" not in df_working.columns:
+        st.error("Target column 'Sleep Disorder' is missing")
+    else:
+        X = df_working.drop(columns="Sleep Disorder")
+        y = df_working["Sleep Disorder"]
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            X,
+            y,
+            test_size=float(testsize),
+            random_state=42
+        )
+
+        st.subheader("X_train")
+        st.dataframe(X_train)
+
+        st.subheader("y_train")
+        st.dataframe(y_train)
