@@ -108,7 +108,7 @@ ops = {
 }
 
 with st.sidebar:
-  with st.expander("Correlation Matrix: Numeric Columns Relationship"):
+  with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
     corr_btn = st.button("Show Correlations")
   if corr_btn:
     sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
