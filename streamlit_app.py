@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 from sklearn.model_selection import cross_val_score, train_test_split, GridSearchCV
 from category_encoders import OneHotEncoder, OrdinalEncoder
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import operator
 sns.set_style("dark")
@@ -241,21 +241,24 @@ if show_split_btn:
         st.subheader("y_train")
         st.dataframe(y_train)
 
-num_col = st.session_state.df_currentselect_dtypes("number").columns.tolist()
-cat_col = st.session_state.df_current.select_dtypes("object").columns.tolist()
+model_df = st.session_state.df_current
+num_col = model_df.select_dtypes("number").columns.tolist()
+cat_col = model_df.select_dtypes("object").columns.tolist()
 
 column_trans = ColumnTransformer(
     [
         ("num", StandardScaler(), num_col),
-        ("cat", OneHotEncoder(use_cat_names=True), cat_col)
+        ("cat",OneHotEncoder(handle_unknown="ignore", sparse_output=False), cat_col)
     ]
 )
 model_lr = Pipeline(
     [
         ("preprocess", column_trans),
-        ("model", LogisticRegression(class_weight="balanced"))
+        ("model", LogisticRegression(class_weight="balanced",  max_iter=1000))
     ]
 )
+X_train = st.session_state.X_train
+y_train = st.session_state.y_train
 model_lr.fit(X_train, y_train)
 
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
@@ -278,41 +281,42 @@ coef_sa = model_lr.named_steps["model"].coef_[class_idx_sa]
 sa_odds = pd.Series(np.exp(coef_sa), index=features)
 sa_odds_sorted = sa_odds.sort_values()
 
-baseline_lr = y_train.value_counts(normalize=True).max()
 
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
-    fig, ax =plt.subplots(1,2, figsize=(15,8))
-    insomnia_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
-                           ylabel="Features",ax=ax[0])
-    plt.axvline(1, linestyle="--", color="red")
-    insomnia_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
-                           ylabel="Features",ax=ax[1])
-    plt.axvline(1, linestyle="--", color="red")
-    ax[0].set_title("Insomnia Odd_Ratio: Feature Importances")
-    ax[1].set_title("Insomnia Odd_Ratio: Feature Importances")
-
-    fig1, ax1 =plt.subplots(1,2, figsize=(15,8))
-    none_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
-                           ylabel="Features",ax=ax1[0])
-    plt.axvline(1, linestyle="--", color="red")
-    none_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
-                           ylabel="Features",ax=ax1[1])
-    plt.axvline(1, linestyle="--", color="red")
-    ax1[0].set_title("None Odd_Ratio: Feature Importances")
-    ax1[1].set_title("None Odd_Ratio: Feature Importances")
-
-    fig2, ax2 =plt.subplots(1,2, figsize=(15,8))
-    sa_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
-                           ylabel="Features", ax=ax2[0])
-    plt.axvline(1, linestyle="--", color="red")
-    sa_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
-                           ylabel="Features",ax=ax2[1] )
-    plt.axvline(1, linestyle="--", color="red")
-    ax2[0].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
-    ax2[1].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
-    feat_imp_btn = st.button("Feature Importances; odd ratios", key="feat_imp_btn")
+    feat_imp_btn = st.button("Feature Importances (Odds Ratios)", key="feat_imp_btn")
 if feat_imp_btn:
+  fig, ax =plt.subplots(1,2, figsize=(15,8))
+  insomnia_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
+                             ylabel="Features",ax=ax[0])
+  ax[0].axvline(1, linestyle="--", color="red")
+  ax[0].set_title("Insomnia Odd_Ratio: Feature Importances")
+  insomnia_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
+                             ylabel="Features",ax=ax[1])
+  ax[1].axvline(1, linestyle="--", color="red")
+  ax[1].set_title("Insomnia Odd_Ratio: Feature Importances")
+  
+  fig1, ax1 =plt.subplots(1,2, figsize=(15,8))
+  none_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
+                             ylabel="Features",ax=ax1[0])
+  ax1[0].axvline(1, linestyle="--", color="red")
+  ax1[0].set_title("None Odd_Ratio: Feature Importances")
+  none_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
+                             ylabel="Features",ax=ax1[1])
+  ax1[1].axvline(1, linestyle="--", color="red")
+  ax1[1].set_title("None Odd_Ratio: Feature Importances")
+  
+  fig2, ax2 =plt.subplots(1,2, figsize=(15,8))
+  sa_odds_sorted.head(10).plot(kind="barh", xlabel="Odd_ratios",
+                             ylabel="Features", ax=ax2[0])
+  ax2[0].axvline(1, linestyle="--", color="red")
+  ax2[0].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
+  sa_odds_sorted.tail(10).plot(kind="barh", xlabel="Odd_ratios",
+                             ylabel="Features",ax=ax2[1] )
+  ax2[1].axvline(1, linestyle="--", color="red")
+  ax2[1].set_title("Sleep Apnea Odd_Ratio: Feature Importances")
+  feat_imp_btn = st.button("Feature Importances; odd ratios", key="feat_imp_btn")
+  
   st.pyplot(fig)
   st.pyplot(fig1)
   st.pyplot(fig2)
