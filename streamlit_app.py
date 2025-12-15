@@ -206,8 +206,8 @@ if update_btn:
   st.dataframe(st.session_state.df_current)
 
 with st.sidebar:
-  with st.expander("Spliting Data into Train and test"):
-    select_columns = st.multiselect("Choose featutes to drop", st.session_state.df_current.drop.columns.tolist())
+  with st.expander("**Spliting Data into Train and test**"):
+    select_columns = st.multiselect("Choose featutes to drop", st.session_state.df_current.columns.tolist())
     drop_columns = st.session_state.df_current.drop(colums=(select_colums), inplace=True)
     X = drop_columns.drop(columns="Sleep Disorder")
     y = drop_columns["Sleep Disorder"]
