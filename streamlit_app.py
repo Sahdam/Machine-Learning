@@ -14,6 +14,7 @@ from category_encoders import OneHotEncoder, OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 import operator
+sns.set_style("dark")
 
 st.title('Machine Learning: Sleep Disorders Classification')
 
