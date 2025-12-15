@@ -205,19 +205,28 @@ with st.sidebar:
 if update_btn:
   st.dataframe(st.session_state.df_current)
 
+
+if "df_dropped" not in st.session_state:
+    st.session_state.df_dropped = None
 with st.sidebar:
   with st.expander("**Spliting Data into Train and test**"):
     select_columns = st.multiselect("Choose featutes to drop", st.session_state.df_current.columns.tolist())
-    drop_btn = st.button("Drop columns")
+    testsize = st.number_input("Enter Test size (e.g 0.2 for 20%)",
+            min_value=0.1, max_value=0.9, step=0.05)
+    drop_btn = st.button("Drop columns", key="drop_cols")
+    show_split_btn = st.button("Show split data", key="show split")
 if drop_btn:
-  drop_columns = st.session_state.df_current.drop(columns=select_columns, inplace=True)
-  st.dataframe(drop_columns)
-  X = drop_columns.drop(columns="Sleep Disorder")
-  y = drop_columns["Sleep Disorder"]
-  testsize = st.number_input("Enter Test size e.g 0.2 for 20%")
-  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =int(testsize), random_state=42)
+  drop_columns = st.session_state.df_current.drop(columns=select_columns)
+  st.success("Columns dropped successfully")
+if show_split_btn and st.session_state.df_dropped is not None:
+  df_1 = st.session_state.df_dropped
+  X = df_1.drop(columns="Sleep Disorder")
+  y = df_1["Sleep Disorder"]
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =float(testsize), random_state=42)
   show_split_btn = st.button("Show split data")
-if show_split_btn:
-  st.dataframe(drop_columns)
+  st.subheader("Processed Dataset")
+  st.dataframe(df)
+  st.subheader("X_train")
   st.dataframe(X_train)
-  st.datafram(y_train)
+  st.subheader("y_train")
+  st.dataframe(y_train)
