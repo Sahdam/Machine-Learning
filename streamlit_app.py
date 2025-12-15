@@ -149,5 +149,5 @@ with st.sidebar:
             st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
             st.success("Data reset to original.")
         update_btn= st.button("Show updated DataFrame")
-    if update_btn:
-st.dataframe(st.session_state.df_current)
+if update_btn:
+  st.dataframe(st.session_state.df_current)
