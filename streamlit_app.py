@@ -137,7 +137,7 @@ with st.sidebar:
             plot_rel_btn = st.button("Plot Relationship")
 
     with col_2:
-            reset_btn_1 = st.button("Reset")
+            reset_btn_1 = st.button("Reset Plot")
 if plot_rel_btn:
     st.session_state.show_plot_2 = True
     st.session_state.x_var = x_var
