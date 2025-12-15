@@ -284,3 +284,4 @@ sa_odds_sorted = sa_odds.sort_values()
 
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
+    feat_imp_btn = st.button("Feature Importances (Odds Ratios)", key="feat_imp_btn")
