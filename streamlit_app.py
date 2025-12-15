@@ -39,7 +39,7 @@ df["BMI Category"] = df["BMI Category"].replace({
 })
 
 if "show_plot" not in st.session_state:
-    st.session_state.show_plot = False
+    st.session_state.show_plot_1 = False
 
 if "selected_column" not in st.session_state:
     st.session_state.selected_column = None
@@ -54,11 +54,11 @@ with st.sidebar:
     with col2:
             reset_btn = st.button("Reset")
 if plot_btn:
-    st.session_state.show_plot = True
+    st.session_state.show_plot_1 = True
     st.session_state.selected_column = select_column
 
 if reset_btn:
-    st.session_state.show_plot = False
+    st.session_state.show_plot_1 = False
     st.session_state.selected_column = None
   
 if st.session_state.show_plot and st.session_state.selected_column:
