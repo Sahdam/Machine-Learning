@@ -40,17 +40,33 @@ df["BMI Category"] = df["BMI Category"].replace({
 
 if "show_plot" not in st.session_state:
     st.session_state.show_plot = False
+
+if "selected_column" not in st.session_state:
+    st.session_state.selected_column = None
 with st.sidebar:
   with st.expander("**Visualize how the features are distributed in the dataset**"):
     st.markdown("## Make Your Own Plot")
-    select_column= st.selectbox("Select the category feature you want to visualize",list(df.select_dtypes("object").nunique().index))
+    select_column= st.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
+    col1, col2 =st.columns(2)
+    with col1:
+            plot_btn = st.button("Plot Feature")
+
+    with col2:
+            reset_btn = st.button("Reset")
+if plot_btn:
+    st.session_state.show_plot = True
+    st.session_state.selected_column = select_column
+
+if reset_btn:
+    st.session_state.show_plot = False
+    st.session_state.selected_column = None
+  
+if st.session_state.show_plot and st.session_state.selected_column:
     fig, ax = plt.subplots()
-    df[select_column].value_counts(normalize=True).plot(kind="bar", xlabel=f"{select_column}", ylabel="Proportion",
-                                                      title=f"{select_column} Proportion(counts in percentage)", color="green", ax=ax)
-    plot_btn = st.button("Plot Feature")
-if plot_btn and select_column:
-  st.pyplot(fig)
-  st.success("Plot successfully created")
+    df[st.session_state.selected_column].value_counts(normalize=True).plot(kind="bar", xlabel=st.session_state.selected_column, ylabel="Proportion",
+                                                      title=f"{st.session_state.selected_column} Proportion(counts in percentage)", color="green", ax=ax)
+st.pyplot(fig)
+st.success("Plot successfully created")
 
 with st.sidebar:
   with st.expander("**Groupby Table**"):
