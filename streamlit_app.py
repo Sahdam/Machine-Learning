@@ -108,8 +108,8 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
         xlabel="Sleep Disorders",
         ylabel="Proportion",
         title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-  st.pyplot(fig)
-  st.success("Plot successfully created")
+    st.pyplot(fig)
+    st.success("Plot successfully created")
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
