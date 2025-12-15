@@ -150,4 +150,4 @@ with st.sidebar:
             st.success("Data reset to original.")
         update_btn= st.button("Show updated DataFrame")
     if update_btn:
-      st.dataframe(st.session_state.df_current)
+st.dataframe(st.session_state.df_current)
