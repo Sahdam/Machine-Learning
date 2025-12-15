@@ -218,13 +218,13 @@ with st.sidebar:
         drop_btn = st.button("Drop Columns", key="drop_btn")
         reset_btn = st.button("Reset Dataset", key="reset_btn")
         show_split_btn = st.button("Show Split Data", key="show_split_btn")
+        current_btn = st.button("Current Dataset", key="current_btn")
 if drop_btn and select_columns:
     st.session_state.df_current = st.session_state.df_current.drop(columns=select_columns)
     st.success("Columns dropped successfully")
 if reset_btn:
     st.session_state.df_current = st.session_state.df_original.copy()
     st.success("Dataset has been reset to original state")
-    current_btn = st.button("Current Dataset", key="current_btn")
 if current_btn:
   st.subheader("Current Dataset")
   st.dataframe(st.session_state.df_current)
