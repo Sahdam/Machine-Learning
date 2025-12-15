@@ -211,11 +211,11 @@ with st.sidebar:
     drop_btn = st.button("Drop columns")
 if drop_btn:
   drop_columns = st.session_state.df_current.drop(columns=select_columns, inplace=True)
-    X = drop_columns.drop(columns="Sleep Disorder")
-    y = drop_columns["Sleep Disorder"]
-    testsize = st.number_input("Enter Test size e.g 0.2 for 20%")
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =int(testsize), random_state=42)
-    show_split_btn = st.button("Show split data")
+  X = drop_columns.drop(columns="Sleep Disorder")
+  y = drop_columns["Sleep Disorder"]
+  testsize = st.number_input("Enter Test size e.g 0.2 for 20%")
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =int(testsize), random_state=42)
+  show_split_btn = st.button("Show split data")
 if show_split_btn:
   st.dataframe(drop_columns)
   st.dataframe(X_train)
