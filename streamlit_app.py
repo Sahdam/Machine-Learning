@@ -204,3 +204,17 @@ with st.sidebar:
         update_btn= st.button("Show updated DataFrame")
 if update_btn:
   st.dataframe(st.session_state.df_current)
+
+with st.sidebar:
+  with st.expander("Spliting Data into Train and test"):
+    select_columns = st.multiselect("Choose featutes to drop", st.session_state.df_current.drop.columns.tolist())
+    drop_columns = st.session_state.df_current.drop(colums=(select_colums), inplace=True)
+    X = drop_columns.drop(columns="Sleep Disorder")
+    y = drop_columns["Sleep Disorder"]
+    testsize = st.number_input("Enter Test size e.g 0.2 for 20%")
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size =int(testsize), random_state=42)
+    show_split_btn = st.button("Show split data")
+if show_split_btn:
+  st.dataframe(drop_columns)
+  st.dataframe(X_train)
+  st.datafram(y_train)
