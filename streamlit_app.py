@@ -208,7 +208,7 @@ if update_btn:
 with st.sidebar:
   with st.expander("**Spliting Data into Train and test**"):
     select_columns = st.multiselect("Choose featutes to drop", st.session_state.df_current.columns.tolist())
-    drop_columns = st.session_state.df_current.drop(columns=(select_columns), inplace=True)
+    drop_columns = st.session_state.df_current.drop(columns=select_columns, inplace=True)
     X = drop_columns.drop(columns="Sleep Disorder")
     y = drop_columns["Sleep Disorder"]
     testsize = st.number_input("Enter Test size e.g 0.2 for 20%")
