@@ -125,7 +125,7 @@ with st.sidebar:
     y_var = st.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
     rel_plot_btn = st.button("Plot Relationship")
 if x_var and y_var and rel_plot_btn:
-  sns.relplot(data=df, x=df[x_var], y=df[y_var], kind="line", errorbar=None,
+  sns.regplot(data=df, x=df[x_var], y=df[y_var], kind="line", errorbar=None,
               color="red")
   plt.title(f"Relation Between{x_var} and {y_var}")
 st.pyplot(plt.gcf())
