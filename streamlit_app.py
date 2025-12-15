@@ -65,8 +65,8 @@ if st.session_state.show_plot and st.session_state.selected_column:
     fig, ax = plt.subplots()
     df[st.session_state.selected_column].value_counts(normalize=True).plot(kind="bar", xlabel=st.session_state.selected_column, ylabel="Proportion",
                                                       title=f"{st.session_state.selected_column} Proportion(counts in percentage)", color="green", ax=ax)
-st.pyplot(fig)
-st.success("Plot successfully created")
+    st.pyplot(fig)
+    st.success("Plot successfully created")
 
 with st.sidebar:
   with st.expander("**Groupby Table**"):
