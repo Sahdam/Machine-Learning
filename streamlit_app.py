@@ -119,15 +119,39 @@ with st.sidebar:
     sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
 st.pyplot(plt.gcf())
 
+if "show_plot" not in st.session_state:
+    st.session_state.show_plot_2 = False
+
+if "x_var" not in st.session_state:
+    st.session_state.x_var = None
+
+if "y_var" not in st.session_state:
+    st.session_state.y_var = None
+  
 with st.sidebar:
   with st.expander("**Plot Relationship**"):
     x_var = st.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
     y_var = st.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
-    rel_plot_btn = st.button("Plot Relationship")
-if x_var and y_var and rel_plot_btn:
-  sns.regplot(data=df, x=df[x_var], y=df[y_var], ci=None,
+    col_1, col_2 =st.columns(2)
+    with col_1:
+            plot_rel_btn = st.button("Plot Relationship")
+
+    with col_2:
+            reset_btn_1 = st.button("Reset")
+if plot_rel_btn:
+    st.session_state.show_plot_2 = True
+    st.session_state.x_var = x_var
+    st.session_state.y_var = y_var
+
+if reset_btn_1:
+    st.session_state.show_plot_2 = False
+    st.session_state.x_var = None
+    st.session_state.y_var = None
+  
+if st.session_state.x_var and st.session_state.y_var and st.session_state.show_plot_2:
+  sns.regplot(data=df, x=df[st.session_state.x_var], y=df[st.session_state.y_var], ci=None,
               color="red")
-  plt.title(f"Relation Between{x_var} and {y_var}")
+  plt.title(f"Relation Between{st.session_state.x_var} and {st.session_state.y_var}")
 st.pyplot(plt.gcf())
 
 if "df_stack" not in st.session_state:
