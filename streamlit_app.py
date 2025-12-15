@@ -118,6 +118,7 @@ with st.sidebar:
   if corr_btn:
     sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
 st.pyplot(plt.gcf())
+
   with st.expander("**Plot Relationship**"):
     x_var = st.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
     y_var = st.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
