@@ -241,8 +241,8 @@ if show_split_btn:
         st.subheader("y_train")
         st.dataframe(y_train)
 
-num_col = df_working.select_dtypes("number").columns.tolist()
-cat_col = df_working.select_dtypes("object").columns.tolist()
+num_col = X_train.select_dtypes("number").columns.tolist()
+cat_col = X_train.select_dtypes("object").columns.tolist()
 
 column_trans = ColumnTransformer(
     [
