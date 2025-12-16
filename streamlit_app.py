@@ -311,4 +311,4 @@ if feat_imp_btn:
         st.pyplot(fig)
   ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
   st.pyplot()
-  st.write(print("Classification Report \n",classification_report(y_test, model_lr.predict(X_test))))
+  st.code(classification_report(y_test, model_lr.predict(X_test)))
