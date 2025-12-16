@@ -300,14 +300,13 @@ if feat_imp_btn:
 
       st.subheader("ODD RATIOS FOR SLEEP DISORDER CLASSIFICATION")  
       fig, ax = plt.subplots(1, 2, figsize=(30, 8))
+      series.head(10).plot(kind="barh", ax=ax[0])
+      ax[0].axvline(1, linestyle="--", color="red")
+      ax[0].set_title(f"{title}: Lowest Odds")
 
-        series.head(10).plot(kind="barh", ax=ax[0])
-        ax[0].axvline(1, linestyle="--", color="red")
-        ax[0].set_title(f"{title}: Lowest Odds")
-
-        series.tail(10).plot(kind="barh", ax=ax[1])
-        ax[1].axvline(1, linestyle="--", color="red")
-        ax[1].set_title(f"{title}: Highest Odds")
+      series.tail(10).plot(kind="barh", ax=ax[1])
+      ax[1].axvline(1, linestyle="--", color="red")
+      ax[1].set_title(f"{title}: Highest Odds")
 
         st.pyplot(fig)
   st.subheader("CONFUSION MATRIX")
