@@ -30,12 +30,11 @@ with st.sidebar:
     df.drop(columns="index", inplace=True)
     df.set_index("Person ID", inplace=True)
     df.fillna("None", inplace=True)
-    data_btn = st.button("**Show Data**", key="data_btn")
     col3, col4 = st.columns(2)
     with col3:
       data_btn = st.button("**Show Data**", key="data_btn")
     with col4:
-      data_reset = st.button("Show no data", key="data_reset")
+      data_reset = st.button("**Show no data**", key="data_reset")
 if data_btn:
   st.session_state.show_data = True
 if data_reset:
