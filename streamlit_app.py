@@ -325,6 +325,7 @@ if feat_imp_btn:
   st.subheader("Classification Report")
   st.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
 
+with st.sidebar:
   with st.expander("**Decision Tree**"):
     dt_btn = st.button("**Decision Tree analysis**", key="dt_btn")
 if dt_btn:
