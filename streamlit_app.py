@@ -303,5 +303,10 @@ if feat_imp_btn:
         ax[1].set_title(f"{title}: Highest Odds")
 
         st.pyplot(fig)
-        ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
-        st.pyplot(plt.gcf())
+if "X_test" not in st.session_state:
+  st.warning("Please split the data first.")
+  st.stop()
+X_test = st.session_state["X_test"]
+y_test = st.session_state["y_test"]
+ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
+st.pyplot())
