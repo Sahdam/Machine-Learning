@@ -245,7 +245,7 @@ if split_btn:
     y = st.session_state.df_current["Sleep Disorder"]
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=test_size, random_state=42, stratify=y
+        X, y, test_size=testsize, random_state=42, stratify=y
     )
 
     st.session_state.X_train = X_train
