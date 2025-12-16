@@ -298,7 +298,7 @@ if feat_imp_btn:
         "Sleep Apnea": sa_odds_sorted
     }.items():
 
-        fig, ax = plt.subplots(1, 2, figsize=(20, 8))
+        fig, ax = plt.subplots(1, 2, figsize=(25, 8))
 
         series.head(10).plot(kind="barh", ax=ax[0])
         ax[0].axvline(1, linestyle="--", color="red")
@@ -311,4 +311,4 @@ if feat_imp_btn:
         st.pyplot(fig)
   ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
   st.pyplot()
-  st.code("Classification Report \n",classification_report(y_test, model_lr.predict(X_test)))
+  st.code(classification_report(y_test, model_lr.predict(X_test)))
