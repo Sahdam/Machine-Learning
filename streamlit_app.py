@@ -211,62 +211,73 @@ if "df_original" not in st.session_state:
 
 if "df_current" not in st.session_state:
     st.session_state.df_current = df.copy()
-
+  
+for key in ["X_train", "X_test", "y_train", "y_test"]:
+    if key not in st.session_state:
+        st.session_state[key] = None
 with st.sidebar:
     with st.expander("**Splitting Data into Train and Test**"):
         select_columns = st.multiselect("Choose features to drop", st.session_state.df_current.columns.tolist(), key="drop_cols_select")
         testsize = st.number_input("Enter Test size (e.g 0.2 for 20%)", min_value=0.1, max_value=0.9, step=0.05, key="test_size")
         drop_btn = st.button("Drop Columns", key="drop_btn")
         reset_btn = st.button("Reset Dataset", key="reset_btn")
-        show_split_btn = st.button("Show Split Data", key="show_split_btn")
-        current_btn = st.button("Current Dataset", key="current_btn")
-if drop_btn and select_columns:
-    st.session_state.df_current = st.session_state.df_current.drop(columns=select_columns)
-    st.success("Columns dropped successfully")
+        split_btn = st.button("Show Split Data", key="split_btn")
+if drop_btn:
+    st.session_state.df_current.drop(columns=select_columns, inplace=True)
+    for key in ["X_train", "X_test", "y_train", "y_test"]:
+        st.session_state[key] = None
+
+    st.success("Columns dropped. Please re-split the dataset."
 if reset_btn:
     st.session_state.df_current = st.session_state.df_original.copy()
-    st.success("Dataset has been reset to original state")
-if current_btn:
-  st.subheader("Current Dataset")
-  st.dataframe(st.session_state.df_current)
-if show_split_btn:
-    df_working = st.session_state.df_current
-    if "Sleep Disorder" not in df_working.columns:
-        st.error("Target column 'Sleep Disorder' is missing")
-    else:
-        X = df_working.drop(columns="Sleep Disorder")
-        y = df_working["Sleep Disorder"]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=float(testsize), random_state=42)
-        st.subheader("X_train")
-        st.dataframe(X_train)
-        st.subheader("y_train")
-        st.dataframe(y_train)
-        st.session_state.X_train = X_train
-        st.session_state.X_test = X_test
-        st.session_state.y_train = y_train
-        st.session_state.y_test = y_test
+    for key in ["X_train", "X_test", "y_train", "y_test"]:
+        st.session_state[key] = None
+
+    st.success("Dataset restored to original state.")
+st.subheader("📄 Current Dataset")
+st.dataframe(st.session_state.df_current)
+if split_btn:
+    if "Sleep Disorder" not in st.session_state.df_current.columns:
+        st.error("Target column 'Sleep Disorder' is missing.")
+        st.stop()
+
+    X = st.session_state.df_current.drop(columns="Sleep Disorder")
+    y = st.session_state.df_current["Sleep Disorder"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=42, stratify=y
+    )
+
+    st.session_state.X_train = X_train
+    st.session_state.X_test = X_test
+    st.session_state.y_train = y_train
+    st.session_state.y_test = y_test
+
+    st.success("Train-test split created successfully.")
+if st.session_state.X_train is None:
+    st.warning("Please split the dataset to continue.")
+    st.stop()
 
 X_train = st.session_state.X_train
 y_train = st.session_state.y_train
+
 num_col = X_train.select_dtypes(include="number").columns.tolist()
 cat_col = X_train.select_dtypes(include="object").columns.tolist()
-
-if "X_train" not in st.session_state:
-    st.warning("Split the data first.")
-    st.stop()
 
 column_trans = ColumnTransformer(
     [
         ("num", StandardScaler(), num_col),
-        ("cat",OneHotEncoder(handle_unknown="ignore",sparse_output=False), cat_col)
+        ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), cat_col),
     ]
 )
+
 model_lr = Pipeline(
     [
         ("preprocess", column_trans),
-        ("model", LogisticRegression(class_weight="balanced",  max_iter=1000))
+        ("model", LogisticRegression(class_weight="balanced", max_iter=1000)),
     ]
 )
+
 model_lr.fit(X_train, y_train)
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
 importances = model_lr.named_steps["model"].coef_
@@ -277,38 +288,35 @@ def get_sorted_odds(class_name):
     idx = list(classes).index(class_name)
     return pd.Series(np.exp(importances[idx]), index=features).sort_values()
 
-insomnia_odds_sorted = get_sorted_odds("Insomnia")
-none_odds_sorted = get_sorted_odds("None")
-sa_odds_sorted = get_sorted_odds("Sleep Apnea")
-
-if "X_test" not in st.session_state:
-  st.warning("Please split the data first.")
-  st.stop()
-X_test = st.session_state["X_test"]
-y_test = st.session_state["y_test"]
-
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
 if feat_imp_btn:
   st.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
-  for title, series in {
-        "Insomnia": insomnia_odds_sorted,
-        "None": none_odds_sorted,
-        "Sleep Apnea": sa_odds_sorted
-    }.items():
-      fig, ax = plt.subplots(1, 2, figsize=(25, 8))
-      series.head(10).plot(kind="barh", ax=ax[0])
-      ax[0].axvline(1, linestyle="--", color="red")
-      ax[0].set_title(f"{title}: Lowest Odds")
+  for cls in classes:
+        series = odds_for_class(cls)
 
-      series.tail(10).plot(kind="barh", ax=ax[1])
-      ax[1].axvline(1, linestyle="--", color="red")
-      ax[1].set_title(f"{title}: Highest Odds")
+        fig, ax = plt.subplots(1, 2, figsize=(22, 8))
 
-      st.pyplot(fig)
-  st.subheader("CONFUSION MATRIX")
-  ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
-  st.pyplot()
-  st.subheader("CLASSIFICATION REPORT")
-  st.code(classification_report(y_test, model_lr.predict(X_test)))
+        series.head(10).plot(kind="barh", ax=ax[0])
+        ax[0].axvline(1, linestyle="--", color="red")
+        ax[0].set_title(f"{cls} — Lowest Odds")
+
+        series.tail(10).plot(kind="barh", ax=ax[1])
+        ax[1].axvline(1, linestyle="--", color="red")
+        ax[1].set_title(f"{cls} — Highest Odds")
+
+        st.pyplot(fig)
+  st.subheader("📉 Confusion Matrix")
+ConfusionMatrixDisplay.from_estimator(
+    model_lr, st.session_state.X_test, st.session_state.y_test
+)
+st.pyplot()
+
+st.subheader("📋 Classification Report")
+st.code(
+    classification_report(
+        st.session_state.y_test,
+        model_lr.predict(st.session_state.X_test)
+    )
+)
