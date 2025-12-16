@@ -28,12 +28,12 @@ with st.sidebar:
     df.drop(columns="index", inplace=True)
     df.set_index("Person ID", inplace=True)
     df.fillna("None", inplace=True)
-    df
-    buffer = io.StringIO()
-    df.info(buf=buffer)
-    st.code(buffer.getvalue(), language="text")
-    st.dataframe(df.describe())
-    st.dataframe(df.select_dtypes("object").describe())
+df
+buffer = io.StringIO()
+df.info(buf=buffer)
+st.code(buffer.getvalue(), language="text")
+st.dataframe(df.describe())
+st.dataframe(df.select_dtypes("object").describe())
 
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
