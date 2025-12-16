@@ -337,13 +337,13 @@ if feat_imp_btn:
         ax[1].set_title(f"{cls} — Highest Odds")
 
         st.pyplot(fig)
-  st.subheader("Confusion Matrix")
+  st.subheader("Logistic Regression Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(
       model_lr, st.session_state.X_test, st.session_state.y_test
   )
   st.pyplot()
   
-  st.subheader("Classification Report")
+  st.subheader("Logistic Regression Classification Report")
   st.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
 
 with st.sidebar:
@@ -354,10 +354,10 @@ if dt_btn:
   feat_imp_dt.tail().plot(kind="barh", ax=ax1)
   ax1.set_title("Feature Importance")
   st.pyplot(fig1)
-  st.subheader("Confusion Matrix")
+  st.subheader("Decision Tree Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(model_dt,st.session_state.X_test, st.session_state.y_test)
   st.pyplot()
-  st.subheader("Classification Report")
+  st.subheader("Decision Tree Classification Report")
   st.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
 
 with st.sidebar:
@@ -368,8 +368,8 @@ if rf_btn:
   feat_imp_rf.tail().plot(kind="barh", ax=ax2)
   ax2.set_title("Feature Importance")
   st.pyplot(fig2)
-  st.subheader("Confusion Matrix")
+  st.subheader("Random Forest Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(model_rf,st.session_state.X_test, st.session_state.y_test)
   st.pyplot()
-  st.subheader("Classification Report")
+  st.subheader("Random Forest Classification Report")
   st.code(classification_report(st.session_state.y_test, model_rf.predict(st.session_state.X_test)))
