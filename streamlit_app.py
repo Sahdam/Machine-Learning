@@ -307,16 +307,33 @@ if feat_imp_btn:
         ax[1].set_title(f"{cls} — Highest Odds")
 
         st.pyplot(fig)
-  st.subheader("📉 Confusion Matrix")
+  st.subheader("Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(
       model_lr, st.session_state.X_test, st.session_state.y_test
   )
   st.pyplot()
   
-  st.subheader("📋 Classification Report")
-  st.code(
-      classification_report(
-          st.session_state.y_test,
-          model_lr.predict(st.session_state.X_test)
-      )
-  )
+  st.subheader("Classification Report")
+  st.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
+
+model_dt = make_pipeline(
+    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+    DecisionTreeClassifier(random_state=True, max_depth=4, class_weight="balanced")
+)
+model_dt.fit(X_train, y_train)
+feat_dt = model_dt.named_steps["onehotencoder"].get_feature_names_out()
+importance_dt = model_dt.named_steps["decisiontreeclassifier"].feature_importances_
+feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
+
+  with st.expander("**Decision Tree**"):
+    dt_btn = st.button("**Decision Tree analysis**", key="dt_btn")
+if dt_btn:
+  fig1, ax1 = plt.subplots(figsize=(12, 8))
+  feat_imp_dt.tail().plot(kind="barh", ax=ax1)
+  ax1.set_title("Feature Importance")
+  st.pyplot(fig1)
+  st.subheader("Confusion Matrix")
+  ConfusionMatrixDisplay.from_estimator(model_dt,st.session_state.X_test, st.session_state.y_test)
+  st.subheader("Classification Report")
+  st.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
+  
