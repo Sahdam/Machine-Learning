@@ -292,13 +292,12 @@ with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
 if feat_imp_btn:
+   st.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
   for title, series in {
         "Insomnia": insomnia_odds_sorted,
         "None": none_odds_sorted,
         "Sleep Apnea": sa_odds_sorted
-    }.items():
-
-      st.subheader(f"ODD RATIOS FOR SLEEP DISORDER → {title.upper()}")  
+    }.items(): 
       fig, ax = plt.subplots(1, 2, figsize=(25, 8))
       series.head(10).plot(kind="barh", ax=ax[0])
       ax[0].axvline(1, linestyle="--", color="red")
