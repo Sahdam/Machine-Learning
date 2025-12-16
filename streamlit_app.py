@@ -288,6 +288,15 @@ def get_sorted_odds(class_name):
     idx = list(classes).index(class_name)
     return pd.Series(np.exp(importances[idx]), index=features).sort_values()
 
+model_dt = make_pipeline(
+    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+    DecisionTreeClassifier(random_state=True, max_depth=4, class_weight="balanced")
+)
+model_dt.fit(X_train, y_train)
+feat_dt = model_dt.named_steps["onehotencoder"].get_feature_names_out()
+importance_dt = model_dt.named_steps["decisiontreeclassifier"].feature_importances_
+feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
+
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
@@ -315,15 +324,6 @@ if feat_imp_btn:
   
   st.subheader("Classification Report")
   st.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
-
-model_dt = make_pipeline(
-    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
-    DecisionTreeClassifier(random_state=True, max_depth=4, class_weight="balanced")
-)
-model_dt.fit(X_train, y_train)
-feat_dt = model_dt.named_steps["onehotencoder"].get_feature_names_out()
-importance_dt = model_dt.named_steps["decisiontreeclassifier"].feature_importances_
-feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
 
   with st.expander("**Decision Tree**"):
     dt_btn = st.button("**Decision Tree analysis**", key="dt_btn")
