@@ -335,6 +335,7 @@ if dt_btn:
   st.pyplot(fig1)
   st.subheader("Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(model_dt,st.session_state.X_test, st.session_state.y_test)
+  st.pyplot()
   st.subheader("Classification Report")
   st.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
   
