@@ -298,7 +298,8 @@ if feat_imp_btn:
         "Sleep Apnea": sa_odds_sorted
     }.items():
 
-        fig, ax = plt.subplots(1, 2, figsize=(25, 8))
+      st.subheader("ODD RATIOS FOR SLEEP DISORDER CLASSIFICATION")  
+      fig, ax = plt.subplots(1, 2, figsize=(30, 8))
 
         series.head(10).plot(kind="barh", ax=ax[0])
         ax[0].axvline(1, linestyle="--", color="red")
@@ -309,6 +310,8 @@ if feat_imp_btn:
         ax[1].set_title(f"{title}: Highest Odds")
 
         st.pyplot(fig)
+  st.subheader("CONFUSION MATRIX")
   ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
   st.pyplot()
+  st.subheader("CLASSIFICATION REPORT")
   st.code(classification_report(y_test, model_lr.predict(X_test)))
