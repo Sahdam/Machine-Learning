@@ -15,6 +15,7 @@ from category_encoders import OneHotEncoder, OrdinalEncoder
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 import operator
+from sklearn.utils.class_weight import compute_sample_weight
 sns.set_style("dark")
 
 st.title('Machine Learning: Sleep Disorders Classification')
@@ -318,6 +319,17 @@ feat = model_rf.named_steps["onehotencoder"].get_feature_names_out()
 importance_rf = model_rf.named_steps["randomforestclassifier"].feature_importances_
 feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
 
+model_gb= Pipeline(
+    steps=[
+        ("preprocess", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+        ("gradientboostingclassifier", GradientBoostingClassifier((random_state=42, max_depth=2, n_estimators=40))
+    ]
+)
+model_gb.fit(X_train, y_train, gradientboostingclassifier__sample_weight=sample_weights)
+feat_gb = model_gb.named_steps["onehotencoder"].get_feature_names_out()
+importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
+feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
+
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
@@ -373,3 +385,18 @@ if rf_btn:
   st.pyplot()
   st.subheader("Random Forest Classification Report")
   st.code(classification_report(st.session_state.y_test, model_rf.predict(st.session_state.X_test)))
+
+with st.sidebar:
+  with st.expander("**Gradient Boosting**"):
+    gb_btn = st.button("**Gradient Boosting analysis**", key="gb_btn")
+if gb_btn:
+  fig3, ax3 = plt.subplots(figsize=(12, 8))
+  feat_imp_gb.tail().plot(kind="barh", ax=ax3)
+  ax3.set_title("Feature Importance")
+  st.pyplot(fig3)
+  st.subheader("Gradient Boosting Confusion Matrix")
+  ConfusionMatrixDisplay.from_estimator(model_gb,st.session_state.X_test, st.session_state.y_test)
+  st.pyplot()
+  st.subheader("Gradient Boosting Classification Report")
+  st.code(classification_report(st.session_state.y_test, model_gb.predict(st.session_state.X_test)))
+
