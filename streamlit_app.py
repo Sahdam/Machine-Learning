@@ -321,7 +321,7 @@ feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
 
 model_gb= Pipeline(
     steps=[("preprocess", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
-        ("gradientboostingclassifier", GradientBoostingClassifier((random_state=42, max_depth=2, n_estimators=40)))])
+        ("gradientboostingclassifier", GradientBoostingClassifier(random_state=42, max_depth=2, n_estimators=40))])
 
 model_gb.fit(X_train, y_train, gradientboostingclassifier__sample_weight=sample_weights)
 feat_gb = model_gb.named_steps["onehotencoder"].get_feature_names_out()
