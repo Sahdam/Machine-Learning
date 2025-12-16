@@ -309,6 +309,15 @@ feat_dt = model_dt.named_steps["onehotencoder"].get_feature_names_out()
 importance_dt = model_dt.named_steps["decisiontreeclassifier"].feature_importances_
 feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
 
+model_rf = make_pipeline(
+    OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+    RandomForestClassifier(random_state=42, class_weight="balanced_subsample", max_depth=6, n_estimators=20)
+)
+model_rf.fit(X_train, y_train)
+feat = model_rf.named_steps["onehotencoder"].get_feature_names_out()
+importance_rf = model_rf.named_steps["randomforestclassifier"].feature_importances_
+feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
+
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
@@ -350,4 +359,17 @@ if dt_btn:
   st.pyplot()
   st.subheader("Classification Report")
   st.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
-  
+
+with st.sidebar:
+  with st.expander("**Random Forest**"):
+    rf_btn = st.button("**Random Forest analysis**", key="rf_btn")
+if rf_btn:
+  fig2, ax2 = plt.subplots(figsize=(12, 8))
+  feat_imp_rf.tail().plot(kind="barh", ax=ax2)
+  ax2.set_title("Feature Importance")
+  st.pyplot(fig2)
+  st.subheader("Confusion Matrix")
+  ConfusionMatrixDisplay.from_estimator(model_rf,st.session_state.X_test, st.session_state.y_test)
+  st.pyplot()
+  st.subheader("Classification Report")
+  st.code(classification_report(st.session_state.y_test, model_rf.predict(st.session_state.X_test)))
