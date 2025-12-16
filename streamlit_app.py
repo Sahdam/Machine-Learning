@@ -308,7 +308,7 @@ if feat_imp_btn:
       ax[1].axvline(1, linestyle="--", color="red")
       ax[1].set_title(f"{title}: Highest Odds")
 
-        st.pyplot(fig)
+      st.pyplot(fig)
   st.subheader("CONFUSION MATRIX")
   ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
   st.pyplot()
