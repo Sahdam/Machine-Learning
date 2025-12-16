@@ -294,7 +294,7 @@ with st.sidebar:
 if feat_imp_btn:
   st.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
   for cls in classes:
-        series = odds_for_class(cls)
+        series = get_sorted_odds(cls)
 
         fig, ax = plt.subplots(1, 2, figsize=(22, 8))
 
@@ -308,15 +308,15 @@ if feat_imp_btn:
 
         st.pyplot(fig)
   st.subheader("📉 Confusion Matrix")
-ConfusionMatrixDisplay.from_estimator(
-    model_lr, st.session_state.X_test, st.session_state.y_test
-)
-st.pyplot()
-
-st.subheader("📋 Classification Report")
-st.code(
-    classification_report(
-        st.session_state.y_test,
-        model_lr.predict(st.session_state.X_test)
-    )
-)
+  ConfusionMatrixDisplay.from_estimator(
+      model_lr, st.session_state.X_test, st.session_state.y_test
+  )
+  st.pyplot()
+  
+  st.subheader("📋 Classification Report")
+  st.code(
+      classification_report(
+          st.session_state.y_test,
+          model_lr.predict(st.session_state.X_test)
+      )
+  )
