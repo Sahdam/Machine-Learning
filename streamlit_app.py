@@ -251,6 +251,10 @@ y_train = st.session_state.y_train
 num_col = X_train.select_dtypes(include="number").columns.tolist()
 cat_col = X_train.select_dtypes(include="object").columns.tolist()
 
+if "X_train" not in st.session_state:
+    st.warning("Split the data first.")
+    st.stop()
+
 column_trans = ColumnTransformer(
     [
         ("num", StandardScaler(), num_col),
@@ -263,11 +267,7 @@ model_lr = Pipeline(
         ("model", LogisticRegression(class_weight="balanced",  max_iter=1000))
     ]
 )
-if "X_train" not in st.session_state:
-    st.warning("Split the data first.")
-    st.stop()
 model_lr.fit(X_train, y_train)
-
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
 importances = model_lr.named_steps["model"].coef_
 classes = model_lr.named_steps["model"].classes_
