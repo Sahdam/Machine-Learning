@@ -299,7 +299,7 @@ if feat_imp_btn:
     }.items():
 
       st.subheader(f"ODD RATIOS FOR SLEEP DISORDER → {title.upper()}")  
-      fig, ax = plt.subplots(1, 2, figsize=(30, 8))
+      fig, ax = plt.subplots(1, 2, figsize=(25, 8))
       series.head(10).plot(kind="barh", ax=ax[0])
       ax[0].axvline(1, linestyle="--", color="red")
       ax[0].set_title(f"{title}: Lowest Odds")
