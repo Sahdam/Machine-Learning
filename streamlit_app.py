@@ -290,7 +290,7 @@ y_test = st.session_state["y_test"]
 
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
-    feat_imp_btn = st.button("Feature Importances (Odds Ratios)", key="feat_imp_btn")
+    feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
 if feat_imp_btn:
   for title, series in {
         "Insomnia": insomnia_odds_sorted,
@@ -311,4 +311,4 @@ if feat_imp_btn:
         st.pyplot(fig)
   ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
   st.pyplot()
-  st.code(classification_report(y_test, model_lr.predict(X_test)))
+  st.code("Classification Report \n",classification_report(y_test, model_lr.predict(X_test)))
