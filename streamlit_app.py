@@ -282,6 +282,12 @@ insomnia_odds_sorted = get_sorted_odds("Insomnia")
 none_odds_sorted = get_sorted_odds("None")
 sa_odds_sorted = get_sorted_odds("Sleep Apnea")
 
+if "X_test" not in st.session_state:
+  st.warning("Please split the data first.")
+  st.stop()
+X_test = st.session_state["X_test"]
+y_test = st.session_state["y_test"]
+
 with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("Feature Importances (Odds Ratios)", key="feat_imp_btn")
@@ -303,10 +309,5 @@ if feat_imp_btn:
         ax[1].set_title(f"{title}: Highest Odds")
 
         st.pyplot(fig)
-if "X_test" not in st.session_state:
-  st.warning("Please split the data first.")
-  st.stop()
-X_test = st.session_state["X_test"]
-y_test = st.session_state["y_test"]
-ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
-st.pyplot()
+    ConfusionMatrixDisplay.from_estimator(model_lr, X_test, y_test)
+    st.pyplot()
