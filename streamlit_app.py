@@ -227,7 +227,7 @@ if drop_btn:
     for key in ["X_train", "X_test", "y_train", "y_test"]:
         st.session_state[key] = None
 
-    st.success("Columns dropped. Please re-split the dataset."
+    st.success("Columns dropped. Please re-split the dataset.")
 if reset_btn:
     st.session_state.df_current = st.session_state.df_original.copy()
     for key in ["X_train", "X_test", "y_train", "y_test"]:
