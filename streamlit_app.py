@@ -319,6 +319,7 @@ feat = model_rf.named_steps["onehotencoder"].get_feature_names_out()
 importance_rf = model_rf.named_steps["randomforestclassifier"].feature_importances_
 feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
 
+sample_weights = compute_sample_weight(class_weight="balanced", y=y_train)
 model_gb= Pipeline(
     steps=[("preprocess", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
         ("gradientboostingclassifier", GradientBoostingClassifier(random_state=42, max_depth=2, n_estimators=40))])
