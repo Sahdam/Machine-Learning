@@ -20,6 +20,8 @@ sns.set_style("dark")
 st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
+if "show_data" not in st.session_state:
+    st.session_state.show_data = False
 
 with st.sidebar:
   with st.expander("**Data**"):
@@ -29,7 +31,16 @@ with st.sidebar:
     df.set_index("Person ID", inplace=True)
     df.fillna("None", inplace=True)
     data_btn = st.button("**Show Data**", key="data_btn")
+    col3, col4 = st.columns(2)
+    with col3:
+      data_btn = st.button("**Show Data**", key="data_btn")
+    with col4:
+      data_reset = st.button("Show no data", key="data_reset")
 if data_btn:
+  st.session_state.show_data = True
+if data_reset:
+  st.session_state.show_data = False
+if st.session_state.show_data:
   df
   buffer = io.StringIO()
   df.info(buf=buffer)
