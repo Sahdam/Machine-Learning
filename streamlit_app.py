@@ -245,9 +245,6 @@ if show_split_btn:
         st.session_state.y_train = y_train
         st.session_state.y_test = y_test
 
-if "X_train" not in st.session_state:
-    st.warning("Split the data first.")
-    st.stop()
 
 X_train = st.session_state.X_train
 y_train = st.session_state.y_train
@@ -266,6 +263,9 @@ model_lr = Pipeline(
         ("model", LogisticRegression(class_weight="balanced",  max_iter=1000))
     ]
 )
+if "X_train" not in st.session_state:
+    st.warning("Split the data first.")
+    st.stop()
 model_lr.fit(X_train, y_train)
 
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
