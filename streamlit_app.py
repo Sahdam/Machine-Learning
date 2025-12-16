@@ -325,7 +325,7 @@ model_gb= Pipeline(
         ("gradientboostingclassifier", GradientBoostingClassifier(random_state=42, max_depth=2, n_estimators=40))])
 
 model_gb.fit(X_train, y_train, gradientboostingclassifier__sample_weight=sample_weights)
-feat_gb = model_gb.named_steps["onehotencoder"].get_feature_names_out()
+feat_gb = model_gb.named_steps["preprocess"].get_feature_names_out()
 importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
 feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
 
