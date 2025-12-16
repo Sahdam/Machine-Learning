@@ -292,7 +292,7 @@ with st.sidebar:
   with st.expander("**Logistic Regression**"):
     feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
 if feat_imp_btn:
-   st.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
+  st.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
   for title, series in {
         "Insomnia": insomnia_odds_sorted,
         "None": none_odds_sorted,
