@@ -246,7 +246,6 @@ if show_split_btn:
         st.session_state.y_train = y_train
         st.session_state.y_test = y_test
 
-
 X_train = st.session_state.X_train
 y_train = st.session_state.y_train
 num_col = X_train.select_dtypes(include="number").columns.tolist()
