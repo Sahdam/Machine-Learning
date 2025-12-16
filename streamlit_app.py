@@ -298,7 +298,7 @@ if feat_imp_btn:
         "Sleep Apnea": sa_odds_sorted
     }.items():
 
-      st.subheader("ODD RATIOS FOR SLEEP DISORDER CLASSIFICATION")  
+      st.subheader("ODD RATIOS FOR SLEEP DISORDER{title.upper()} CLASSIFICATION")  
       fig, ax = plt.subplots(1, 2, figsize=(30, 8))
       series.head(10).plot(kind="barh", ax=ax[0])
       ax[0].axvline(1, linestyle="--", color="red")
