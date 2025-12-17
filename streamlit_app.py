@@ -145,17 +145,13 @@ if "x_var" not in st.session_state:
 
 if "y_var" not in st.session_state:
     st.session_state.y_var = None
-  
-with st.sidebar:
-  with st.expander("**Plot Relationship**"):
-    x_var = st.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
-    y_var = st.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
-    col_1, col_2 =st.columns(2)
-    with col_1:
-            plot_rel_btn = st.button("Plot Relationship")
-
-    with col_2:
-            reset_btn_1 = st.button("Reset Plot")
+grid6 = grid([4,4], [3,3],1, vertical_align="top") 
+with st.sidebar.container():
+    st.markdown("**Plot Relationship**")
+x_var = grid6.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
+y_var = grid6.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
+plot_rel_btn = grid6.button("Plot Relationship")
+reset_btn_1 = grid6.button("Reset Plot")
 if plot_rel_btn:
     st.session_state.show_plot_2 = True
     st.session_state.x_var = x_var
@@ -170,7 +166,7 @@ if st.session_state.x_var and st.session_state.y_var and st.session_state.show_p
     sns.regplot(data=df, x=df[x_var], y=df[y_var], ci=None,
               color="red")
     plt.title(f"Relation Between{st.session_state.x_var} and {st.session_state.y_var}")
-    st.pyplot(plt.gcf())
+    grid6.pyplot(plt.gcf())
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
