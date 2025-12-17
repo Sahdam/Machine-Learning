@@ -83,50 +83,54 @@ if v_btn:
 
 grid3 = grid(1,[4,5,3],1,1, vertical_align="top")
 with st.sidebar.container():
-    st.markdown("**Groupby Table**")
-grid3.markdown("## Create Your own Group Table")
-idx_feat =grid3.multiselect("Index features", list(df.columns))
-column_feat =grid3.multiselect("Column features", list(df.columns))
-agg = grid3.multiselect("Aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
-grp_table = grid3.button("Show group table")
+    gr_btn = st.button("**Groupby Table**", key="gr_btn")
+if gr_btn:
+    grid3.markdown("## Create Your own Group Table")
+    idx_feat =grid3.multiselect("Index features", list(df.columns))
+    column_feat =grid3.multiselect("Column features", list(df.columns))
+    agg = grid3.multiselect("Aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
+    grp_table = grid3.button("Show group table")
+        
+    if grp_table and idx_feat and column_feat and agg:
+      grid3.dataframe(
+      df.groupby(idx_feat)[column_feat].agg(agg)
+            )
+    if "show_plot" not in st.session_state:
+        st.session_state.show_plot = False
     
-if grp_table and idx_feat and column_feat and agg:
-  grid3.dataframe(
-  df.groupby(idx_feat)[column_feat].agg(agg)
-        )
-if "show_plot" not in st.session_state:
-    st.session_state.show_plot = False
+    if "feat_val" not in st.session_state:
+        st.session_state.feat_val = None
+    
+    if "feature" not in st.session_state:
+        st.session_state.feature = None
 
-if "feat_val" not in st.session_state:
-    st.session_state.feat_val = None
 
-if "feature" not in st.session_state:
-    st.session_state.feature = None
 grid4 = grid([5, 3], [5, 3], 1,1, vertical_align="bottom")
 with st.sidebar.container():
-    st.markdown("**Drill down visualization of features on sleep disorders**")
-grid4.write("## Drill down visualization of features on sleep disorders")
-st.session_state.feature = grid4.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
-if grid4.button("Show unique values"):
-    st.session_state.show_plot = False
-    st.session_state.feat_val = None
-if st.session_state.feature in df.columns:
-    value_list = df[st.session_state.feature].dropna().unique().tolist()
-    st.session_state.feat_val = grid4.selectbox("Select feature value", value_list,key="feat_val_select")
-if grid4.button("Plot visualization"):
-    st.session_state.show_plot = True
-if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
-    data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
-    fig, ax = plt.subplots()
-    data_to_plot.plot(
-        kind="bar",
-        ax=ax,
-        xlabel="Sleep Disorders",
-        ylabel="Proportion",
-        title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-    grid4.pyplot(fig)
-    plt.close(fig)
-    st.success("Plot successfully created")
+   fs_btn = st.button("**Visualize Feature on Sleep Disorder**", key="fs_btn")
+if fs_btn:
+    grid4.write("## Drill down visualization of features on sleep disorders")
+    st.session_state.feature = grid4.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
+    if grid4.button("Show unique values"):
+        st.session_state.show_plot = False
+        st.session_state.feat_val = None
+    if st.session_state.feature in df.columns:
+        value_list = df[st.session_state.feature].dropna().unique().tolist()
+        st.session_state.feat_val = grid4.selectbox("Select feature value", value_list,key="feat_val_select")
+    if grid4.button("Plot visualization"):
+        st.session_state.show_plot = True
+    if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
+        data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
+        fig, ax = plt.subplots()
+        data_to_plot.plot(
+            kind="bar",
+            ax=ax,
+            xlabel="Sleep Disorders",
+            ylabel="Proportion",
+            title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
+        grid4.pyplot(fig)
+        plt.close(fig)
+        st.success("Plot successfully created")
 
 grid5 = grid([3, 5])
 with st.sidebar.container():
