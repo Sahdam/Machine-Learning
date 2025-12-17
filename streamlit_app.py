@@ -74,9 +74,9 @@ def data_page():
         )
 
 # PAGE 2 — EDA
-grid_obj = grid(1,1,[5, 3], 1, 1, vertical_align="top")
+grid_obj = grid(1,1,1,[5, 3], 1, 1, vertical_align="top")
 def eda_page(grid_obj):
-    st.header("📈 Exploratory Data Analysis")
+    grid_obj.header("Exploratory Data Analysis")
 
     cat_features = st.session_state.df_current.select_dtypes("object").columns.tolist()
 
