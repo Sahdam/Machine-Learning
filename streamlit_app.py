@@ -74,7 +74,7 @@ def data_page():
         )
 
 # PAGE 2 — EDA
-grid_obj = grid[5,1,[5, 3], 1, 1, vertical_align="top")
+grid_obj = grid(5,1,[5, 3], 1, 1, vertical_align="top")
 def eda_page(grid_obj):
     st.header("📈 Exploratory Data Analysis")
 
