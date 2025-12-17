@@ -4,10 +4,10 @@ base = "light"
 # -------------------------
 # Core colors
 # -------------------------
-primaryColor = "#4f46e5"              # Main accent color
-backgroundColor = "#1c108f"           # App background
-secondaryBackgroundColor = "#f3f4f6"  # Card & widget background
-textColor = "#111827"                  # Primary text color
+primaryColor = "#4f46e5"              
+backgroundColor = "#1c108f"          
+secondaryBackgroundColor = "#f3f4f6"  
+textColor = "#eeedf5"               
 
 # -------------------------
 # Status colors
