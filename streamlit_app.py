@@ -125,15 +125,15 @@ def feature_engineering_page():
                 st.success(f"Added {new_col}")
             except Exception as e:
                 st.error(e)
-        if st.button("Apply Drop"):
-            st.session_state.df_current = st.session_state.df_current.drop(columns=drop_cols)
-            st.success("Features updated")
+    if st.button("Apply Drop"):
+        st.session_state.df_current = st.session_state.df_current.drop(columns=drop_cols)
+        st.success("Features updated")
 
     st.subheader("Updated Dataset Preview")
     st.dataframe(st.session_state.df_current.head())
-        if st.button("Reset Dataset"):
-            st.session_state.df_current = st.session_state.df_original.copy()
-            st.success("Dataset reset")
+    if st.button("Reset Dataset"):
+        st.session_state.df_current = st.session_state.df_original.copy()
+        st.success("Dataset reset")
 
 # PAGE 4 — SPLIT
 def split_page():
