@@ -38,10 +38,10 @@ if d_btn:
     grid1.write("## Sleep, health and Lifestyle Data")
     data_btn = grid1.button("**Show Data**", key="data_btn")
     data_reset =grid1.button("**Show no data**", key="data_reset")
-if data_btn:
-    st.session_state.show_data = True
-if data_reset:
-    st.session_state.show_data = False
+    if data_btn:
+        st.session_state.show_data = True
+    if data_reset:
+        st.session_state.show_data = False
 if st.session_state.show_data:
     grid1.dataframe(df)
     buffer = io.StringIO()
