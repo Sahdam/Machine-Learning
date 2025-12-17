@@ -139,17 +139,16 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
         xlabel="Sleep Disorders",
         ylabel="Proportion",
         title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-    st.pyplot(fig)
     st.success("Plot successfully created")
 
 my_grid = grid([3, 3], [3, 3], 1, vertical_align="bottom")
 
 # Row 1:
-my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
-my_grid.button("Show unique values")
+my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="select_feature")
+my_grid.button("Show unique values list")
 # Row 2:
-my_grid.selectbox("Select feature value", value_list,key="feat_val_select")
-my_grid.button("Plot visualization")
+my_grid.selectbox("Select feature value", value_list,key="select_feature_value")
+my_grid.button("Plot Visualization")
 # Row 3:
 my_grid.pyplot(fig)
 
