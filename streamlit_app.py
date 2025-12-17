@@ -37,8 +37,8 @@ df.set_index("Person ID", inplace=True)
 df.fillna("None", inplace=True)
 if d_btn:
     grid1.write("## Sleep, health and Lifestyle Data")
-    data_btn = grid1.button("**Show Data**", key="data_btn")
-    data_reset =grid1.button("**Show no data**", key="data_reset")
+data_btn = grid1.button("**Show Data**", key="data_btn")
+data_reset =grid1.button("**Show no data**", key="data_reset")
 if data_btn:
     st.session_state.show_data = True
 if data_reset:
