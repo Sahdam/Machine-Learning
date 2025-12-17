@@ -219,16 +219,16 @@ def training_page():
         st.success("Models trained successfully")
     if st.checkbox("Logistic Regression Feature Importance"):
 
-    features = st.session_state.model_lr.named_steps["preprocess"].get_feature_names_out()
-    coef = st.session_state.model_lr.named_steps["model"].coef_
-
-    odds = pd.Series(np.exp(coef[0]), index=features).sort_values()
-
-    fig, ax = plt.subplots(figsize=(8, 10))
-    odds.tail(15).plot(kind="barh", ax=ax)
-    ax.axvline(1, color="red", linestyle="--")
-    ax.set_title("Top Logistic Regression Odds Ratios")
-    st.pyplot(fig)
+        features = st.session_state.model_lr.named_steps["preprocess"].get_feature_names_out()
+        coef = st.session_state.model_lr.named_steps["model"].coef_
+    
+        odds = pd.Series(np.exp(coef[0]), index=features).sort_values()
+    
+        fig, ax = plt.subplots(figsize=(8, 10))
+        odds.tail(15).plot(kind="barh", ax=ax)
+        ax.axvline(1, color="red", linestyle="--")
+        ax.set_title("Top Logistic Regression Odds Ratios")
+        st.pyplot(fig)
 
     def plot_tree_importance(model, title):
         feat = model.named_steps[list(model.named_steps.keys())[0]].get_feature_names_out()
