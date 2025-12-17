@@ -44,7 +44,7 @@ for m in ["model_lr", "model_dt", "model_rf", "model_gb"]:
 with st.sidebar:
     st.title("Navigation")
     st.session_state.page = st.radio(
-        "go to",[
+        " ",[
             "Data",
             "EDA",
             "Feature Engineering",
