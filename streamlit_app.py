@@ -150,7 +150,7 @@ def split_page():
             X, y, test_size=test_size, random_state=42, stratify=y
         )
 
-         st.session_state.update({
+        st.session_state.update({
             "X_train": X_train,
             "X_test": X_test,
             "y_train": y_train,
