@@ -322,7 +322,7 @@ if st.session_state.num_col or st.session_state.cat_col:
         RandomForestClassifier(random_state=42, class_weight="balanced_subsample", max_depth=6, n_estimators=20)
     )
     
-    sample_weights = compute_sample_weight(class_weight="balanced", st.session_state.y=y_train)
+    sample_weights = compute_sample_weight(class_weight="balanced", y=st.session_state.y_train)
     st.session_state.model_gb= Pipeline(
         steps=[("preprocess", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
             ("gradientboostingclassifier", GradientBoostingClassifier(random_state=42, max_depth=2, n_estimators=40))])
