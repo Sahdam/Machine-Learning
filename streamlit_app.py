@@ -375,48 +375,51 @@ if lr_btn:
 
 grid10 = grid(1,1,1,1,1,1, vertical_align = "top")
 with st.sidebar.container():
-    st.markdown("**Decision Tree**")
-dt_btn = grid10.button("**Decision Tree analysis**", key="dt_btn")
-if dt_btn:
-  fig1, ax1 = plt.subplots(figsize=(12, 8))
-  feat_imp_dt.tail().plot(kind="barh", ax=ax1)
-  ax1.set_title("Feature Importance")
-  grid10.pyplot(fig1)
-  grid10.subheader("Decision Tree Confusion Matrix")
-  ConfusionMatrixDisplay.from_estimator(model_dt,st.session_state.X_test, st.session_state.y_test)
-  grid10.pyplot()
-  grid10.subheader("Decision Tree Classification Report")
-  grid10.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
+    dtc_btn = st.button("**Decision Tree**", key="dtc_btn")
+if dtc_btn:
+    dt_btn = grid10.button("**Decision Tree analysis**", key="dt_btn")
+    if dt_btn:
+      fig1, ax1 = plt.subplots(figsize=(12, 8))
+      feat_imp_dt.tail().plot(kind="barh", ax=ax1)
+      ax1.set_title("Feature Importance")
+      grid10.pyplot(fig1)
+      grid10.subheader("Decision Tree Confusion Matrix")
+      ConfusionMatrixDisplay.from_estimator(model_dt,st.session_state.X_test, st.session_state.y_test)
+      grid10.pyplot()
+      grid10.subheader("Decision Tree Classification Report")
+      grid10.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
 
 
 grid11 = grid(1,1,1,1,1,1, vertical_align = "top")
 with st.sidebar.container():
-    st.markdown("**Random Forest**")
-rf_btn = grid11.button("**Random Forest analysis**", key="rf_btn")
-if rf_btn:
-  fig2, ax2 = plt.subplots(figsize=(12, 8))
-  feat_imp_rf.tail().plot(kind="barh", ax=ax2)
-  ax2.set_title("Feature Importance")
-  grid11.pyplot(fig2)
-  grid11.subheader("Random Forest Confusion Matrix")
-  ConfusionMatrixDisplay.from_estimator(model_rf,st.session_state.X_test, st.session_state.y_test)
-  grid11.pyplot()
-  grid11.subheader("Random Forest Classification Report")
-  grid11.code(classification_report(st.session_state.y_test, model_rf.predict(st.session_state.X_test)))
+    rfc_btn = st.button("**Random Forest**", key="rfc_btn")
+if rfc_btn:
+    rf_btn = grid11.button("**Random Forest analysis**", key="rf_btn")
+    if rf_btn:
+      fig2, ax2 = plt.subplots(figsize=(12, 8))
+      feat_imp_rf.tail().plot(kind="barh", ax=ax2)
+      ax2.set_title("Feature Importance")
+      grid11.pyplot(fig2)
+      grid11.subheader("Random Forest Confusion Matrix")
+      ConfusionMatrixDisplay.from_estimator(model_rf,st.session_state.X_test, st.session_state.y_test)
+      grid11.pyplot()
+      grid11.subheader("Random Forest Classification Report")
+      grid11.code(classification_report(st.session_state.y_test, model_rf.predict(st.session_state.X_test)))
 
 
 grid12 = grid(1,1,1,1,1,1, vertical_align = "top")
 with st.sidebar.container():
-    st.markdown("**Gradient Boosting**")
-gb_btn = grid12.button("**Gradient Boosting analysis**", key="gb_btn")
-if gb_btn:
-  fig3, ax3 = plt.subplots(figsize=(12, 8))
-  feat_imp_gb.tail().plot(kind="barh", ax=ax3)
-  ax3.set_title("Feature Importance")
-  grid12.pyplot(fig3)
-  grid12.subheader("Gradient Boosting Confusion Matrix")
-  ConfusionMatrixDisplay.from_estimator(model_gb,st.session_state.X_test, st.session_state.y_test)
-  grid12.pyplot()
-  grid12.subheader("Gradient Boosting Classification Report")
-  grid12.code(classification_report(st.session_state.y_test, model_gb.predict(st.session_state.X_test)))
+    gbc_btn = st.button("**Gradient Boosting**", key="gbc_btn")
+if gbc_btn:
+    gb_btn = grid12.button("**Gradient Boosting analysis**", key="gb_btn")
+    if gb_btn:
+      fig3, ax3 = plt.subplots(figsize=(12, 8))
+      feat_imp_gb.tail().plot(kind="barh", ax=ax3)
+      ax3.set_title("Feature Importance")
+      grid12.pyplot(fig3)
+      grid12.subheader("Gradient Boosting Confusion Matrix")
+      ConfusionMatrixDisplay.from_estimator(model_gb,st.session_state.X_test, st.session_state.y_test)
+      grid12.pyplot()
+      grid12.subheader("Gradient Boosting Classification Report")
+      grid12.code(classification_report(st.session_state.y_test, model_gb.predict(st.session_state.X_test)))
 
