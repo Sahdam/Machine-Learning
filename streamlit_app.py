@@ -150,6 +150,13 @@ my_grid.button("Show unique values list")
 my_grid.selectbox("Select feature value", value_list,key="select_feature_value")
 my_grid.button("Plot Visualization")
 # Row 3:
+fig, ax = plt.subplots()
+    data_to_plot.plot(
+        kind="bar",
+        ax=ax,
+        xlabel="Sleep Disorders",
+        ylabel="Proportion",
+        title=f"{st.session_state.feat_val} → Sleep Disorder Distribution"
 my_grid.pyplot(fig)
 
 with st.sidebar:
