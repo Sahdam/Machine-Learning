@@ -91,7 +91,7 @@ chartSequentialColors = [
 # -------------------------
 primaryColor = "#1c83e1"
 backgroundColor = "#8fa8f2"
-secondaryBackgroundColor = "#ffffff"
+secondaryBackgroundColor = "#e6e8e1"
 textColor = "#1f2937"
 
 # -------------------------
