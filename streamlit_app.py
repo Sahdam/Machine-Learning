@@ -25,11 +25,12 @@ st.title('Machine Learning: Sleep Disorders Classification')
 st.info('This app is a machine learning app')
 
 grid1 = grid(1,[5, 5],1,1,1,1, vertical_align ="top")
+
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
 with st.sidebar.container():
-    st.markdown("**Data**")
+    d_btn = st.button("**Data**")
 grid1.write("## Sleep, health and Lifestyle Data")
 df = pd.read_csv("sleep_health_lifestyle.csv")
 df.drop(columns="index", inplace=True)
