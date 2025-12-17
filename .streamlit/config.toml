@@ -34,7 +34,7 @@ baseFontSize = 24
 baseFontWeight = 600
 
 headingFont = "Inter, sans-serif"
-headingFontWeights = [700, 600, 500]
+headingFontWeights = [800, 700, 600]
 headingFontSizes = ["2rem", "1.75rem", "1.5rem"]
 
 codeFont = "JetBrains Mono, monospace"
@@ -43,10 +43,10 @@ codeFontSize = "0.875rem"
 # -------------------------
 # UI radius & borders
 # -------------------------
-baseRadius = "0.75rem"
-buttonRadius = "0.75rem"
-borderColor = "#e5e7eb"
-dataframeBorderColor = "#e5e7eb"
+baseRadius = "1.0rem"
+buttonRadius = "1.0rem"
+borderColor = "#cef2eb"
+dataframeBorderColor = "#e6b150"
 dataframeHeaderBackgroundColor = "#e5e7eb"
 
 showWidgetBorder = true
