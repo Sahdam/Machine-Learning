@@ -179,15 +179,16 @@ ops = {
     '*': operator.mul,
     '/': operator.truediv  # we will handle division by zero
 }
-with st.sidebar:
-    with st.expander("**Feature Engineering**"):
-        col_1 = st.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
-        col_2 = st.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
-        op = st.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
+grid7 = grid([4,4],[3,2,3],[4,4],1, vertical_align="top")
+with st.sidebar.container():
+    st.markdown("**Feature Engineering**")
+        col_1 = grid7.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
+        col_2 = grid7.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
+        op = grid7.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
         
-        add_button = st.button("Add Feature")
-        undo_button = st.button("Undo Last Change")
-        reset_button = st.button("Reset to Original Data")
+        add_button = grid7.button("Add Feature")
+        undo_button = grid7.button("Undo Last Change")
+        reset_button = grid7.button("Reset to Original Data")
 
         if add_button and col_1 and col_2 and op:
             st.session_state.df_stack.append(st.session_state.df_current.copy())
@@ -214,9 +215,9 @@ with st.sidebar:
             st.session_state.df_current = st.session_state.df_stack[0].copy()
             st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
             st.success("Data reset to original.")
-        update_btn= st.button("Show updated DataFrame")
+        update_btn= grid7.button("Show updated DataFrame")
 if update_btn:
-  st.dataframe(st.session_state.df_current)
+  grid7.dataframe(st.session_state.df_current)
 
 if "df_original" not in st.session_state:
     st.session_state.df_original = df.copy()
