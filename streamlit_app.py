@@ -73,6 +73,7 @@ def data_page():
         )
 
 # PAGE 2 — EDA
+grid_obj = grid([5, 3], [5, 3], 1, 1, vertical_align="top")
 def eda_page(grid_obj):
     st.header("📈 Exploratory Data Analysis")
 
@@ -315,7 +316,7 @@ def evaluation_page():
 if st.session_state.page == "Data":
     data_page()
 elif st.session_state.page == "EDA":
-    eda_page()
+    eda_page(grid_obj)
 elif st.session_state.page == "Feature Engineering":
     feature_engineering_page()
 elif st.session_state.page == "Train / Test Split":
