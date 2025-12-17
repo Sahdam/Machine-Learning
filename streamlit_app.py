@@ -139,8 +139,8 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
         xlabel="Sleep Disorders",
         ylabel="Proportion",
         title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-    my_grid.pyplot(fig)
-    st.success("Plot successfully created")
+my_grid.pyplot(fig)
+st.success("Plot successfully created")
 
 
 with st.sidebar:
