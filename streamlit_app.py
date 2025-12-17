@@ -152,7 +152,7 @@ my_grid.button("Plot Visualization")
 # Row 3:
 data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
 fig, ax = plt.subplots()
-    data_to_plot.plot(
+data_to_plot.plot(
         kind="bar",
         ax=ax,
         xlabel="Sleep Disorders",
