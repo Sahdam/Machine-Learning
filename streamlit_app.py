@@ -309,10 +309,7 @@ if st.session_state.num_col or st.session_state.cat_col:
         ]
     )
     model_lr.fit(X_train, y_train)
-else:
-    st.warning("Split data first to build preprocessing pipeline")
-
-features = model_lr.named_steps["preprocess"].get_feature_names_out()
+    features = model_lr.named_steps["preprocess"].get_feature_names_out()
 importances = model_lr.named_steps["model"].coef_
 classes = model_lr.named_steps["model"].classes_
 odds_ratio = pd.DataFrame(np.exp(importances),index=classes, columns=features)
@@ -348,6 +345,10 @@ model_gb.fit(X_train, y_train, gradientboostingclassifier__sample_weight=sample_
 feat_gb = model_gb.named_steps["preprocess"].get_feature_names_out()
 importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
 feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
+else:
+    st.warning("Split data first to build preprocessing pipeline")
+
+
 
 grid9 = grid(1,1,1,1, 1,1,1,1,1, vertical_align="top")
 with st.sidebar.container():
