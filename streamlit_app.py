@@ -43,7 +43,7 @@ if "show_data" not in st.session_state:
 
 with st.sidebar.container():
     st.markdown("**Data**")
-    st.write("## Sleep, health and Lifestyle Data")
+st.write("## Sleep, health and Lifestyle Data")
 df = pd.read_csv("sleep_health_lifestyle.csv")
 df.drop(columns="index", inplace=True)
 df.set_index("Person ID", inplace=True)
@@ -121,7 +121,8 @@ if "feature" not in st.session_state:
 my_grid = grid([5, 3], [5, 3], 1, vertical_align="bottom")
 with st.sidebar.container():
     st.markdown("**Drill down visualization of features on sleep disorders**")
-    st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
+st.write("## Drill down visualization of features on sleep disorders")
+st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
 if my_grid.button("Show unique values"):
     st.session_state.show_plot = False
     st.session_state.feat_val = None
