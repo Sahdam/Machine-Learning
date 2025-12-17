@@ -193,6 +193,7 @@ def split_page():
 # PAGE 5 — TRAINING
 def training_page():
     st.header("Modeling & Feature Importance")
+    st.info("Select The Model Of Your Choice and Click on Train Models")
 
     if st.session_state.X_train is None:
         st.warning("Please split data first")
@@ -239,22 +240,27 @@ def training_page():
         st.session_state.model_dt.fit(Xtr, ytr)
         st.session_state.model_rf.fit(Xtr, ytr)
         st.session_state.model_gb.fit(Xtr, ytr, gradientboostingclassifier__sample_weight=sample_w)
-
         st.success("Models trained successfully")
+        
     if st.checkbox("Logistic Regression Feature Importance"):
         features = st.session_state.model_lr.named_steps["prep"].get_feature_names_out()
         coef = st.session_state.model_lr.named_steps["model"].coef_
         odds = pd.Series(np.exp(coef[0]), index=features).sort_values()
         fig, ax = plt.subplots(figsize=(8, 10))
-        odds.tail(15).plot(kind="barh", ax=ax)
+        odds.tail(10).plot(kind="barh", ax=ax)
         ax.axvline(1, color="red", linestyle="--")
         ax.set_title("Top Logistic Regression Odds Ratios")
         st.pyplot(fig)
+        fig2, ax = plt.subplots(figsize=(8, 10))
+        odds.head(10).plot(kind="barh", ax=ax)
+        ax.axvline(1, color="red", linestyle="--")
+        ax.set_title("Top Logistic Regression Odds Ratios")
+        st.pyplot(fig2)
 
     def plot_tree_importance(model, title):
         feat = model.named_steps[list(model.named_steps.keys())[0]].get_feature_names_out()
         imp = model.named_steps[list(model.named_steps.keys())[1]].feature_importances_
-        series = pd.Series(imp, index=feat).sort_values().tail(15)
+        series = pd.Series(imp, index=feat).sort_values().tail(10)
         fig, ax = plt.subplots(figsize=(8, 10))
         series.plot(kind="barh", ax=ax)
         ax.set_title(title)
