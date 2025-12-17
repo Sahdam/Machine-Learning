@@ -352,32 +352,33 @@ else:
 
 grid9 = grid(1,1,1,1, 1,1,1,1,1, vertical_align="top")
 with st.sidebar.container():
-    st.markdown("**Logistic Regression**")
+    lr_btn = st.button("**Logistic Regression**", key="lr_btn")
+if lr_btn:
     feat_imp_btn = grid9.button("**Logistic Regression Analysis**", key="feat_imp_btn")
-if feat_imp_btn:
-  grid9.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
-  for cls in classes:
-        series = get_sorted_odds(cls)
-
-        fig, ax = plt.subplots(1, 2, figsize=(22, 8))
-
-        series.head(10).plot(kind="barh", ax=ax[0])
-        ax[0].axvline(1, linestyle="--", color="red")
-        ax[0].set_title(f"{cls} — Lowest Odds")
-
-        series.tail(10).plot(kind="barh", ax=ax[1])
-        ax[1].axvline(1, linestyle="--", color="red")
-        ax[1].set_title(f"{cls} — Highest Odds")
-
-        grid9.pyplot(fig)
-  grid9.subheader("Logistic Regression Confusion Matrix")
-  ConfusionMatrixDisplay.from_estimator(
-      model_lr, st.session_state.X_test, st.session_state.y_test
-  )
-  grid9.pyplot()
-  
-  grid9.subheader("Logistic Regression Classification Report")
-  grid9.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
+    if feat_imp_btn:
+      grid9.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
+      for cls in classes:
+            series = get_sorted_odds(cls)
+    
+            fig, ax = plt.subplots(1, 2, figsize=(22, 8))
+    
+            series.head(10).plot(kind="barh", ax=ax[0])
+            ax[0].axvline(1, linestyle="--", color="red")
+            ax[0].set_title(f"{cls} — Lowest Odds")
+    
+            series.tail(10).plot(kind="barh", ax=ax[1])
+            ax[1].axvline(1, linestyle="--", color="red")
+            ax[1].set_title(f"{cls} — Highest Odds")
+    
+            grid9.pyplot(fig)
+      grid9.subheader("Logistic Regression Confusion Matrix")
+      ConfusionMatrixDisplay.from_estimator(
+          model_lr, st.session_state.X_test, st.session_state.y_test
+      )
+      grid9.pyplot()
+      
+      grid9.subheader("Logistic Regression Classification Report")
+      grid9.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
 
 grid10 = grid(1,1,1,1,1,1, vertical_align = "top")
 with st.sidebar.container():
