@@ -54,7 +54,7 @@ with st.sidebar:
 
 # PAGE 1 — DATA
 def data_page():
-    st.header("📊 Sleep, Health and Lifestyle Dataset")
+    st.header("Sleep, Health and Lifestyle Dataset")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -115,7 +115,7 @@ def eda_page(grid_obj):
     
 # PAGE 3 — FEATURE ENGINEERING
 def feature_engineering_page():
-    st.header("🛠 Feature Engineering")
+    st.header("Feature Engineering")
     st.subheader("Current Dataset")
     st.dataframe(st.session_state.df_current, use_container_width=True)
     df = st.session_state.df_current
@@ -158,7 +158,7 @@ def feature_engineering_page():
 
 # PAGE 4 — SPLIT
 def split_page():
-    st.header("✂ Train / Test Split")
+    st.header("Train / Test Split")
 
     test_size = st.slider("Test size", 0.1, 0.5, 0.2)
 
@@ -192,7 +192,7 @@ def split_page():
 
 # PAGE 5 — TRAINING
 def training_page():
-    st.header("🤖 Modeling & Feature Importance")
+    st.header("Modeling & Feature Importance")
 
     if st.session_state.X_train is None:
         st.warning("Please split data first")
@@ -275,7 +275,7 @@ def training_page():
 
 # PAGE 6 — EVALUATION
 def evaluation_page():
-    st.header("📊 Model Evaluation")
+    st.header("Model Evaluation")
 
     if st.session_state.model_lr is None:
         st.warning("Train models first")
