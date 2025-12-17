@@ -193,7 +193,7 @@ def split_page():
 # PAGE 5 — TRAINING
 def training_page():
     st.header("Modeling & Feature Importance")
-    st.info("Select The Model Of Your Choice and Click on Train Models")
+    st.info("**Select the model of your choice and click on train models**")
 
     if st.session_state.X_train is None:
         st.warning("Please split data first")
