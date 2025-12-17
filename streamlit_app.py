@@ -54,7 +54,7 @@ df["BMI Category"] = df["BMI Category"].replace({
     "Normal Weight": "Normalweight"
 })
 
-grid2 = grid(1,[4, 2, 1], 1, vertical_align="Top")
+grid2 = grid(1,[4, 2, 1], 1, vertical_align="top")
 if "show_plot" not in st.session_state:
     st.session_state.show_plot_1 = False
 
