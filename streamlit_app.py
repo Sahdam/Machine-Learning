@@ -150,6 +150,7 @@ my_grid.button("Show unique values list")
 my_grid.selectbox("Select feature value", value_list,key="select_feature_value")
 my_grid.button("Plot Visualization")
 # Row 3:
+data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
 fig, ax = plt.subplots()
     data_to_plot.plot(
         kind="bar",
