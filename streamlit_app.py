@@ -19,19 +19,6 @@ from sklearn.utils.class_weight import compute_sample_weight
 from streamlit_extras.grid import grid
 sns.set_style("dark")
 
-st.markdown(
-    """
-    <style>
-        [data-testid=stSidebar] {
-            background-color: #e4f6ff;
-        }
-        [data-testid=stSidebarUserContent] {
-            padding-top: 3.5rem;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
 
 st.title('Machine Learning: Sleep Disorders Classification')
 
