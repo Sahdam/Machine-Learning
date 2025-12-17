@@ -59,26 +59,27 @@ if "show_plot" not in st.session_state:
 if "selected_column" not in st.session_state:
     st.session_state.selected_column = None
 with st.sidebar.container():
-    st.markdown("**Visualize how the features are distributed in the dataset**")
-grid2.write("## Make Your Own Plot")
-select_column= grid2.selectbox("Category feature",df.select_dtypes("object").columns.tolist())
-plot_btn = grid2.button("Plot Feature")
-reset_btn = grid2.button("Reset")
-if plot_btn:
-    st.session_state.show_plot_1 = True
-    st.session_state.selected_column = select_column
-
-if reset_btn:
-    st.session_state.show_plot_1 = False
-    st.session_state.selected_column = None
-  
-if st.session_state.show_plot_1 and st.session_state.selected_column:
-    fig, ax = plt.subplots()
-    df[st.session_state.selected_column].value_counts(normalize=True).plot(kind="bar", xlabel=st.session_state.selected_column, ylabel="Proportion",
-                                                      title=f"{st.session_state.selected_column} Proportion(counts in percentage)", color="green", ax=ax)
-    grid2.pyplot(fig)
-    plt.close(fig)
-    st.success("Plot successfully created")
+   v_btn = st.button("**Visualize Feature Distribution**", key="v_btn")
+if v_btn:
+    grid2.write("## Make Your Own Plot")
+    select_column= grid2.selectbox("Category feature",df.select_dtypes("object").columns.tolist())
+    plot_btn = grid2.button("Plot Feature")
+    reset_btn = grid2.button("Reset")
+    if plot_btn:
+        st.session_state.show_plot_1 = True
+        st.session_state.selected_column = select_column
+    
+    if reset_btn:
+        st.session_state.show_plot_1 = False
+        st.session_state.selected_column = None
+      
+    if st.session_state.show_plot_1 and st.session_state.selected_column:
+        fig, ax = plt.subplots()
+        df[st.session_state.selected_column].value_counts(normalize=True).plot(kind="bar", xlabel=st.session_state.selected_column, ylabel="Proportion",
+                                                          title=f"{st.session_state.selected_column} Proportion(counts in percentage)", color="green", ax=ax)
+        grid2.pyplot(fig)
+        plt.close(fig)
+        st.success("Plot successfully created")
 
 grid3 = grid(1,[4,5,3],1,1, vertical_align="top")
 with st.sidebar.container():
