@@ -284,8 +284,8 @@ if sp_btn:
     if st.session_state.X_train is None:
         st.warning("Please split the dataset to continue.")
 
-X_train = st.session_state.X_train
-y_train = st.session_state.y_train
+    X_train = st.session_state.X_train
+    y_train = st.session_state.y_train
 
 num_col = X_train.select_dtypes(include="number").columns.tolist()
 cat_col = X_train.select_dtypes(include="object").columns.tolist()
