@@ -257,7 +257,6 @@ if current_btn:
 if split_btn:
     if "Sleep Disorder" not in st.session_state.df_current.columns:
         st.error("Target column 'Sleep Disorder' is missing.")
-        st.stop()
 
     X = st.session_state.df_current.drop(columns="Sleep Disorder")
     y = st.session_state.df_current["Sleep Disorder"]
@@ -274,7 +273,6 @@ if split_btn:
     st.success("Train-test split created successfully.")
 if st.session_state.X_train is None:
     st.warning("Please split the dataset to continue.")
-    st.stop()
 
 X_train = st.session_state.X_train
 y_train = st.session_state.y_train
