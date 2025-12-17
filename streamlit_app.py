@@ -143,24 +143,6 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
     st.success("Plot successfully created")
 
 
-
-# Row 1:
-my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="select_feature")
-my_grid.button("Show unique values list")
-# Row 2:
-my_grid.selectbox("Select feature value", value_list,key="select_feature_value")
-my_grid.button("Plot Visualization")
-# Row 3:
-data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
-fig, ax = plt.subplots()
-data_to_plot.plot(
-        kind="bar",
-        ax=ax,
-        xlabel="Sleep Disorders",
-        ylabel="Proportion",
-        title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-
-
 with st.sidebar:
   with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
     corr_btn = st.button("Show Correlations")
