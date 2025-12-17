@@ -28,21 +28,28 @@ grid1 = grid(1,[5, 5],1,1,1,1, vertical_align ="top")
 
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
-with st.sidebar.container():
+
+if "data_section" not in st.session_state:
+    st.session_state.data_section = False
+    
+with st.sidebar:
     d_btn = st.button("**Data**", key="d_btn")
+
+    if d_btn:
+        st.session_state.data_section = True
 df = pd.read_csv("sleep_health_lifestyle.csv")
 df.drop(columns="index", inplace=True)
 df.set_index("Person ID", inplace=True)
 df.fillna("None", inplace=True)
-if d_btn:
-    grid1.write("## Sleep, health and Lifestyle Data")
+
+if st.session_state.data_section:
+    grid1.write("## Sleep, Health and Lifestyle Data")
     data_btn = grid1.button("**Show Data**", key="data_btn")
-    data_reset =grid1.button("**Show no data**", key="data_reset")
+    data_reset =grid1.button("**Hide Data**", key="data_reset")
     if data_btn:
         st.session_state.show_data = True
     if data_reset:
-        st.session_state.show_data = False
-    
+        st.session_state.show_data = False    
 if st.session_state.show_data:
     grid1.dataframe(df)
     buffer = io.StringIO()
@@ -50,6 +57,7 @@ if st.session_state.show_data:
     grid1.code(buffer.getvalue(), language="text")
     grid1.dataframe(df.describe())
     grid1.dataframe(df.select_dtypes("object").describe())
+
 df["BMI Category"] = df["BMI Category"].replace({"Normal": "Normalweight","Normal Weight": "Normalweight"})
 
 grid2 = grid(1,[4, 2, 1], 1, vertical_align="top")
