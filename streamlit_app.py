@@ -215,8 +215,8 @@ if reset_button:
     st.session_state.df_current = st.session_state.df_stack[0].copy()
     st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
     st.success("Data reset to original.")
-    update_btn= grid7.button("Show updated DataFrame")
-    if update_btn:
+update_btn= grid7.button("Show updated DataFrame")
+if update_btn:
       grid7.dataframe(st.session_state.df_current)
 
 if "df_original" not in st.session_state:
