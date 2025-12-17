@@ -5,7 +5,7 @@ base = "light"
 # Core colors
 # -------------------------
 primaryColor = "#4f46e5"              # Main accent color
-backgroundColor = "#f9fafb"           # App background
+backgroundColor = "#1c108f"           # App background
 secondaryBackgroundColor = "#f3f4f6"  # Card & widget background
 textColor = "#111827"                  # Primary text color
 
