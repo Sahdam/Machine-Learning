@@ -1,13 +1,9 @@
-# =========================
-# IMPORTS
-# =========================
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -17,14 +13,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, ConfusionMatrixDisplay
 from sklearn.utils.class_weight import compute_sample_weight
-
 sns.set_style("dark")
-
 st.set_page_config(page_title="Sleep Disorder ML App", layout="wide")
 
-# =========================
-# SESSION STATE INIT
-# =========================
+# SESSION STATE INITIALIZATION
 if "page" not in st.session_state:
     st.session_state.page = "Data"
 
@@ -45,9 +37,7 @@ for k in ["X_train", "X_test", "y_train", "y_test"]:
 for m in ["model_lr", "model_dt", "model_rf", "model_gb"]:
     st.session_state.setdefault(m, None)
 
-# =========================
 # SIDEBAR NAVIGATION
-# =========================
 with st.sidebar:
     st.title("Navigation")
     st.session_state.page = st.radio(
@@ -85,9 +75,7 @@ def data_page():
             st.session_state.df_current.select_dtypes("object").describe()
         )
 
-# =========================
 # PAGE 2 — EDA
-# =========================
 def eda_page():
     st.header("📈 Exploratory Data Analysis")
 
@@ -103,15 +91,19 @@ def eda_page():
     ax.set_title(f"{col} Distribution")
     st.pyplot(fig)
     plt.close(fig)
-
-# =========================
+    
 # PAGE 3 — FEATURE ENGINEERING
-# =========================
 def feature_engineering_page():
     st.header("🛠 Feature Engineering")
-
+    st.subheader("Current Dataset")
+    st.dataframe(st.session_state.df_current, use_container_width=True)
     df = st.session_state.df_current
 
+    st.markdown("### Drop Features")
+    drop_cols = st.multiselect(
+        "Select columns to drop",
+        st.session_state.df_current.columns
+    )
     col1, col2 = st.columns(2)
     with col1:
         c1 = st.selectbox("Feature 1", df.columns)
@@ -133,14 +125,17 @@ def feature_engineering_page():
                 st.success(f"Added {new_col}")
             except Exception as e:
                 st.error(e)
+        if st.button("Apply Drop"):
+        st.session_state.df_current = st.session_state.df_current.drop(columns=drop_cols)
+        st.success("Features updated")
 
+    st.subheader("Updated Dataset Preview")
+    st.dataframe(st.session_state.df_current.head())
         if st.button("Reset Dataset"):
             st.session_state.df_current = st.session_state.df_original.copy()
             st.success("Dataset reset")
 
-# =========================
 # PAGE 4 — SPLIT
-# =========================
 def split_page():
     st.header("✂ Train / Test Split")
 
@@ -162,9 +157,7 @@ def split_page():
 
         st.success("Data split successfully")
 
-# =========================
 # PAGE 5 — TRAINING
-# =========================
 def training_page():
     st.header("🤖 Model Training")
 
@@ -216,9 +209,7 @@ def training_page():
 
         st.success("Models trained successfully")
 
-# =========================
 # PAGE 6 — EVALUATION
-# =========================
 def evaluation_page():
     st.header("📊 Model Evaluation")
 
@@ -257,9 +248,8 @@ def evaluation_page():
         )
     )
 
-# =========================
 # ROUTER
-# =========================
+
 if st.session_state.page == "Data":
     data_page()
 elif st.session_state.page == "EDA":
