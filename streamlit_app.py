@@ -355,7 +355,7 @@ with st.sidebar.container():
     lr_btn = st.button("**Logistic Regression**", key="lr_btn")
 if lr_btn:
     feat_imp_btn = grid9.button("**Logistic Regression Analysis**", key="feat_imp_btn")
-    if feat_imp_btn:
+if feat_imp_btn:
       grid9.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
       for cls in classes:
             series = get_sorted_odds(cls)
