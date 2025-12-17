@@ -308,10 +308,10 @@ if st.session_state.num_col or st.session_state.cat_col:
             ("model", LogisticRegression(class_weight="balanced", max_iter=1000)),
         ]
     )
+    model_lr.fit(X_train, y_train)
 else:
     st.warning("Split data first to build preprocessing pipeline")
 
-model_lr.fit(X_train, y_train)
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
 importances = model_lr.named_steps["model"].coef_
 classes = model_lr.named_steps["model"].classes_
