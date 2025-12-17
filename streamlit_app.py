@@ -245,20 +245,23 @@ def training_page():
         st.success("Models trained successfully")
         
     if st.checkbox("Logistic Regression Feature Importance"):
-        features = st.session_state.model_lr.named_steps["prep"].get_feature_names_out()
-        coef = st.session_state.model_lr.named_steps["model"].coef_
-        odds = pd.Series(np.exp(coef[0]), index=features).sort_values()
-        fig, ax = plt.subplots(figsize=(8, 10))
-        odds.tail(10).plot(kind="barh", ax=ax)
-        ax.axvline(1, color="red", linestyle="--")
-        ax.set_title("Top Logistic Regression Odds Ratios")
-        st.pyplot(fig)
-        fig2, ax = plt.subplots(figsize=(8, 10))
-        odds.head(10).plot(kind="barh", ax=ax)
-        ax.axvline(1, color="red", linestyle="--")
-        ax.set_title("Top Logistic Regression Odds Ratios")
-        st.pyplot(fig2)
-
+        try:
+            features = st.session_state.model_lr.named_steps["prep"].get_feature_names_out()
+            coef = st.session_state.model_lr.named_steps["model"].coef_
+            odds = pd.Series(np.exp(coef[0]), index=features).sort_values()
+            fig, ax = plt.subplots(figsize=(8, 10))
+            odds.tail(10).plot(kind="barh", ax=ax)
+            ax.axvline(1, color="red", linestyle="--")
+            ax.set_title("Top Logistic Regression Odds Ratios")
+            st.pyplot(fig)
+            fig2, ax = plt.subplots(figsize=(8, 10))
+            odds.head(10).plot(kind="barh", ax=ax)
+            ax.axvline(1, color="red", linestyle="--")
+            ax.set_title("Top Logistic Regression Odds Ratios")
+            st.pyplot(fig2)
+        except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
+            return
     def plot_tree_importance(model, title):
         feat = model.named_steps[list(model.named_steps.keys())[0]].get_feature_names_out()
         imp = model.named_steps[list(model.named_steps.keys())[1]].feature_importances_
