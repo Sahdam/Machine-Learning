@@ -126,8 +126,8 @@ def feature_engineering_page():
             except Exception as e:
                 st.error(e)
         if st.button("Apply Drop"):
-        st.session_state.df_current = st.session_state.df_current.drop(columns=drop_cols)
-        st.success("Features updated")
+            st.session_state.df_current = st.session_state.df_current.drop(columns=drop_cols)
+            st.success("Features updated")
 
     st.subheader("Updated Dataset Preview")
     st.dataframe(st.session_state.df_current.head())
