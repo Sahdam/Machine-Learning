@@ -90,7 +90,7 @@ chartSequentialColors = [
 # Core colors
 # -------------------------
 primaryColor = "#1c83e1"
-backgroundColor = "#eef2f7"
+backgroundColor = "#8fa8f2"
 secondaryBackgroundColor = "#ffffff"
 textColor = "#1f2937"
 
