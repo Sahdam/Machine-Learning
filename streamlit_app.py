@@ -37,7 +37,7 @@ st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
 
-data_grid = grid([5, 5],1,1,2, vertical_align ="top")
+data_grid = grid([5, 5],1,1,1,1 vertical_align ="top")
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
@@ -120,7 +120,7 @@ if "feature" not in st.session_state:
     st.session_state.feature = None
 my_grid = grid([5, 3], [5, 3], 1, vertical_align="bottom")
 with st.sidebar.container():
-    sidebar.markdown("**Drill down visualization of features on sleep disorders**")
+    st.markdown("**Drill down visualization of features on sleep disorders**")
     st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
 if my_grid.button("Show unique values"):
     st.session_state.show_plot = False
