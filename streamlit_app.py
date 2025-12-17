@@ -228,13 +228,17 @@ if "df_current" not in st.session_state:
 for key in ["X_train", "X_test", "y_train", "y_test"]:
     if key not in st.session_state:
         st.session_state[key] = None
-with st.sidebar:
-    with st.expander("**Splitting Data into Train and Test**"):
-        select_columns = st.multiselect("Choose features to drop", st.session_state.df_current.columns.tolist(), key="drop_cols_select")
-        testsize = st.number_input("Enter Test size (e.g 0.2 for 20%)", min_value=0.1, max_value=0.9, step=0.05, key="test_size")
-        drop_btn = st.button("Drop Columns", key="drop_btn")
-        reset_btn = st.button("Reset Dataset", key="reset_btn")
-        split_btn = st.button("Show Split Data", key="split_btn")
+
+
+grid8 = grid([4,4],[3,3,3],1,1,1 vertical_align="top")
+with st.sidebar.container():
+    st.markdown("**Splitting Data into Train and Test**"):
+select_columns = grid8.multiselect("Choose features to drop", st.session_state.df_current.columns.tolist(), key="drop_cols_select")
+testsize = grid8.number_input("Enter Test size (e.g 0.2 for 20%)", min_value=0.1, max_value=0.9, step=0.05, key="test_size")
+drop_btn = grid8.button("Drop Columns", key="drop_btn")
+reset_btn = grid8.button("Reset Dataset", key="reset_btn")
+split_btn = grid8.button("Show Split Data", key="split_btn")
+current_btn = grid8.button("Show Current Dataset", key="current_btn")
 if drop_btn:
     st.session_state.df_current.drop(columns=select_columns, inplace=True)
     for key in ["X_train", "X_test", "y_train", "y_test"]:
@@ -247,8 +251,9 @@ if reset_btn:
         st.session_state[key] = None
 
     st.success("Dataset restored to original state.")
-st.subheader("📄 Current Dataset")
-st.dataframe(st.session_state.df_current)
+if current_btn:
+    grid8.subheader("Current Dataset")
+    grid8.dataframe(st.session_state.df_current)
 if split_btn:
     if "Sleep Disorder" not in st.session_state.df_current.columns:
         st.error("Target column 'Sleep Disorder' is missing.")
@@ -329,11 +334,12 @@ feat_gb = model_gb.named_steps["preprocess"].get_feature_names_out()
 importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
 feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
 
-with st.sidebar:
-  with st.expander("**Logistic Regression**"):
-    feat_imp_btn = st.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
+grid9 = grid(1,1,1,[4,4], vertical_align="top")
+with st.sidebar.container():
+    st.markdown("**Logistic Regression**")
+    feat_imp_btn = grid9.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
 if feat_imp_btn:
-  st.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
+  grid9.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
   for cls in classes:
         series = get_sorted_odds(cls)
 
@@ -347,15 +353,15 @@ if feat_imp_btn:
         ax[1].axvline(1, linestyle="--", color="red")
         ax[1].set_title(f"{cls} — Highest Odds")
 
-        st.pyplot(fig)
+        grid9.pyplot(fig)
   st.subheader("Logistic Regression Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(
       model_lr, st.session_state.X_test, st.session_state.y_test
   )
-  st.pyplot()
+  grid9.pyplot()
   
   st.subheader("Logistic Regression Classification Report")
-  st.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
+  grid9.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
 
 with st.sidebar:
   with st.expander("**Decision Tree**"):
