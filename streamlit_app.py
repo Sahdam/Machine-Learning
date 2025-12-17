@@ -37,22 +37,18 @@ st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
 
-data_grid = grid([5, 5],2,2, vertical_align ="bottom")
+data_grid = grid([5, 5],1,2, vertical_align ="bottom")
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
-with st.sidebar:
-  with st.expander("**Data**"):
-    st.write("## Sleep, health and Lifestyle Data")
-    df = pd.read_csv("sleep_health_lifestyle.csv")
-    df.drop(columns="index", inplace=True)
-    df.set_index("Person ID", inplace=True)
-    df.fillna("None", inplace=True)
-    col3, col4 = st.columns(2)
-    with col3:
-      data_btn = st.button("**Show Data**", key="data_btn")
-    with col4:
-      data_reset = st.button("**Show no data**", key="data_reset")
+with st.sidebar("**Data**"):
+st.write("## Sleep, health and Lifestyle Data")
+df = pd.read_csv("sleep_health_lifestyle.csv")
+df.drop(columns="index", inplace=True)
+df.set_index("Person ID", inplace=True)
+df.fillna("None", inplace=True)
+data_btn = data_grid.button("**Show Data**", key="data_btn")
+data_reset = data_grid.button("**Show no data**", key="data_reset")
 if data_btn:
   st.session_state.show_data = True
 if data_reset:
@@ -61,9 +57,9 @@ if st.session_state.show_data:
   df
   buffer = io.StringIO()
   df.info(buf=buffer)
-  st.code(buffer.getvalue(), language="text")
-  st.dataframe(df.describe())
-  st.dataframe(df.select_dtypes("object").describe())
+  data_grid.code(buffer.getvalue(), language="text")
+  data_grid.dataframe(df.describe())
+  data_grid.dataframe(df.select_dtypes("object").describe())
 
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
@@ -122,7 +118,7 @@ if "feat_val" not in st.session_state:
 if "feature" not in st.session_state:
     st.session_state.feature = None
 my_grid = grid([5, 3], [5, 3], 1, vertical_align="bottom")
-with st.sidebar.expander("**Drill down visualization of features on sleep disorders**"):
+with st.sidebar("**Drill down visualization of features on sleep disorders**"):
     st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
 if my_grid.button("Show unique values"):
     st.session_state.show_plot = False
