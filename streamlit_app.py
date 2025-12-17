@@ -238,6 +238,11 @@ if fe_btn:
         if key not in st.session_state:
             st.session_state[key] = None
 
+if "X_train" not in st.session_state:
+    st.session_state.X_train = None
+    st.session_state.X_test = None
+    st.session_state.y_train = None
+    st.session_state.y_test = None
 
 grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
 with st.sidebar.container():
@@ -281,14 +286,13 @@ if sp_btn:
         st.session_state.y_test = y_test
     
         st.success("Train-test split created successfully.")
-    if st.session_state.X_train is None:
-        st.warning("Please split the dataset to continue.")
 
-    X_train = st.session_state.X_train
-    y_train = st.session_state.y_train
+if st.session_state.X_train is not None:
+    num_col = (st.session_state.X_train.select_dtypes(include="number").columns.tolist())
+    cat_col = (st.session_state.X_train.select_dtypes(include="object").columns.tolist())
+else:
+    st.warning("Please split the data first")
 
-num_col = X_train.select_dtypes(include="number").columns.tolist()
-cat_col = X_train.select_dtypes(include="object").columns.tolist()
 
 column_trans = ColumnTransformer(
     [
