@@ -30,7 +30,7 @@ codeTextColor = "#111827"
 # Typography
 # -------------------------
 font = "Inter, sans-serif"
-baseFontSize = 16
+baseFontSize = 24
 baseFontWeight = 400
 
 headingFont = "Inter, sans-serif"
