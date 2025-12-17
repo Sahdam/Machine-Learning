@@ -129,13 +129,13 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
     plt.close(fig)
     st.success("Plot successfully created")
 
-
-with st.sidebar:
-  with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
-    corr_btn = st.button("Show Correlations")
-  if corr_btn:
+grid5 = grid([3, 5])
+with st.sidebar.container():
+    st.markdown("**Correlation Matrix: Numeric Columns Relationship**")
+corr_btn = grid5.button("Show Correlations")
+if corr_btn:
     sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
-    st.pyplot(plt.gcf())
+    grid5.pyplot(plt.gcf())
 
 if "show_plot" not in st.session_state:
     st.session_state.show_plot_2 = False
