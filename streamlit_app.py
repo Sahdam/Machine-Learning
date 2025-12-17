@@ -63,7 +63,7 @@ if "selected_column" not in st.session_state:
 with st.sidebar.container():
     st.markdown("**Visualize how the features are distributed in the dataset**")
 grid2.write("## Make Your Own Plot")
-select_column= grid2.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
+select_column= grid2.selectbox("Category feature",df.select_dtypes("object").columns.tolist())
 plot_btn = grid2.button("Plot Feature")
 reset_btn = grid2.button("Reset")
 if plot_btn:
@@ -86,9 +86,9 @@ grid3 = grid(1,[4,5,3],1,1, vertical_align="top")
 with st.sidebar.container():
     st.markdown("**Groupby Table**")
 grid3.markdown("## Create Your own Group Table")
-idx_feat =grid3.multiselect("Select the features for the index", list(df.columns))
-column_feat =grid3.multiselect("Select the features for your group table column", list(df.columns))
-agg = grid3.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
+idx_feat =grid3.multiselect("Index features", list(df.columns))
+column_feat =grid3.multiselect("Column features", list(df.columns))
+agg = grid3.multiselect("Aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
 grp_table = grid3.button("Show group table")
     
 if grp_table and idx_feat and column_feat and agg:
