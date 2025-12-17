@@ -14,6 +14,8 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, ConfusionMatrixDisplay
 from sklearn.utils.class_weight import compute_sample_weight
 from streamlit_extras.grid import grid
+from sklearn.utils.validation import check_is_fitted
+from sklearn.exceptions import NotFittedError
 sns.set_style("dark")
 st.set_page_config(page_title="Sleep Disorder ML App", layout="wide")
 
@@ -266,13 +268,25 @@ def training_page():
         ax.set_title(title)
         st.pyplot(fig)
     if st.checkbox("Decision Tree Importance"):
-        plot_tree_importance(st.session_state.model_dt, "Decision Tree Feature Importance")
+        try:
+            plot_tree_importance(st.session_state.model_dt, "Decision Tree Feature Importance")
+        except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
+            return
 
     if st.checkbox("Random Forest Importance"):
-        plot_tree_importance(st.session_state.model_rf, "Random Forest Feature Importance")
+        try:
+            plot_tree_importance(st.session_state.model_rf, "Random Forest Feature Importance")
+        except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
+            return
     
     if st.checkbox("Gradient Boosting Importance"):
-        plot_tree_importance(st.session_state.model_gb, "Gradient Boosting Feature Importance")
+        try:
+            plot_tree_importance(st.session_state.model_gb, "Gradient Boosting Feature Importance")
+        except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
+            return
 
 # PAGE 6 — EVALUATION
 def evaluation_page():
