@@ -334,7 +334,7 @@ feat_gb = model_gb.named_steps["preprocess"].get_feature_names_out()
 importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
 feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
 
-grid9 = grid(1,1,1,1, 1,[4,4], vertical_align="top")
+grid9 = grid(1,1,1,1, 1,1,1,1,1, vertical_align="top")
 with st.sidebar.container():
     st.markdown("**Logistic Regression**")
     feat_imp_btn = grid9.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
@@ -354,13 +354,13 @@ if feat_imp_btn:
         ax[1].set_title(f"{cls} — Highest Odds")
 
         grid9.pyplot(fig)
-  st.subheader("Logistic Regression Confusion Matrix")
+  grid9.subheader("Logistic Regression Confusion Matrix")
   ConfusionMatrixDisplay.from_estimator(
       model_lr, st.session_state.X_test, st.session_state.y_test
   )
   grid9.pyplot()
   
-  st.subheader("Logistic Regression Classification Report")
+  grid9.subheader("Logistic Regression Classification Report")
   grid9.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
 
 with st.sidebar:
