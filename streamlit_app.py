@@ -106,7 +106,7 @@ grid4 = grid([5, 3], [5, 3], 1,1, vertical_align="bottom")
 with st.sidebar.container():
     st.markdown("**Drill down visualization of features on sleep disorders**")
 grid4.write("## Drill down visualization of features on sleep disorders")
-st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
+st.session_state.feature = grid4.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
 if grid4.button("Show unique values"):
     st.session_state.show_plot = False
     st.session_state.feat_val = None
