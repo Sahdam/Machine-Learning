@@ -1,6 +1,84 @@
 [theme]
-primaryColor="#F63366"
-backgroundColor="#FFFFFF"
-secondaryBackgroundColor="#F0F2F6"
-textColor="#262730"
-font="sans serif"
+base = "light"
+
+# -------------------------
+# Core colors
+# -------------------------
+primaryColor = "#1c83e1"
+backgroundColor = "#f8f9fb"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#1f2937"
+
+# -------------------------
+# Status colors
+# -------------------------
+redColor = "#e63946"
+orangeColor = "#f4a261"
+yellowColor = "#e9c46a"
+blueColor = "#1c83e1"
+greenColor = "#2a9d8f"
+violetColor = "#6d3fc0"
+grayColor = "#9ca3af"
+
+# -------------------------
+# Code blocks
+# -------------------------
+codeBackgroundColor = "#f1f5f9"
+codeTextColor = "#158237"
+
+# -------------------------
+# Typography
+# -------------------------
+font = "Inter, sans-serif"
+baseFontSize = 16
+baseFontWeight = 400
+
+headingFont = "Inter, sans-serif"
+headingFontWeights = [700, 600, 600, 600, 500, 500]
+headingFontSizes = ["2.5rem", "2rem", "1.6rem"]
+
+codeFont = "JetBrains Mono, monospace"
+codeFontSize = "0.875rem"
+
+# -------------------------
+# UI radius & borders
+# -------------------------
+baseRadius = "0.75rem"
+buttonRadius = "0.75rem"
+borderColor = "#e5e7eb"
+dataframeBorderColor = "#e5e7eb"
+dataframeHeaderBackgroundColor = "#f3f4f6"
+
+showWidgetBorder = true
+showSidebarBorder = true
+
+# -------------------------
+# Links
+# -------------------------
+linkColor = "#1c83e1"
+linkUnderline = false
+
+# -------------------------
+# Charts
+# -------------------------
+chartCategoricalColors = [
+  "#1c83e1",
+  "#2a9d8f",
+  "#f4a261",
+  "#e63946",
+  "#6d3fc0",
+  "#9ca3af"
+]
+
+chartSequentialColors = [
+  "#e4f5ff",
+  "#c7ebff",
+  "#a6dcff",
+  "#83c9ff",
+  "#60b4ff",
+  "#3d9df3",
+  "#1c83e1",
+  "#0068c9",
+  "#0054a3",
+  "#004280"
+]
