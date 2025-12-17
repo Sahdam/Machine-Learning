@@ -191,7 +191,7 @@ undo_button = grid7.button("Undo Last Change")
 reset_button = grid7.button("Reset to Original Data")
 
 if add_button and col_1 and col_2 and op:
-st.session_state.df_stack.append(st.session_state.df_current.copy())
+    st.session_state.df_stack.append(st.session_state.df_current.copy())
     for c1 in col_1:
         for c2 in col_2:
             new_col = f"{c1}{op}{c2}"
