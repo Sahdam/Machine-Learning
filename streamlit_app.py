@@ -61,7 +61,7 @@ if "show_plot" not in st.session_state:
 if "selected_column" not in st.session_state:
     st.session_state.selected_column = None
 with st.sidebar.container():
-    st.markdown("**Visualize how the features are distributed in the dataset**"):
+    st.markdown("**Visualize how the features are distributed in the dataset**")
     grid2.markdown("## Make Your Own Plot")
     select_column= grid2.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
     plot_btn = grid2.button("Plot Feature")
