@@ -89,6 +89,31 @@ def eda_page():
     st.pyplot(fig)
     plt.close(fig)
     
+    cat_features = df.select_dtypes("object").columns.tolist()
+    feature = st.selectbox("Select feature to explore", cat_features, key="feature_select")
+
+    if feature:
+        unique_values = df[feature].dropna().unique().tolist()
+        value = st.selectbox("Select value to examine", unique_values, key="feature_val_select")
+
+        plot_btn = st.button("Plot Sleep Disorder Distribution", key="feature_plot_btn")
+
+        if plot_btn and value:
+            data_to_plot = df[df[feature] == value]["Sleep Disorder"].value_counts(normalize=True)
+
+            fig, ax = plt.subplots(figsize=(6,4))
+            data_to_plot.plot(
+                kind="bar",
+                ax=ax,
+                xlabel="Sleep Disorders",
+                ylabel="Proportion",
+                title=f"{value} → Sleep Disorder Distribution",
+                color="skyblue"
+            )
+            st.pyplot(fig)
+            plt.close(fig)
+            st.success("Plot successfully created")
+    
 # PAGE 3 — FEATURE ENGINEERING
 def feature_engineering_page():
     st.header("🛠 Feature Engineering")
