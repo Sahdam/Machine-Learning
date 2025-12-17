@@ -88,7 +88,7 @@ def data_page():
         
     d_btn = st.button("**Data**", key="d_btn")
     
-     if d_btn:
+    if d_btn:
         st.session_state.data_section = True
     df = pd.read_csv("sleep_health_lifestyle.csv")
     df.drop(columns="index", inplace=True)
