@@ -43,8 +43,8 @@ codeFontSize = "0.875rem"
 # -------------------------
 # UI radius & borders
 # -------------------------
-baseRadius = "1.0rem"
-buttonRadius = "1.0rem"
+baseRadius = "2.0rem"
+buttonRadius = "2.0rem"
 borderColor = "#cef2eb"
 dataframeBorderColor = "#e6b150"
 dataframeHeaderBackgroundColor = "#e5e7eb"
