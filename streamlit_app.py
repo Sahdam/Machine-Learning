@@ -84,7 +84,7 @@ if st.session_state.show_plot_1 and st.session_state.selected_column:
 
 grid3 = grid(1,[3,3,3],1,1, vertical_align="top")
 with st.sidebar.container():
-    st.markdown("**Groupby Table**"):
+    st.markdown("**Groupby Table**")
 grid3.markdown("## Create Your own Group Table")
 idx_feat =grid3.multiselect("Select the features for the index", list(df.columns))
 column_feat =grid3.multiselect("Select the features for your group table column", list(df.columns))
