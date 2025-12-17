@@ -137,7 +137,7 @@ with st.sidebar:
     corr_btn = st.button("Show Correlations")
   if corr_btn:
     sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
-st.pyplot(plt.gcf())
+    st.pyplot(plt.gcf())
 
 if "show_plot" not in st.session_state:
     st.session_state.show_plot_2 = False
