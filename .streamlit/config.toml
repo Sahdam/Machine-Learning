@@ -4,10 +4,10 @@ base = "light"
 # -------------------------
 # Core colors
 # -------------------------
-primaryColor = "#4f46e5"              # Vibrant indigo for buttons, highlights
-backgroundColor = "#f9fafb"           # Light neutral background
-secondaryBackgroundColor = "#f3f4f6"  # Slightly darker section background
-textColor = "#111827"                  # Dark gray for readability
+primaryColor = "#4f46e5"              
+backgroundColor = "#f9fafb"           
+secondaryBackgroundColor = "#f3f4f6"  
+textColor = "#111827"                  
 
 # -------------------------
 # Status colors
