@@ -31,7 +31,7 @@ codeTextColor = "#111827"
 # -------------------------
 font = "Inter, sans-serif"
 baseFontSize = 24
-baseFontWeight = 400
+baseFontWeight = 600
 
 headingFont = "Inter, sans-serif"
 headingFontWeights = [700, 600, 500]
