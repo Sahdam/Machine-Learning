@@ -37,7 +37,7 @@ st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
 
-data_grid = grid([5, 5],1,2, vertical_align ="top")
+data_grid = grid([5, 5],1,1,2, vertical_align ="top")
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
@@ -55,7 +55,7 @@ if data_btn:
 if data_reset:
   st.session_state.show_data = False
 if st.session_state.show_data:
-  df
+  data_grid.dataframe(df)
   buffer = io.StringIO()
   df.info(buf=buffer)
   data_grid.code(buffer.getvalue(), language="text")
