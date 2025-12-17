@@ -182,13 +182,13 @@ def split_page():
 
     if "X_train" in st.session_state:
         st.subheader("Train Data")
-        st.dataframe(st.session_state.X_train.head())
+        st.dataframe(st.session_state.X_train)
         st.subheader("Train Target")
-        st.dataframe(st.session_state.y_train.head())
+        st.dataframe(st.session_state.y_train)
         st.subheader("Test Data")
-        st.dataframe(st.session_state.X_test.head())
+        st.dataframe(st.session_state.X_test)
         st.subheader("Test Target")
-        st.dataframe(st.session_state.y_test.head())
+        st.dataframe(st.session_state.y_test)
 
 # PAGE 5 — TRAINING
 def training_page():
