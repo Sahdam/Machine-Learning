@@ -4,27 +4,27 @@ base = "light"
 # -------------------------
 # Core colors
 # -------------------------
-primaryColor = "#deeb34"
-backgroundColor = "#e1e6e3"
-secondaryBackgroundColor = "#a8baed"
-textColor = "#069e4d"
+primaryColor = "#4f46e5"              # Vibrant indigo for buttons, highlights
+backgroundColor = "#f9fafb"           # Light neutral background
+secondaryBackgroundColor = "#f3f4f6"  # Slightly darker section background
+textColor = "#111827"                  # Dark gray for readability
 
 # -------------------------
 # Status colors
 # -------------------------
-redColor = "#e63946"
-orangeColor = "#f4a261"
-yellowColor = "#e9c46a"
-blueColor = "#1c83e1"
-greenColor = "#2a9d8f"
-violetColor = "#6d3fc0"
+redColor = "#ef4444"
+orangeColor = "#f97316"
+yellowColor = "#facc15"
+blueColor = "#3b82f6"
+greenColor = "#10b981"
+violetColor = "#8b5cf6"
 grayColor = "#9ca3af"
 
 # -------------------------
 # Code blocks
 # -------------------------
-codeBackgroundColor = "#f1f5f9"
-codeTextColor = "#158237"
+codeBackgroundColor = "#f3f4f6"
+codeTextColor = "#111827"
 
 # -------------------------
 # Typography
@@ -34,8 +34,8 @@ baseFontSize = 16
 baseFontWeight = 400
 
 headingFont = "Inter, sans-serif"
-headingFontWeights = [700, 600, 600, 600, 500, 500]
-headingFontSizes = ["2.5rem", "2rem", "1.6rem"]
+headingFontWeights = [700, 600, 500]
+headingFontSizes = ["2rem", "1.75rem", "1.5rem"]
 
 codeFont = "JetBrains Mono, monospace"
 codeFontSize = "0.875rem"
@@ -47,7 +47,7 @@ baseRadius = "0.75rem"
 buttonRadius = "0.75rem"
 borderColor = "#e5e7eb"
 dataframeBorderColor = "#e5e7eb"
-dataframeHeaderBackgroundColor = "#f3f4f6"
+dataframeHeaderBackgroundColor = "#e5e7eb"
 
 showWidgetBorder = true
 showSidebarBorder = true
@@ -55,94 +55,62 @@ showSidebarBorder = true
 # -------------------------
 # Links
 # -------------------------
-linkColor = "#1c83e1"
+linkColor = "#3b82f6"
 linkUnderline = false
 
 # -------------------------
 # Charts
 # -------------------------
 chartCategoricalColors = [
-  "#1c83e1",
-  "#2a9d8f",
-  "#f4a261",
-  "#e63946",
-  "#6d3fc0",
-  "#9ca3af"
+  "#3b82f6", "#10b981", "#f97316", "#ef4444", "#8b5cf6", "#9ca3af"
 ]
 
 chartSequentialColors = [
-  "#e4f5ff",
-  "#c7ebff",
-  "#a6dcff",
-  "#83c9ff",
-  "#60b4ff",
-  "#3d9df3",
-  "#1c83e1",
-  "#0068c9",
-  "#0054a3",
-  "#004280"
+  "#e0f2fe", "#bae6fd", "#7dd3fc", "#38bdf8", "#0ea5e9",
+  "#0284c7", "#0369a1", "#075985", "#0c4a6e", "#083d77"
 ]
 
-
 [theme.sidebar]
-
-# -------------------------
-# Core colors
-# -------------------------
-primaryColor = "#1c83e1"
-backgroundColor = "#8fa8f2"
-secondaryBackgroundColor = "#e6e8e1"
+primaryColor = "#4f46e5"
+backgroundColor = "#eef2ff"
+secondaryBackgroundColor = "#f3f4f6"
 textColor = "#1f2937"
 
-# -------------------------
-# Status colors
-# -------------------------
-redColor = "#e63946"
-orangeColor = "#f4a261"
-yellowColor = "#e9c46a"
-blueColor = "#1c83e1"
-greenColor = "#2a9d8f"
-violetColor = "#6d3fc0"
+redColor = "#ef4444"
+orangeColor = "#f97316"
+yellowColor = "#facc15"
+blueColor = "#3b82f6"
+greenColor = "#10b981"
+violetColor = "#8b5cf6"
 grayColor = "#9ca3af"
 
-# -------------------------
 # Background shades
-# -------------------------
-redBackgroundColor = "#fdecec"
-orangeBackgroundColor = "#fff1e6"
-yellowBackgroundColor = "#fff7d6"
-blueBackgroundColor = "#e6f1fb"
-greenBackgroundColor = "#e6f6f3"
-violetBackgroundColor = "#f1ebfd"
+redBackgroundColor = "#fef2f2"
+orangeBackgroundColor = "#fff7ed"
+yellowBackgroundColor = "#fffbeb"
+blueBackgroundColor = "#eff6ff"
+greenBackgroundColor = "#ecfdf5"
+violetBackgroundColor = "#f5f3ff"
 grayBackgroundColor = "#f3f4f6"
 
-# -------------------------
 # Text colors
-# -------------------------
 redTextColor = "#b91c1c"
 orangeTextColor = "#c2410c"
-yellowTextColor = "#92400e"
+yellowTextColor = "#713f12"
 blueTextColor = "#1e40af"
-greenTextColor = "#065f46"
-violetTextColor = "#4c1d95"
-grayTextColor = "#4b5563"
+greenTextColor = "#047857"
+violetTextColor = "#5b21b6"
+grayTextColor = "#374151"
 
-# -------------------------
-# Links & code
-# -------------------------
-linkColor = "#1c83e1"
+linkColor = "#3b82f6"
 linkUnderline = false
 
-codeBackgroundColor = "#f1f5f9"
-codeTextColor = "#158237"
+codeBackgroundColor = "#f3f4f6"
+codeTextColor = "#111827"
 
-# -------------------------
 # Typography
-# -------------------------
 font = "Inter, sans-serif"
 headingFont = "Inter, sans-serif"
-
-# Slightly smaller sidebar headings
 headingFontSizes = ["1.5rem", "1.25rem", "1.125rem"]
 headingFontWeights = [600, 600, 500]
 
@@ -150,14 +118,10 @@ codeFont = "JetBrains Mono, monospace"
 codeFontSize = "0.8rem"
 codeFontWeight = 400
 
-# -------------------------
 # UI details
-# -------------------------
 baseRadius = "0.6rem"
 buttonRadius = "0.6rem"
-
 borderColor = "#d1d5db"
 dataframeBorderColor = "#d1d5db"
 dataframeHeaderBackgroundColor = "#e5e7eb"
-
 showWidgetBorder = true
