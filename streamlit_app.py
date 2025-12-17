@@ -230,9 +230,9 @@ for key in ["X_train", "X_test", "y_train", "y_test"]:
         st.session_state[key] = None
 
 
-grid8 = grid([4,4],[3,3,3],1,1,1 vertical_align="top")
+grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
 with st.sidebar.container():
-    st.markdown("**Splitting Data into Train and Test**"):
+    st.markdown("**Splitting Data into Train and Test**")
 select_columns = grid8.multiselect("Choose features to drop", st.session_state.df_current.columns.tolist(), key="drop_cols_select")
 testsize = grid8.number_input("Enter Test size (e.g 0.2 for 20%)", min_value=0.1, max_value=0.9, step=0.05, key="test_size")
 drop_btn = grid8.button("Drop Columns", key="drop_btn")
