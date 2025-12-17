@@ -335,7 +335,7 @@ feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
 grid9 = grid(1,1,1,1, 1,1,1,1,1, vertical_align="top")
 with st.sidebar.container():
     st.markdown("**Logistic Regression**")
-    feat_imp_btn = grid9.button("**Feature Importances (Odds Ratios)**", key="feat_imp_btn")
+    feat_imp_btn = grid9.button("**Logistic Regression Analysis**", key="feat_imp_btn")
 if feat_imp_btn:
   grid9.subheader("ODD RATIOS FOR SLEEP DISORDERS") 
   for cls in classes:
