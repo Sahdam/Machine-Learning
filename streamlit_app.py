@@ -40,7 +40,7 @@ for m in ["model_lr", "model_dt", "model_rf", "model_gb"]:
 # SIDEBAR NAVIGATION
 with st.sidebar:
     st.title("Navigation")
-    st.session_state.page = st.button(
+    st.session_state.page = st.radio(
         "go to",[
             "Data",
             "EDA",
