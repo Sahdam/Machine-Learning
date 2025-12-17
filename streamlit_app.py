@@ -241,47 +241,48 @@ if fe_btn:
 
 grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
 with st.sidebar.container():
-    st.markdown("**Splitting Data into Train and Test**")
-select_columns = grid8.multiselect("Choose features to drop", st.session_state.df_current.columns.tolist(), key="drop_cols_select")
-testsize = grid8.number_input("Enter Test size (e.g 0.2 for 20%)", min_value=0.1, max_value=0.9, step=0.05, key="test_size")
-drop_btn = grid8.button("Drop Columns", key="drop_btn")
-reset_btn = grid8.button("Reset Dataset", key="reset_btn")
-split_btn = grid8.button("Show Split Data", key="split_btn")
-current_btn = grid8.button("Show Current Dataset", key="current_btn")
-if drop_btn:
-    st.session_state.df_current.drop(columns=select_columns, inplace=True)
-    for key in ["X_train", "X_test", "y_train", "y_test"]:
-        st.session_state[key] = None
-
-    st.success("Columns dropped. Please re-split the dataset.")
-if reset_btn:
-    st.session_state.df_current = st.session_state.df_original.copy()
-    for key in ["X_train", "X_test", "y_train", "y_test"]:
-        st.session_state[key] = None
-
-    st.success("Dataset restored to original state.")
-if current_btn:
-    grid8.subheader("Current Dataset")
-    grid8.dataframe(st.session_state.df_current)
-if split_btn:
-    if "Sleep Disorder" not in st.session_state.df_current.columns:
-        st.error("Target column 'Sleep Disorder' is missing.")
-
-    X = st.session_state.df_current.drop(columns="Sleep Disorder")
-    y = st.session_state.df_current["Sleep Disorder"]
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=testsize, random_state=42, stratify=y
-    )
-
-    st.session_state.X_train = X_train
-    st.session_state.X_test = X_test
-    st.session_state.y_train = y_train
-    st.session_state.y_test = y_test
-
-    st.success("Train-test split created successfully.")
-if st.session_state.X_train is None:
-    st.warning("Please split the dataset to continue.")
+    sp_btn = st.button("**Splitting Data into Train and Test**", key="sp_btn")
+if sp_btn:
+    select_columns = grid8.multiselect("Choose features to drop", st.session_state.df_current.columns.tolist(), key="drop_cols_select")
+    testsize = grid8.number_input("Enter Test size (e.g 0.2 for 20%)", min_value=0.1, max_value=0.9, step=0.05, key="test_size")
+    drop_btn = grid8.button("Drop Columns", key="drop_btn")
+    reset_btn = grid8.button("Reset Dataset", key="reset_btn")
+    split_btn = grid8.button("Show Split Data", key="split_btn")
+    current_btn = grid8.button("Show Current Dataset", key="current_btn")
+    if drop_btn:
+        st.session_state.df_current.drop(columns=select_columns, inplace=True)
+        for key in ["X_train", "X_test", "y_train", "y_test"]:
+            st.session_state[key] = None
+    
+        st.success("Columns dropped. Please re-split the dataset.")
+    if reset_btn:
+        st.session_state.df_current = st.session_state.df_original.copy()
+        for key in ["X_train", "X_test", "y_train", "y_test"]:
+            st.session_state[key] = None
+    
+        st.success("Dataset restored to original state.")
+    if current_btn:
+        grid8.subheader("Current Dataset")
+        grid8.dataframe(st.session_state.df_current)
+    if split_btn:
+        if "Sleep Disorder" not in st.session_state.df_current.columns:
+            st.error("Target column 'Sleep Disorder' is missing.")
+    
+        X = st.session_state.df_current.drop(columns="Sleep Disorder")
+        y = st.session_state.df_current["Sleep Disorder"]
+    
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=testsize, random_state=42, stratify=y
+        )
+    
+        st.session_state.X_train = X_train
+        st.session_state.X_test = X_test
+        st.session_state.y_train = y_train
+        st.session_state.y_test = y_test
+    
+        st.success("Train-test split created successfully.")
+    if st.session_state.X_train is None:
+        st.warning("Please split the dataset to continue.")
 
 X_train = st.session_state.X_train
 y_train = st.session_state.y_train
