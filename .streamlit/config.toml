@@ -5,7 +5,7 @@ base = "light"
 # Core colors
 # -------------------------
 primaryColor = "#4f46e5"              
-backgroundColor = "#0cab7e"          
+backgroundColor = "#37bf99"          
 secondaryBackgroundColor = "#f3f4f6"  
 textColor = "#424a48"               
 
