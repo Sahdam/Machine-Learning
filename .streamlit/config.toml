@@ -72,7 +72,7 @@ chartSequentialColors = [
 
 [theme.sidebar]
 primaryColor = "#4f46e5"
-backgroundColor = "#eef2ff"
+backgroundColor = "#f2e0bf"
 secondaryBackgroundColor = "#f3f4f6"
 textColor = "#1f2937"
 
