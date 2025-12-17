@@ -82,7 +82,7 @@ if st.session_state.show_plot_1 and st.session_state.selected_column:
     plt.close(fig)
     st.success("Plot successfully created")
 
-grid3 = grid(1,[4,4,4],1,1, vertical_align="top")
+grid3 = grid(1,[3,5,3],1,1, vertical_align="top")
 with st.sidebar.container():
     st.markdown("**Groupby Table**")
 grid3.markdown("## Create Your own Group Table")
