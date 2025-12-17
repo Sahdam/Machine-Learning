@@ -7,7 +7,7 @@ base = "light"
 primaryColor = "#4f46e5"              
 backgroundColor = "#0cab7e"          
 secondaryBackgroundColor = "#f3f4f6"  
-textColor = "#eeedf5"               
+textColor = "#424a48"               
 
 # -------------------------
 # Status colors
