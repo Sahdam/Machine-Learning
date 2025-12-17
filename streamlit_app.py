@@ -32,29 +32,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-with stylable_container(
-    key="footer_container",
-    css_styles="""
-    {
-        padding-top: 100px;
-        box-sizing: border-box;
-
-        .element-container {
-            height: 70px;
-            display: flex;
-            color: #ffffff;
-            text-align: center;
-            align-items: center;
-            background-color: #0054a3;
-
-            a {
-                color: #ffffff;
-            }
-        }
-    }
-        """,
-):
-    st.write("Created By Olayinka Yusuf")
 st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
