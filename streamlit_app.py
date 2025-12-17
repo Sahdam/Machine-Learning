@@ -42,6 +42,7 @@ if d_btn:
         st.session_state.show_data = True
     if data_reset:
         st.session_state.show_data = False
+    
 if st.session_state.show_data:
     grid1.dataframe(df)
     buffer = io.StringIO()
