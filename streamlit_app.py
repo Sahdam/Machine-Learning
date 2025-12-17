@@ -37,7 +37,7 @@ st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
 
-data_grid = grid([5, 5],1,2, vertical_align ="bottom")
+data_grid = grid([5, 5],1,2, vertical_align ="top")
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
