@@ -119,16 +119,16 @@ if "feat_val" not in st.session_state:
 
 if "feature" not in st.session_state:
     st.session_state.feature = None
-with st.sidebar:
-  with st.expander("**Drill down visualization of features on sleep disorders**"):
-    st.session_state.feature = st.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
-if st.button("Show unique values"):
+my_grid = grid([5, 3], [5, 3], 1, vertical_align="bottom")
+st.sidebar.expander("**Drill down visualization of features on sleep disorders**"):
+    st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
+if my_grid.button("Show unique values"):
     st.session_state.show_plot = False
     st.session_state.feat_val = None
 if st.session_state.feature in df.columns:
     value_list = df[st.session_state.feature].dropna().unique().tolist()
-    st.session_state.feat_val = st.selectbox("Select feature value", value_list,key="feat_val_select")
-if st.button("Plot visualization"):
+    st.session_state.feat_val = my_grid.selectbox("Select feature value", value_list,key="feat_val_select")
+if my_grid.button("Plot visualization"):
     st.session_state.show_plot = True
 if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
     data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
@@ -139,9 +139,10 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
         xlabel="Sleep Disorders",
         ylabel="Proportion",
         title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
+    my_grid.pyplot(fig)
     st.success("Plot successfully created")
 
-my_grid = grid([5, 3], [5, 3], 1, vertical_align="bottom")
+
 
 # Row 1:
 my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="select_feature")
@@ -158,7 +159,7 @@ data_to_plot.plot(
         xlabel="Sleep Disorders",
         ylabel="Proportion",
         title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-my_grid.pyplot(fig)
+
 
 with st.sidebar:
   with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
