@@ -247,6 +247,9 @@ if "X_train" not in st.session_state:
 for k in ["num_col", "cat_col"]:
     if k not in st.session_state:
         st.session_state[k] = []
+for m in ["model_lr", "model_dt", "model_rf", "model_gb"]:
+    if m not in st.session_state:
+        st.session_state[m] = None
 
 grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
 with st.sidebar.container():
@@ -302,55 +305,68 @@ if st.session_state.num_col or st.session_state.cat_col:
         ]
     )
     
-    model_lr = Pipeline(
+    st.session_state.model_lr = Pipeline(
         [
             ("preprocess", column_trans),
             ("model", LogisticRegression(class_weight="balanced", max_iter=1000)),
         ]
     )
     
-    model_dt = make_pipeline(
+    st.session_state.model_dt = make_pipeline(
         OneHotEncoder(handle_unknown="ignore", sparse_output=False),
         DecisionTreeClassifier(random_state=True, max_depth=4, class_weight="balanced")
     )
     
-    model_rf = make_pipeline(
+    st.session_state.model_rf = make_pipeline(
         OneHotEncoder(handle_unknown="ignore", sparse_output=False),
         RandomForestClassifier(random_state=42, class_weight="balanced_subsample", max_depth=6, n_estimators=20)
     )
     
-    sample_weights = compute_sample_weight(class_weight="balanced", y=y_train)
-    model_gb= Pipeline(
+    sample_weights = compute_sample_weight(class_weight="balanced", st.session_state.y=y_train)
+    st.session_state.model_gb= Pipeline(
         steps=[("preprocess", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
             ("gradientboostingclassifier", GradientBoostingClassifier(random_state=42, max_depth=2, n_estimators=40))])
 
-Xtr = st.session_state.X_train
-ytr = st.session_state.y_train  
+ 
+if st.session_state.model_lr is not None:
 
-model_lr.fit(Xtr, ytr)
-model_dt.fit(Xtr, ytr)
-model_rf.fit(Xtr, ytr)
-model_gb.fit(Xtr, ytr, gradientboostingclassifier__sample_weight=sample_weights)
-features = model_lr.named_steps["preprocess"].get_feature_names_out()
-importances = model_lr.named_steps["model"].coef_
-classes = model_lr.named_steps["model"].classes_
-odds_ratio = pd.DataFrame(np.exp(importances),index=classes, columns=features)
+    Xtr = st.session_state.X_train
+    ytr = st.session_state.y_train
 
-def get_sorted_odds(class_name):
-    idx = list(classes).index(class_name)
-    return pd.Series(np.exp(importances[idx]), index=features).sort_values()
-    
-feat_dt = model_dt.named_steps["onehotencoder"].get_feature_names_out()
-importance_dt = model_dt.named_steps["decisiontreeclassifier"].feature_importances_
-feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
+    st.session_state.model_lr.fit(Xtr, ytr)
+    st.session_state.model_dt.fit(Xtr, ytr)
+    st.session_state.model_rf.fit(Xtr, ytr)
 
-feat = model_rf.named_steps["onehotencoder"].get_feature_names_out()
-importance_rf = model_rf.named_steps["randomforestclassifier"].feature_importances_
-feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
+    sample_weights = compute_sample_weight("balanced", ytr)
+    st.session_state.model_gb.fit(
+        Xtr,
+        ytr,
+        model__sample_weight=sample_weights
+    )
+if st.session_state.model_lr is not None and st.session_state.X_train is not None:
+    features = st.session_state.model_lr.named_steps["preprocess"].get_feature_names_out()
+    importances = st.session_state.model_lr.named_steps["model"].coef_
+    classes = st.session_state.model_lr.named_steps["model"].classes_
+    odds_ratio = pd.DataFrame(np.exp(importances),index=classes, columns=features)
 
-feat_gb = model_gb.named_steps["preprocess"].get_feature_names_out()
-importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
-feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
+    def get_sorted_odds(class_name):
+        idx = list(classes).index(class_name)
+        return pd.Series(np.exp(importances[idx]), index=features).sort_values()
+
+if st.session_state.model_lr is not None and st.session_state.X_train is not None:
+    feat_dt = st.session_state.model_dt.named_steps["onehotencoder"].get_feature_names_out()
+    importance_dt = st.session_state.model_dt.named_steps["decisiontreeclassifier"].feature_importances_
+    feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
+
+if st.session_state.model_lr is not None and st.session_state.X_train is not None:
+    feat = st.session_state.model_rf.named_steps["onehotencoder"].get_feature_names_out()
+    importance_rf = st.session_state.model_rf.named_steps["randomforestclassifier"].feature_importances_
+    feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
+
+if st.session_state.model_lr is not None and st.session_state.X_train is not None:
+    feat_gb = st.session_state.model_gb.named_steps["preprocess"].get_feature_names_out()
+    importance_gb = st.session_state.model_gb.named_steps["gradientboostingclassifier"].feature_importances_
+    feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
 
 grid9 = grid(1,1,1,1, 1,1,1,1,1, vertical_align="top")
 with st.sidebar.container():
@@ -370,10 +386,10 @@ if lr_btn:
             ax[1].set_title(f"{cls} — Highest Odds")
             grid9.pyplot(fig)
         grid9.subheader("Logistic Regression Confusion Matrix")
-        ConfusionMatrixDisplay.from_estimator(model_lr, st.session_state.X_test, st.session_state.y_test)
+        ConfusionMatrixDisplay.from_estimator(st.session_state.model_lr, st.session_state.X_test, st.session_state.y_test)
         grid9.pyplot()
         grid9.subheader("Logistic Regression Classification Report")
-        grid9.code(classification_report(st.session_state.y_test, model_lr.predict(st.session_state.X_test)))
+        grid9.code(classification_report(st.session_state.y_test, st.session_state.model_lr.predict(st.session_state.X_test)))
 
 grid10 = grid(1,1,1,1,1,1, vertical_align = "top")
 with st.sidebar.container():
@@ -386,10 +402,10 @@ if dtc_btn:
       ax1.set_title("Feature Importance")
       grid10.pyplot(fig1)
       grid10.subheader("Decision Tree Confusion Matrix")
-      ConfusionMatrixDisplay.from_estimator(model_dt,st.session_state.X_test, st.session_state.y_test)
+      ConfusionMatrixDisplay.from_estimator(st.session_state.model_dt,st.session_state.X_test, st.session_state.y_test)
       grid10.pyplot()
       grid10.subheader("Decision Tree Classification Report")
-      grid10.code(classification_report(st.session_state.y_test, model_dt.predict(st.session_state.X_test)))
+      grid10.code(classification_report(st.session_state.y_test, st.session_state.model_dt.predict(st.session_state.X_test)))
 
 
 grid11 = grid(1,1,1,1,1,1, vertical_align = "top")
@@ -403,10 +419,10 @@ if rfc_btn:
       ax2.set_title("Feature Importance")
       grid11.pyplot(fig2)
       grid11.subheader("Random Forest Confusion Matrix")
-      ConfusionMatrixDisplay.from_estimator(model_rf,st.session_state.X_test, st.session_state.y_test)
+      ConfusionMatrixDisplay.from_estimator(st.session_state.model_rf,st.session_state.X_test, st.session_state.y_test)
       grid11.pyplot()
       grid11.subheader("Random Forest Classification Report")
-      grid11.code(classification_report(st.session_state.y_test, model_rf.predict(st.session_state.X_test)))
+      grid11.code(classification_report(st.session_state.y_test, st.session_state.model_rf.predict(st.session_state.X_test)))
 
 
 grid12 = grid(1,1,1,1,1,1, vertical_align = "top")
@@ -420,8 +436,8 @@ if gbc_btn:
       ax3.set_title("Feature Importance")
       grid12.pyplot(fig3)
       grid12.subheader("Gradient Boosting Confusion Matrix")
-      ConfusionMatrixDisplay.from_estimator(model_gb,st.session_state.X_test, st.session_state.y_test)
+      ConfusionMatrixDisplay.from_estimator(st.session_state.model_gb,st.session_state.X_test, st.session_state.y_test)
       grid12.pyplot()
       grid12.subheader("Gradient Boosting Classification Report")
-      grid12.code(classification_report(st.session_state.y_test, model_gb.predict(st.session_state.X_test)))
+      grid12.code(classification_report(st.session_state.y_test, st.session_state.model_gb.predict(st.session_state.X_test)))
 
