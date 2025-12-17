@@ -169,10 +169,10 @@ if reset_btn_1:
     st.session_state.y_var = None
   
 if st.session_state.x_var and st.session_state.y_var and st.session_state.show_plot_2:
-  sns.regplot(data=df, x=df[x_var], y=df[y_var], ci=None,
+    sns.regplot(data=df, x=df[x_var], y=df[y_var], ci=None,
               color="red")
-  plt.title(f"Relation Between{st.session_state.x_var} and {st.session_state.y_var}")
-st.pyplot(plt.gcf())
+    plt.title(f"Relation Between{st.session_state.x_var} and {st.session_state.y_var}")
+    st.pyplot(plt.gcf())
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
