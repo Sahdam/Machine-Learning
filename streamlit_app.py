@@ -82,16 +82,17 @@ if st.session_state.show_plot_1 and st.session_state.selected_column:
     plt.close(fig)
     st.success("Plot successfully created")
 
-with st.sidebar:
-  with st.expander("**Groupby Table**"):
-    st.markdown("## Create Your own Group Table")
-    idx_feat =st.multiselect("Select the features for the index", list(df.columns))
-    column_feat =st.multiselect("Select the features for your group table column", list(df.columns))
-    agg = st.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
-    grp_table = st.button("Show group table")
+grid3 = grid(1,[3,3,3],1,1, vertical_align="top")
+with st.sidebar.container():
+    st.markdown("**Groupby Table**"):
+grid3.markdown("## Create Your own Group Table")
+idx_feat =grid3.multiselect("Select the features for the index", list(df.columns))
+column_feat =grid3.multiselect("Select the features for your group table column", list(df.columns))
+agg = grid3.multiselect("Select aggregate(s) function", ["mean", "median", "min", "max", "count", "sum"])
+grp_table = grid3.button("Show group table")
     
 if grp_table and idx_feat and column_feat and agg:
-  st.dataframe(
+  grid3.dataframe(
   df.groupby(idx_feat)[column_feat].agg(agg)
         )
 if "show_plot" not in st.session_state:
