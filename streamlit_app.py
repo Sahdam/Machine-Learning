@@ -244,6 +244,10 @@ if "X_train" not in st.session_state:
     st.session_state.y_train = None
     st.session_state.y_test = None
 
+if "num_col" not in st.session_state:
+    st.session_state.num_col = []
+    st.session_state.cat_col = []
+
 grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
 with st.sidebar.container():
     sp_btn = st.button("**Splitting Data into Train and Test**", key="sp_btn")
@@ -287,24 +291,25 @@ if sp_btn:
     
         st.success("Train-test split created successfully.")
 if st.session_state.X_train is not None:
-    num_col = (st.session_state.X_train.select_dtypes(include="number").columns.tolist())
-    cat_col = (st.session_state.X_train.select_dtypes(include="object").columns.tolist())
+    st.session_state.num_col = (st.session_state.X_train.select_dtypes(include="number").columns.tolist())
+    st.session_state.cat_col = (st.session_state.X_train.select_dtypes(include="object").columns.tolist())
+    
+if st.session_state.num_col or st.session_state.cat_col:
+    column_trans = ColumnTransformer(
+        [
+            ("num", StandardScaler(), st.session_state.num_col),
+            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), st.session_state.cat_col),
+        ]
+    )
+    
+    model_lr = Pipeline(
+        [
+            ("preprocess", column_trans),
+            ("model", LogisticRegression(class_weight="balanced", max_iter=1000)),
+        ]
+    )
 else:
-    st.warning("Please split the data first")
-
-column_trans = ColumnTransformer(
-    [
-        ("num", StandardScaler(), num_col),
-        ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), cat_col),
-    ]
-)
-
-model_lr = Pipeline(
-    [
-        ("preprocess", column_trans),
-        ("model", LogisticRegression(class_weight="balanced", max_iter=1000)),
-    ]
-)
+    st.warning("Split data first to build preprocessing pipeline")
 
 model_lr.fit(X_train, y_train)
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
