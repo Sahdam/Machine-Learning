@@ -157,7 +157,7 @@ data_to_plot.plot(
         ax=ax,
         xlabel="Sleep Disorders",
         ylabel="Proportion",
-        title=f"{st.session_state.feat_val} → Sleep Disorder Distribution"
+        title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
 my_grid.pyplot(fig)
 
 with st.sidebar:
