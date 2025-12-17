@@ -311,24 +311,28 @@ def evaluation_page():
         "Gradient Boosting": st.session_state.model_gb,
     }
 
-    model = model_map[model_name]
+    try:
+        model = model_map[model_name]
 
-    fig, ax = plt.subplots()
-    ConfusionMatrixDisplay.from_estimator(
-        model,
-        st.session_state.X_test,
-        st.session_state.y_test,
-        ax=ax,
-    )
-    st.pyplot(fig)
-    plt.close(fig)
-
-    st.code(
-        classification_report(
+        fig, ax = plt.subplots()
+        ConfusionMatrixDisplay.from_estimator(
+            model,
+            st.session_state.X_test,
             st.session_state.y_test,
-            model.predict(st.session_state.X_test),
+            ax=ax,
         )
-    )
+        st.pyplot(fig)
+        plt.close(fig)
+    
+        st.code(
+            classification_report(
+                st.session_state.y_test,
+                model.predict(st.session_state.X_test),
+            )
+        )
+    except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
+            return
 
 # ROUTER
 
