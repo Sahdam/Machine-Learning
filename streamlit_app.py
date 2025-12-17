@@ -50,7 +50,6 @@ if d_btn:
       grid1.code(buffer.getvalue(), language="text")
       grid1.dataframe(df.describe())
       grid1.dataframe(df.select_dtypes("object").describe())
-
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
     "Normal Weight": "Normalweight"
