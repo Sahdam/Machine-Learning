@@ -82,3 +82,82 @@ chartSequentialColors = [
   "#0054a3",
   "#004280"
 ]
+
+
+[theme.sidebar]
+
+# -------------------------
+# Core colors
+# -------------------------
+primaryColor = "#1c83e1"
+backgroundColor = "#eef2f7"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#1f2937"
+
+# -------------------------
+# Status colors
+# -------------------------
+redColor = "#e63946"
+orangeColor = "#f4a261"
+yellowColor = "#e9c46a"
+blueColor = "#1c83e1"
+greenColor = "#2a9d8f"
+violetColor = "#6d3fc0"
+grayColor = "#9ca3af"
+
+# -------------------------
+# Background shades
+# -------------------------
+redBackgroundColor = "#fdecec"
+orangeBackgroundColor = "#fff1e6"
+yellowBackgroundColor = "#fff7d6"
+blueBackgroundColor = "#e6f1fb"
+greenBackgroundColor = "#e6f6f3"
+violetBackgroundColor = "#f1ebfd"
+grayBackgroundColor = "#f3f4f6"
+
+# -------------------------
+# Text colors
+# -------------------------
+redTextColor = "#b91c1c"
+orangeTextColor = "#c2410c"
+yellowTextColor = "#92400e"
+blueTextColor = "#1e40af"
+greenTextColor = "#065f46"
+violetTextColor = "#4c1d95"
+grayTextColor = "#4b5563"
+
+# -------------------------
+# Links & code
+# -------------------------
+linkColor = "#1c83e1"
+linkUnderline = false
+
+codeBackgroundColor = "#f1f5f9"
+codeTextColor = "#158237"
+
+# -------------------------
+# Typography
+# -------------------------
+font = "Inter, sans-serif"
+headingFont = "Inter, sans-serif"
+
+# Slightly smaller sidebar headings
+headingFontSizes = ["1.5rem", "1.25rem", "1.125rem"]
+headingFontWeights = [600, 600, 500]
+
+codeFont = "JetBrains Mono, monospace"
+codeFontSize = "0.8rem"
+codeFontWeight = 400
+
+# -------------------------
+# UI details
+# -------------------------
+baseRadius = "0.6rem"
+buttonRadius = "0.6rem"
+
+borderColor = "#d1d5db"
+dataframeBorderColor = "#d1d5db"
+dataframeHeaderBackgroundColor = "#e5e7eb"
+
+showWidgetBorder = true
