@@ -182,40 +182,40 @@ ops = {
 grid7 = grid([4,4],[3,2,3],[4,4],1, vertical_align="top")
 with st.sidebar.container():
     st.markdown("**Feature Engineering**")
-        col_1 = grid7.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
-        col_2 = grid7.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
-        op = grid7.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
+col_1 = grid7.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
+col_2 = grid7.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
+op = grid7.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
         
-        add_button = grid7.button("Add Feature")
-        undo_button = grid7.button("Undo Last Change")
-        reset_button = grid7.button("Reset to Original Data")
+add_button = grid7.button("Add Feature")
+undo_button = grid7.button("Undo Last Change")
+reset_button = grid7.button("Reset to Original Data")
 
-        if add_button and col_1 and col_2 and op:
-            st.session_state.df_stack.append(st.session_state.df_current.copy())
-            for c1 in col_1:
-                for c2 in col_2:
-                    new_col = f"{c1}{op}{c2}"
-                    try:
-                        if op == '/':
-                            st.session_state.df_current[new_col] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
-                        else:
-                            st.session_state.df_current[new_col] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
-                    except Exception as e:
-                        st.error(f"Error creating column {new_col}: {e}")
-            st.success("Dataframe succefully updated")
+if add_button and col_1 and col_2 and op:
+st.session_state.df_stack.append(st.session_state.df_current.copy())
+    for c1 in col_1:
+        for c2 in col_2:
+            new_col = f"{c1}{op}{c2}"
+            try:
+                if op == '/':
+                    st.session_state.df_current[new_col] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
+                else:
+                    st.session_state.df_current[new_col] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
+            except Exception as e:
+                st.error(f"Error creating column {new_col}: {e}")
+    st.success("Dataframe succefully updated")
 
-        if undo_button:
-            if len(st.session_state.df_stack) > 1:
-                st.session_state.df_current = st.session_state.df_stack.pop()
-                st.success("Last change undone.")
-            else:
-                st.warning("Already at original data!")
+if undo_button:
+    if len(st.session_state.df_stack) > 1:
+        st.session_state.df_current = st.session_state.df_stack.pop()
+        st.success("Last change undone.")
+    else:
+        st.warning("Already at original data!")
 
-        if reset_button:
-            st.session_state.df_current = st.session_state.df_stack[0].copy()
-            st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
-            st.success("Data reset to original.")
-        update_btn= grid7.button("Show updated DataFrame")
+if reset_button:
+    st.session_state.df_current = st.session_state.df_stack[0].copy()
+    st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
+    st.success("Data reset to original.")
+    update_btn= grid7.button("Show updated DataFrame")
 if update_btn:
   grid7.dataframe(st.session_state.df_current)
 
