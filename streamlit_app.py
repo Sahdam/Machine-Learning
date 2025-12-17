@@ -24,51 +24,48 @@ st.title('Machine Learning: Sleep Disorders Classification')
 
 st.info('This app is a machine learning app')
 
-data_grid = grid(1,[5, 5],1,1,1,1, vertical_align ="top")
+grid1 = grid(1,[5, 5],1,1,1,1, vertical_align ="top")
 if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
 with st.sidebar.container():
     st.markdown("**Data**")
-data_grid.write("## Sleep, health and Lifestyle Data")
+grid1.write("## Sleep, health and Lifestyle Data")
 df = pd.read_csv("sleep_health_lifestyle.csv")
 df.drop(columns="index", inplace=True)
 df.set_index("Person ID", inplace=True)
 df.fillna("None", inplace=True)
-data_btn = data_grid.button("**Show Data**", key="data_btn")
-data_reset = data_grid.button("**Show no data**", key="data_reset")
+data_btn = grid1.button("**Show Data**", key="data_btn")
+data_reset =grid1.button("**Show no data**", key="data_reset")
 if data_btn:
   st.session_state.show_data = True
 if data_reset:
   st.session_state.show_data = False
 if st.session_state.show_data:
-  data_grid.dataframe(df)
+  grid1.dataframe(df)
   buffer = io.StringIO()
   df.info(buf=buffer)
-  data_grid.code(buffer.getvalue(), language="text")
-  data_grid.dataframe(df.describe())
-  data_grid.dataframe(df.select_dtypes("object").describe())
+  grid1.code(buffer.getvalue(), language="text")
+  grid1.dataframe(df.describe())
+  grid1.dataframe(df.select_dtypes("object").describe())
 
 df["BMI Category"] = df["BMI Category"].replace({
     "Normal": "Normalweight",
     "Normal Weight": "Normalweight"
 })
 
+grid2 = grid(1,[4, 2, 1], 1, vertical_align="Top")
 if "show_plot" not in st.session_state:
     st.session_state.show_plot_1 = False
 
 if "selected_column" not in st.session_state:
     st.session_state.selected_column = None
-with st.sidebar:
-  with st.expander("**Visualize how the features are distributed in the dataset**"):
-    st.markdown("## Make Your Own Plot")
-    select_column= st.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
-    col1, col2 =st.columns(2)
-    with col1:
-            plot_btn = st.button("Plot Feature")
-
-    with col2:
-            reset_btn = st.button("Reset")
+with st.sidebar.container():
+    st.markdown("**Visualize how the features are distributed in the dataset**"):
+    grid2.markdown("## Make Your Own Plot")
+    select_column= grid2.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
+    plot_btn = grid2.button("Plot Feature")
+    reset_btn = grid2.button("Reset")
 if plot_btn:
     st.session_state.show_plot_1 = True
     st.session_state.selected_column = select_column
@@ -81,7 +78,7 @@ if st.session_state.show_plot_1 and st.session_state.selected_column:
     fig, ax = plt.subplots()
     df[st.session_state.selected_column].value_counts(normalize=True).plot(kind="bar", xlabel=st.session_state.selected_column, ylabel="Proportion",
                                                       title=f"{st.session_state.selected_column} Proportion(counts in percentage)", color="green", ax=ax)
-    st.pyplot(fig)
+    grid2.pyplot(fig)
     plt.close(fig)
     st.success("Plot successfully created")
 
@@ -105,18 +102,18 @@ if "feat_val" not in st.session_state:
 
 if "feature" not in st.session_state:
     st.session_state.feature = None
-my_grid = grid([5, 3], [5, 3], 1,1, vertical_align="bottom")
+grid4 = grid([5, 3], [5, 3], 1,1, vertical_align="bottom")
 with st.sidebar.container():
     st.markdown("**Drill down visualization of features on sleep disorders**")
-my_grid.write("## Drill down visualization of features on sleep disorders")
+    grid4.write("## Drill down visualization of features on sleep disorders")
 st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
-if my_grid.button("Show unique values"):
+if grid4.button("Show unique values"):
     st.session_state.show_plot = False
     st.session_state.feat_val = None
 if st.session_state.feature in df.columns:
     value_list = df[st.session_state.feature].dropna().unique().tolist()
-    st.session_state.feat_val = my_grid.selectbox("Select feature value", value_list,key="feat_val_select")
-if my_grid.button("Plot visualization"):
+    st.session_state.feat_val = grid4.selectbox("Select feature value", value_list,key="feat_val_select")
+if grid4.button("Plot visualization"):
     st.session_state.show_plot = True
 if (st.session_state.show_plot and st.session_state.feature in df.columns and st.session_state.feat_val is not None and "Sleep Disorder" in df.columns):
     data_to_plot = (df[df[st.session_state.feature] == st.session_state.feat_val]["Sleep Disorder"].value_counts(normalize=True))
@@ -127,7 +124,7 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
         xlabel="Sleep Disorders",
         ylabel="Proportion",
         title=f"{st.session_state.feat_val} → Sleep Disorder Distribution")
-    my_grid.pyplot(fig)
+    grid4.pyplot(fig)
     plt.close(fig)
     st.success("Plot successfully created")
 
