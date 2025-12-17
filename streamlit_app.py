@@ -287,11 +287,8 @@ if sp_btn:
     
         st.success("Train-test split created successfully.")
 
-if st.session_state.X_train is not None:
-    num_col = (st.session_state.X_train.select_dtypes(include="number").columns.tolist())
-    cat_col = (st.session_state.X_train.select_dtypes(include="object").columns.tolist())
-else:
-    st.warning("Please split the data first")
+num_col = (st.session_state.X_train.select_dtypes(include="number").columns.tolist())
+cat_col = (st.session_state.X_train.select_dtypes(include="object").columns.tolist())
 
 
 column_trans = ColumnTransformer(
