@@ -5,9 +5,9 @@ base = "light"
 # Core colors
 # -------------------------
 primaryColor = "#deeb34"
-backgroundColor = "#e6e8e1"
+backgroundColor = "#e1e6e3"
 secondaryBackgroundColor = "#a8baed"
-textColor = "#0ca654"
+textColor = "#069e4d"
 
 # -------------------------
 # Status colors
