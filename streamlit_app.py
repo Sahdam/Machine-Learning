@@ -73,35 +73,32 @@ def data_page():
         )
 
 # PAGE 2 — EDA
-def eda_page():
+def eda_page(grid_obj):
     st.header("📈 Exploratory Data Analysis")
 
-    col = st.selectbox(
-        "Select categorical feature",
-        st.session_state.df_current.select_dtypes("object").columns,
-    )
+    cat_features = st.session_state.df_current.select_dtypes("object").columns.tolist()
 
-    fig, ax = plt.subplots()
-    st.session_state.df_current[col].value_counts(normalize=True).plot(
-        kind="bar", ax=ax
-    )
-    ax.set_title(f"{col} Distribution")
-    st.pyplot(fig)
-    plt.close(fig)
-    
-    cat_features = df.select_dtypes("object").columns.tolist()
-    feature = st.selectbox("Select feature to explore", cat_features, key="feature_select")
+    feature = grid_obj.selectbox("Select categorical feature to visualize", cat_features, key="eda_feature_select")
 
     if feature:
-        unique_values = df[feature].dropna().unique().tolist()
-        value = st.selectbox("Select value to examine", unique_values, key="feature_val_select")
+        fig, ax = plt.subplots(figsize=(6, 4))
+        st.session_state.df_current[feature].value_counts(normalize=True).plot(
+            kind="bar", ax=ax, color="skyblue"
+        )
+        ax.set_title(f"{feature} Distribution")
+        grid_obj.pyplot(fig)
+        plt.close(fig)
 
-        plot_btn = st.button("Plot Sleep Disorder Distribution", key="feature_plot_btn")
+    if feature:
+        unique_values = st.session_state.df_current[feature].dropna().unique().tolist()
+        value = grid_obj.selectbox("Select value to examine its Sleep Disorder distribution", unique_values, key="eda_feature_val_select")
+
+        plot_btn = grid_obj.button("Plot Sleep Disorder Distribution", key="eda_feature_plot_btn")
 
         if plot_btn and value:
-            data_to_plot = df[df[feature] == value]["Sleep Disorder"].value_counts(normalize=True)
+            data_to_plot = st.session_state.df_current[st.session_state.df_current[feature] == value]["Sleep Disorder"].value_counts(normalize=True)
 
-            fig, ax = plt.subplots(figsize=(6,4))
+            fig, ax = plt.subplots(figsize=(6, 4))
             data_to_plot.plot(
                 kind="bar",
                 ax=ax,
@@ -110,7 +107,7 @@ def eda_page():
                 title=f"{value} → Sleep Disorder Distribution",
                 color="skyblue"
             )
-            st.pyplot(fig)
+            grid_obj.pyplot(fig)
             plt.close(fig)
             st.success("Plot successfully created")
     
