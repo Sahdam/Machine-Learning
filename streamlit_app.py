@@ -241,7 +241,7 @@ def training_page():
         ax.set_title(title)
         st.pyplot(fig)
     if st.checkbox("Decision Tree Importance"):
-    plot_tree_importance(st.session_state.model_dt, "Decision Tree Feature Importance")
+        plot_tree_importance(st.session_state.model_dt, "Decision Tree Feature Importance")
 
     if st.checkbox("Random Forest Importance"):
         plot_tree_importance(st.session_state.model_rf, "Random Forest Feature Importance")
