@@ -244,9 +244,9 @@ if "X_train" not in st.session_state:
     st.session_state.y_train = None
     st.session_state.y_test = None
 
-if "num_col" not in st.session_state:
-    st.session_state.num_col = []
-    st.session_state.cat_col = []
+for k in ["num_col", "cat_col"]:
+    if k not in st.session_state:
+        st.session_state[k] = []
 
 grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
 with st.sidebar.container():
@@ -323,12 +323,14 @@ if st.session_state.num_col or st.session_state.cat_col:
     model_gb= Pipeline(
         steps=[("preprocess", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
             ("gradientboostingclassifier", GradientBoostingClassifier(random_state=42, max_depth=2, n_estimators=40))])
-    
-    
-else:
-    st.warning("Split data first to build preprocessing pipeline")
-    
-model_lr.fit(X_train, y_train)
+
+Xtr = st.session_state.X_train
+ytr = st.session_state.y_train  
+
+model_lr.fit(Xtr, ytr)
+model_dt.fit(Xtr, ytr)
+model_rf.fit(Xtr, ytr)
+model_gb.fit(Xtr, ytr, gradientboostingclassifier__sample_weight=sample_weights)
 features = model_lr.named_steps["preprocess"].get_feature_names_out()
 importances = model_lr.named_steps["model"].coef_
 classes = model_lr.named_steps["model"].classes_
@@ -337,17 +339,15 @@ odds_ratio = pd.DataFrame(np.exp(importances),index=classes, columns=features)
 def get_sorted_odds(class_name):
     idx = list(classes).index(class_name)
     return pd.Series(np.exp(importances[idx]), index=features).sort_values()
-model_dt.fit(X_train, y_train)
+    
 feat_dt = model_dt.named_steps["onehotencoder"].get_feature_names_out()
 importance_dt = model_dt.named_steps["decisiontreeclassifier"].feature_importances_
 feat_imp_dt = pd.Series(importance_dt, index=feat_dt).sort_values()
 
-model_rf.fit(X_train, y_train)
 feat = model_rf.named_steps["onehotencoder"].get_feature_names_out()
 importance_rf = model_rf.named_steps["randomforestclassifier"].feature_importances_
 feat_imp_rf = pd.Series(importance_rf, index=feat).sort_values()
 
-model_gb.fit(X_train, y_train, gradientboostingclassifier__sample_weight=sample_weights)
 feat_gb = model_gb.named_steps["preprocess"].get_feature_names_out()
 importance_gb = model_gb.named_steps["gradientboostingclassifier"].feature_importances_
 feat_imp_gb=pd.Series(importance_gb, index=feat_gb).sort_values()
