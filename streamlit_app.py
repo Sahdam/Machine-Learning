@@ -141,6 +141,17 @@ if (st.session_state.show_plot and st.session_state.feature in df.columns and st
     st.pyplot(fig)
     st.success("Plot successfully created")
 
+my_grid = grid([3, 3], [3, 3], 1, vertical_align="bottom")
+
+# Row 1:
+my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
+my_grid.button("Show unique values")
+# Row 2:
+my_grid.selectbox("Select feature value", value_list,key="feat_val_select")
+my_grid.button("Plot visualization")
+# Row 3:
+my_grid.pyplot(fig)
+
 with st.sidebar:
   with st.expander("**Correlation Matrix: Numeric Columns Relationship**"):
     corr_btn = st.button("Show Correlations")
