@@ -62,10 +62,10 @@ if "selected_column" not in st.session_state:
     st.session_state.selected_column = None
 with st.sidebar.container():
     st.markdown("**Visualize how the features are distributed in the dataset**")
-    grid2.write("## Make Your Own Plot")
-    select_column= grid2.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
-    plot_btn = grid2.button("Plot Feature")
-    reset_btn = grid2.button("Reset")
+grid2.write("## Make Your Own Plot")
+select_column= grid2.selectbox("Select the category feature you want to visualize",df.select_dtypes("object").columns.tolist())
+plot_btn = grid2.button("Plot Feature")
+reset_btn = grid2.button("Reset")
 if plot_btn:
     st.session_state.show_plot_1 = True
     st.session_state.selected_column = select_column
@@ -105,7 +105,7 @@ if "feature" not in st.session_state:
 grid4 = grid([5, 3], [5, 3], 1,1, vertical_align="bottom")
 with st.sidebar.container():
     st.markdown("**Drill down visualization of features on sleep disorders**")
-    grid4.write("## Drill down visualization of features on sleep disorders")
+grid4.write("## Drill down visualization of features on sleep disorders")
 st.session_state.feature = my_grid.selectbox("Choose prefered column", df.select_dtypes("object").nunique().index.tolist(),key="feature_select")
 if grid4.button("Show unique values"):
     st.session_state.show_plot = False
