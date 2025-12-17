@@ -134,42 +134,47 @@ if fs_btn:
 
 grid5 = grid([3, 5])
 with st.sidebar.container():
-    st.markdown("**Correlation Matrix: Numeric Columns Relationship**")
-corr_btn = grid5.button("Show Correlations")
-if corr_btn:
-    sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
-    grid5.pyplot(plt.gcf())
+    cr_btn = st.button("**Correlation Matrix**", key="cr_btn")
+if cr_btn:
+    corr_btn = grid5.button("Show Correlations")
+    if corr_btn:
+        sns.heatmap(df.select_dtypes(include="number").corr(), annot=True, cmap="Blues")
+        grid5.pyplot(plt.gcf())
+    
+    if "show_plot" not in st.session_state:
+        st.session_state.show_plot_2 = False
+    
+    if "x_var" not in st.session_state:
+        st.session_state.x_var = None
+    
+    if "y_var" not in st.session_state:
+        st.session_state.y_var = None
 
-if "show_plot" not in st.session_state:
-    st.session_state.show_plot_2 = False
 
-if "x_var" not in st.session_state:
-    st.session_state.x_var = None
-
-if "y_var" not in st.session_state:
-    st.session_state.y_var = None
 grid6 = grid([4,4], [3,3],1, vertical_align="top") 
 with st.sidebar.container():
-    st.markdown("**Plot Relationship**")
-x_var = grid6.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
-y_var = grid6.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
-plot_rel_btn = grid6.button("Plot Relationship")
-reset_btn_1 = grid6.button("Reset Plot")
-if plot_rel_btn:
-    st.session_state.show_plot_2 = True
-    st.session_state.x_var = x_var
-    st.session_state.y_var = y_var
+    pr_btn =st.button("**Plot Relationship**", key="pr_btn")
+if pr_btn:
+    x_var = grid6.selectbox("Choose the X-axis variable", df.select_dtypes("number").columns.tolist())
+    y_var = grid6.selectbox("Choose the Y-axis variable", df.select_dtypes("number").columns.tolist())
+    plot_rel_btn = grid6.button("Plot Relationship")
+    reset_btn_1 = grid6.button("Reset Plot")
+    if plot_rel_btn:
+        st.session_state.show_plot_2 = True
+        st.session_state.x_var = x_var
+        st.session_state.y_var = y_var
+    
+    if reset_btn_1:
+        st.session_state.show_plot_2 = False
+        st.session_state.x_var = None
+        st.session_state.y_var = None
+      
+    if st.session_state.x_var and st.session_state.y_var and st.session_state.show_plot_2:
+        sns.regplot(data=df, x=df[x_var], y=df[y_var], ci=None,
+                  color="red")
+        plt.title(f"Relation Between{st.session_state.x_var} and {st.session_state.y_var}")
+        grid6.pyplot(plt.gcf())
 
-if reset_btn_1:
-    st.session_state.show_plot_2 = False
-    st.session_state.x_var = None
-    st.session_state.y_var = None
-  
-if st.session_state.x_var and st.session_state.y_var and st.session_state.show_plot_2:
-    sns.regplot(data=df, x=df[x_var], y=df[y_var], ci=None,
-              color="red")
-    plt.title(f"Relation Between{st.session_state.x_var} and {st.session_state.y_var}")
-    grid6.pyplot(plt.gcf())
 
 if "df_stack" not in st.session_state:
     st.session_state.df_stack = [df.copy()]  # stack of dataframes
@@ -184,53 +189,54 @@ ops = {
 }
 grid7 = grid([4,4],[3,2,3],[4,4],1, vertical_align="top")
 with st.sidebar.container():
-    st.markdown("**Feature Engineering**")
-col_1 = grid7.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
-col_2 = grid7.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
-op = grid7.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
-        
-add_button = grid7.button("Add Feature")
-undo_button = grid7.button("Undo Last Change")
-reset_button = grid7.button("Reset to Original Data")
-
-if add_button and col_1 and col_2 and op:
-    st.session_state.df_stack.append(st.session_state.df_current.copy())
-    for c1 in col_1:
-        for c2 in col_2:
-            new_col = f"{c1}{op}{c2}"
-            try:
-                if op == '/':
-                    st.session_state.df_current[new_col] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
-                else:
-                    st.session_state.df_current[new_col] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
-            except Exception as e:
-                st.error(f"Error creating column {new_col}: {e}")
-    st.success("Dataframe succefully updated")
-
-if undo_button:
-    if len(st.session_state.df_stack) > 1:
-        st.session_state.df_current = st.session_state.df_stack.pop()
-        st.success("Last change undone.")
-    else:
-        st.warning("Already at original data!")
-
-if reset_button:
-    st.session_state.df_current = st.session_state.df_stack[0].copy()
-    st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
-    st.success("Data reset to original.")
-update_btn= grid7.button("Show updated DataFrame")
-if update_btn:
-      grid7.dataframe(st.session_state.df_current)
-
-if "df_original" not in st.session_state:
-    st.session_state.df_original = df.copy()
-
-if "df_current" not in st.session_state:
-    st.session_state.df_current = df.copy()
-  
-for key in ["X_train", "X_test", "y_train", "y_test"]:
-    if key not in st.session_state:
-        st.session_state[key] = None
+    fe_btn = st.button("**Feature Engineering**", key="fe_btn")
+if fe_btn:
+    col_1 = grid7.multiselect("Choose feature(s)", list(st.session_state.df_current.columns))
+    col_2 = grid7.multiselect("Choose another feature(s)", list(st.session_state.df_current.columns))
+    op = grid7.selectbox("Choose arithmetic operator", ['*', '/', '+', '-'])
+            
+    add_button = grid7.button("Add Feature")
+    undo_button = grid7.button("Undo Last Change")
+    reset_button = grid7.button("Reset to Original Data")
+    
+    if add_button and col_1 and col_2 and op:
+        st.session_state.df_stack.append(st.session_state.df_current.copy())
+        for c1 in col_1:
+            for c2 in col_2:
+                new_col = f"{c1}{op}{c2}"
+                try:
+                    if op == '/':
+                        st.session_state.df_current[new_col] = st.session_state.df_current[c1] / st.session_state.df_current[c2].replace(0, 1e-10)
+                    else:
+                        st.session_state.df_current[new_col] = ops[op](st.session_state.df_current[c1], st.session_state.df_current[c2])
+                except Exception as e:
+                    st.error(f"Error creating column {new_col}: {e}")
+        st.success("Dataframe succefully updated")
+    
+    if undo_button:
+        if len(st.session_state.df_stack) > 1:
+            st.session_state.df_current = st.session_state.df_stack.pop()
+            st.success("Last change undone.")
+        else:
+            st.warning("Already at original data!")
+    
+    if reset_button:
+        st.session_state.df_current = st.session_state.df_stack[0].copy()
+        st.session_state.df_stack = [st.session_state.df_stack[0].copy()]
+        st.success("Data reset to original.")
+    update_btn= grid7.button("Show updated DataFrame")
+    if update_btn:
+          grid7.dataframe(st.session_state.df_current)
+    
+    if "df_original" not in st.session_state:
+        st.session_state.df_original = df.copy()
+    
+    if "df_current" not in st.session_state:
+        st.session_state.df_current = df.copy()
+      
+    for key in ["X_train", "X_test", "y_train", "y_test"]:
+        if key not in st.session_state:
+            st.session_state[key] = None
 
 
 grid8 = grid([4,4],[3,3,3],1,1,1, vertical_align="top")
