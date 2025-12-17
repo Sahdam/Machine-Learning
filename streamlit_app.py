@@ -42,7 +42,7 @@ if "show_data" not in st.session_state:
     st.session_state.show_data = False
 
 with st.sidebar("**Data**"):
-st.write("## Sleep, health and Lifestyle Data")
+    st.write("## Sleep, health and Lifestyle Data")
 df = pd.read_csv("sleep_health_lifestyle.csv")
 df.drop(columns="index", inplace=True)
 df.set_index("Person ID", inplace=True)
