@@ -19,44 +19,97 @@ from sklearn.utils.class_weight import compute_sample_weight
 from streamlit_extras.grid import grid
 sns.set_style("dark")
 
+def init_state():
+    defaults = {
+        "page": "home",
+        "show_data": False,
+        "df_current": None,
+        "X_train": None,
+        "X_test": None,
+        "y_train": None,
+        "y_test": None,
+    }
 
-st.title('Machine Learning: Sleep Disorders Classification')
+    for k, v in defaults.items():
+        if k not in st.session_state:
+            st.session_state[k] = v
 
-st.info('This app is a machine learning app')
+init_state()
 
-grid1 = grid(1,[5, 5],1,1,1,1, vertical_align ="top")
-
-if "show_data" not in st.session_state:
-    st.session_state.show_data = False
-
-if "data_section" not in st.session_state:
-    st.session_state.data_section = False
-    
 with st.sidebar:
+    st.title("🧭 Navigation")
+
+    if st.button("🏠 Home"):
+        st.session_state.page = "home"
+
+    if st.button("📊 Data"):
+        st.session_state.page = "data"
+        st.session_state.show_data = False
+
+    if st.button("📈 EDA"):
+        st.session_state.page = "eda"
+
+    if st.button("🤖 Modeling"):
+        st.session_state.page = "modeling"
+
+    if st.button("📉 Evaluation"):
+        st.session_state.page = "evaluation"
+def render_page():
+    page = st.session_state.page
+
+    if page == "home":
+        home_page()
+    elif page == "data":
+        data_page()
+    elif page == "eda":
+        eda_page()
+    elif page == "modeling":
+        modeling_page()
+    elif page == "evaluation":
+        evaluation_page()
+
+render_page()
+
+def home_page():
+    st.title('Machine Learning: Sleep Disorders Classification')
+    st.info("""
+    Welcome 👋  
+        Use the sidebar to explore data, train models, and evaluate results.
+    """)
+
+def data_page():
+    grid1 = grid(1,[5, 5],1,1,1,1, vertical_align ="top")
+    
+    if "show_data" not in st.session_state:
+        st.session_state.show_data = False
+    
+    if "data_section" not in st.session_state:
+        st.session_state.data_section = False
+        
     d_btn = st.button("**Data**", key="d_btn")
-
-    if d_btn:
+    
+     if d_btn:
         st.session_state.data_section = True
-df = pd.read_csv("sleep_health_lifestyle.csv")
-df.drop(columns="index", inplace=True)
-df.set_index("Person ID", inplace=True)
-df.fillna("None", inplace=True)
-
-if st.session_state.data_section:
-    grid1.write("## Sleep, Health and Lifestyle Data")
-    data_btn = grid1.button("**Show Data**", key="data_btn")
-    data_reset =grid1.button("**Hide Data**", key="data_reset")
-    if data_btn:
-        st.session_state.show_data = True
-    if data_reset:
-        st.session_state.show_data = False    
-if st.session_state.show_data:
-    grid1.dataframe(df)
-    buffer = io.StringIO()
-    df.info(buf=buffer)
-    grid1.code(buffer.getvalue(), language="text")
-    grid1.dataframe(df.describe())
-    grid1.dataframe(df.select_dtypes("object").describe())
+    df = pd.read_csv("sleep_health_lifestyle.csv")
+    df.drop(columns="index", inplace=True)
+    df.set_index("Person ID", inplace=True)
+    df.fillna("None", inplace=True)
+    
+    if st.session_state.data_section:
+        grid1.write("## Sleep, Health and Lifestyle Data")
+        data_btn = grid1.button("**Show Data**", key="data_btn")
+        data_reset =grid1.button("**Hide Data**", key="data_reset")
+        if data_btn:
+            st.session_state.show_data = True
+        if data_reset:
+            st.session_state.show_data = False    
+    if st.session_state.show_data:
+        grid1.dataframe(df)
+        buffer = io.StringIO()
+        df.info(buf=buffer)
+        grid1.code(buffer.getvalue(), language="text")
+        grid1.dataframe(df.describe())
+        grid1.dataframe(df.select_dtypes("object").describe())
 
 df["BMI Category"] = df["BMI Category"].replace({"Normal": "Normalweight","Normal Weight": "Normalweight"})
 
