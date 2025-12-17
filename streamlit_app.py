@@ -146,16 +146,25 @@ def split_page():
         X = df.drop(columns="Sleep Disorder")
         y = df["Sleep Disorder"]
 
-        Xtr, Xte, ytr, yte = train_test_split(
+        X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=42, stratify=y
         )
 
-        st.session_state.X_train = Xtr
-        st.session_state.X_test = Xte
-        st.session_state.y_train = ytr
-        st.session_state.y_test = yte
+         st.session_state.update({
+            "X_train": X_train,
+            "X_test": X_test,
+            "y_train": y_train,
+            "y_test": y_test
+        })
 
-        st.success("Data split successfully")
+        st.success("Dataset split completed")
+
+    if "X_train" in st.session_state:
+        st.subheader("Train Data")
+        st.dataframe(st.session_state.X_train.head())
+
+        st.subheader("Test Data")
+        st.dataframe(st.session_state.X_test.head())
 
 # PAGE 5 — TRAINING
 def training_page():
