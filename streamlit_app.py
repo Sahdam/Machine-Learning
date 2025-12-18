@@ -182,6 +182,8 @@ def split_page():
         })
 
         st.success("Dataset split completed")
+        if "feature_columns" not in st.session_state:
+            st.session_state.feature_columns = X_train.columns.tolist()
 
     if "X_train" in st.session_state:
         st.subheader("Train Data")
