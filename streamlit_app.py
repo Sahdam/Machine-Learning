@@ -51,6 +51,7 @@ with st.sidebar:
             "Train / Test Split",
             "Model Training",
             "Model Evaluation",
+            "Make Pediction"
         ],
     )
 
@@ -334,6 +335,43 @@ def evaluation_page():
             st.warning("Model is not trained yet. Train the model first to see feature importance.")
             return
 
+# Make Prediction
+def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_act, stress_level,bmi,blood_pre, hr, daily_step):
+    gender = st.text_input("enter gender", max_chars=10)
+    age = st.number_input("enter age", min_value = 10, max_value=100)
+    occupation = st.text_input("enter gender", max_chars=30)
+    sleep_duration = st.number_input("enter sleep duration(between 1 to 10)", min_value = 1, max_value= 10)
+    sleep_quality = st.number_input("enter sleep quality(between 1 to 10)", min_value = 1, max_value= 10)
+    physical_act = st.number_input("enter physical activity(between 1 to 10)", min_value = 1, max_value= 10)
+    stress_level = st.number_input("enter stress level(between 1 to 10)", min_value = 1, max_value= 10)
+    bmi = st.selectbox("choose BMI category", ["normalweight", "overweight", "obese"])
+    blood_pre = st.text_input("enter blood pressure", max_chars=30)
+    hr = st.number_input("enter heart rate", min_value = 10, max_value=100)
+    daily_step = st.number_input("enter daily steps", min_value = 1, max_value=10000, step=100)
+    data =pd.DataFrame({
+        'Gender': [gender], 'Age': [age], 'Occupation': [occupation], 'Sleep Duration': [sleep_duration],'Quality of Sleep': [sleep_quality],
+       'Physical Activity Level':[physical_act, 'Stress Level':[stress_level], 'BMI Category': [bmi],
+       'Blood Pressure': [blood_pre], 'Heart Rate': [hr], 'Daily Steps': [daily_step]
+    })
+    model_pred_name = st.selectbox(
+        "Choose model",
+        ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],
+    )
+
+    model_pred_map = {
+        "Logistic Regression": st.session_state.model_lr,
+        "Decision Tree": st.session_state.model_dt,
+        "Random Forest": st.session_state.model_rf,
+        "Gradient Boosting": st.session_state.model_gb,
+    }
+    try:
+        model_pred = model_map[model_name]
+        predicted = model_pred.predict(data)
+        st.write(f"## The sleep disorder is: {predicted}")
+    except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
+            return
+    
 # ROUTER
 
 if st.session_state.page == "Data":
@@ -348,3 +386,5 @@ elif st.session_state.page == "Model Training":
     training_page()
 elif st.session_state.page == "Model Evaluation":
     evaluation_page()
+elif st.session_state.page == "Make Prediction":
+    def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_act, stress_level,bmi,blood_pre, hr, daily_step)
