@@ -375,9 +375,9 @@ def prediction_page():
         horizontal=True,
     )
     if st.button("Predict"):
-    if st.session_state.model_lr is None:
-        st.warning("Train a model first")
-        return
+        if st.session_state.model_lr is None:
+            st.warning("Train a model first")
+            return
 
     model_pred_map = {
          "Logistic Regression": st.session_state.model_lr,
