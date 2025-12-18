@@ -390,7 +390,7 @@ def prediction_page():
     
             df_uploaded = align_features(df_uploaded)
     
-        data_new = align_features(data_new)
+    data_new = align_features(data_new)
     model_name = st.selectbox(
     "Choose Model",
     ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"]
@@ -413,7 +413,7 @@ def prediction_page():
             pred = model.predict(data_new)[0]
             proba = model.predict_proba(data_new).max()
     
-            st.success(f"🛌 Prediction: **{pred}**")
+            st.success(f"Prediction: **{pred}**")
             st.info(f"Confidence: **{proba:.2%}**")
     
         else:
