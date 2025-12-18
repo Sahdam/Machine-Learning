@@ -354,7 +354,7 @@ def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_ac
        'Physical Activity Level':[physical_act], 'Stress Level':[stress_level], 'BMI Category': [bmi],
        'Blood Pressure': [blood_pre], 'Heart Rate': [hr], 'Daily Steps': [daily_step]})
 
-     if st.session_state.model_lr is None:
+    if st.session_state.model_lr is None:
         st.warning("Train models first")
         return
     model_pred_name = st.selectbox(
