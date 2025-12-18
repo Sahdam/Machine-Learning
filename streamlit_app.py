@@ -368,31 +368,20 @@ def prediction_page():
         "Heart Rate": [hr],
         "Daily Steps": [daily_step],
         })
-        st.subheader("Choose Model")
-        model_pred_name = st.radio(
-            "",
-            ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],
-            horizontal=True,
-        )
-        if st.button("Predict"):
-            if st.session_state.model_lr is None:
-                st.warning("Train a model first")
-                return
+    st.subheader("Choose Model")
+    model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True,)
+    if st.button("Predict"):
+        if st.session_state.model_lr is None:
+            st.warning("Train a model first")
+            return
     
-        model_pred_map = {
-             "Logistic Regression": st.session_state.model_lr,
-             "Decision Tree": st.session_state.model_dt,
-            "Random Forest": st.session_state.model_rf,
-             "Gradient Boosting": st.session_state.model_gb,
-            }
-    
-        model = model_pred_map[model_pred_name]
-    
-        try:
-            prediction = model.predict(data)[0]
-            st.success(f"Predicted Sleep Disorder: **{prediction}**")
-        except NotFittedError:
-            st.error("Model is not fitted. Train it first.")
+    model_pred_map = { "Logistic Regression": st.session_state.model_lr, "Decision Tree": st.session_state.model_dt, "Random Forest": st.session_state.model_rf,"Gradient Boosting": st.session_state.model_gb}
+    model = model_pred_map[model_pred_name]
+    try:
+        prediction = model.predict(data)[0]
+        st.success(f"Predicted Sleep Disorder: **{prediction}**")
+    except NotFittedError:
+        st.error("Model is not fitted. Train it first.")
 
     
 # ROUTER
