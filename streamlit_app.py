@@ -337,6 +337,7 @@ def evaluation_page():
 
 # Make Prediction
 def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_act, stress_level,bmi,blood_pre, hr, daily_step):
+    st.write("## Predict Sleep Disorder Of A Person")
     gender = st.text_input("enter gender", max_chars=10)
     age = st.number_input("enter age", min_value = 10, max_value=100)
     occupation = st.text_input("enter gender", max_chars=30)
