@@ -368,7 +368,7 @@ def prediction_page():
         "Heart Rate": [hr],
         "Daily Steps": [daily_step],
     })
-        st.subheader("Choose Model")
+    st.subheader("Choose Model")
     model_pred_name = st.radio(
         "",
         ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],
