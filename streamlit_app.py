@@ -350,7 +350,7 @@ def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_ac
     daily_step = st.number_input("enter daily steps", min_value = 1, max_value=10000, step=100)
     data = pd.DataFrame({
         'Gender': [gender], 'Age': [age], 'Occupation': [occupation], 'Sleep Duration': [sleep_duration],'Quality of Sleep': [sleep_quality],
-       'Physical Activity Level':[physical_act, 'Stress Level':[stress_level], 'BMI Category': [bmi],
+       'Physical Activity Level':[physical_act], 'Stress Level':[stress_level], 'BMI Category': [bmi],
        'Blood Pressure': [blood_pre], 'Heart Rate': [hr], 'Daily Steps': [daily_step]})
     model_pred_name = st.selectbox(
         "Choose model",
