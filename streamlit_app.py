@@ -371,8 +371,9 @@ def prediction_page():
     st.subheader("Choose Model")
     model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True)
     
-    st.info("Upload csv file, ensure the columns are arranged just like the features you used to train the models")
-    st.file_uploder("Upload File", type=["csv","xlsx"])
+    st.info("**Upload csv file, ensure the columns are arranged just like the features you used to train the models**")
+    file = st.file_uploder("Upload File", type=["csv","xlsx"])
+    data_new = pd.DataFrame(file)
     if st.button("Predict"):
         if st.session_state.model_lr is None:
             st.warning("Train a model first")
@@ -386,6 +387,20 @@ def prediction_page():
     except NotFittedError:
         st.error("Model is not fitted. Train it first.")
     
+    if st.button("Predict_Uploaded_File"):
+        if st.session_state.model_lr is None:
+            st.warning("Train a model first")
+            return
+    
+    model_pred_map_2 = {"Logistic Regression": st.session_state.model_lr, "Decision Tree": st.session_state.model_dt, "Random Forest": st.session_state.model_rf,"Gradient Boosting": st.session_state.model_gb}
+    model = model_pred_map_2[model_pred_name]
+    try:
+        prediction_new = model.predict(data_new)
+        st.success("Predicted Sleep Disorder Completed for File")
+        predicted_df = pd.DataFrame(prediction_new)
+        st.dataframe(predicted_df)
+    except NotFittedError:
+        st.error("Model is not fitted. Train it first.")
 
     
 # ROUTER
