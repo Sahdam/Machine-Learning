@@ -347,7 +347,7 @@ def prediction_page():
         occupation = st.text_input("Occupation")
         sleep_duration = st.slider("Sleep Duration (hrs)", 1, 10)
         sleep_quality = st.slider("Quality of Sleep", 1, 10)
-        physical_act = st.slider("Physical Activity Level", 1, 10)
+        physical_act = st.slider("Physical Activity Level", 1, 100)
 
     with col2:
         stress_level = st.slider("Stress Level", 1, 10)
