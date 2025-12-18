@@ -373,6 +373,7 @@ def prediction_page():
             "Heart Rate": [hr],
             "Daily Steps": [daily_step],
         })
+        data_new = align_features(data_new)
     if mode == "Upload CSV":
 
         st.subheader("Upload CSV File")
@@ -390,7 +391,6 @@ def prediction_page():
     
             df_uploaded = align_features(df_uploaded)
     
-    data_new = align_features(data_new)
     model_name = st.selectbox(
     "Choose Model",
     ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"]
