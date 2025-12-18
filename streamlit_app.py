@@ -338,9 +338,6 @@ def evaluation_page():
 # Make Prediction
 def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_act, stress_level,bmi,blood_pre, hr, daily_step):
     st.header("Predict Sleep Disorder Of A Person")
-    if st.session_state.model_lr is None:
-        st.warning("Train models first")
-        return
     gender = st.text_input("enter gender", max_chars=10)
     age = st.number_input("enter age", min_value = 10, max_value=100)
     occupation = st.text_input("enter gender", max_chars=30)
@@ -356,6 +353,10 @@ def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_ac
         'Gender': [gender], 'Age': [age], 'Occupation': [occupation], 'Sleep Duration': [sleep_duration],'Quality of Sleep': [sleep_quality],
        'Physical Activity Level':[physical_act], 'Stress Level':[stress_level], 'BMI Category': [bmi],
        'Blood Pressure': [blood_pre], 'Heart Rate': [hr], 'Daily Steps': [daily_step]})
+
+     if st.session_state.model_lr is None:
+        st.warning("Train models first")
+        return
     model_pred_name = st.selectbox(
         "Choose model",
         ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],
