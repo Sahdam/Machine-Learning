@@ -338,72 +338,97 @@ def evaluation_page():
 # Make Prediction
 def prediction_page():
     st.header("Predict Sleep Disorder")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
+    def align_features(df_new):
+        return df_new.reindex(
+            columns=st.session_state.feature_columns,
+            fill_value=0
+        )
+    mode = st.radio(
+    "Prediction Method",
+    ["Manual Entry", "Upload CSV"])
+    if mode == "Manual Entry":
+        st.subheader("Manual Input")
         gender = st.selectbox("Gender", ["Male", "Female"])
-        age = st.number_input("Age", min_value=10, max_value=100)
+        age = st.number_input("Age", 10, 100)
         occupation = st.text_input("Occupation")
-        sleep_duration = st.slider("Sleep Duration (hrs)", 1, 10)
-        sleep_quality = st.slider("Quality of Sleep", 1, 10)
-        physical_act = st.slider("Physical Activity Level", 1, 100)
-
-    with col2:
-        stress_level = st.slider("Stress Level", 1, 10)
-        bmi = st.selectbox("BMI Category", ["normalweight", "overweight", "obese"])
-        blood_pre = st.text_input("Blood Pressure (e.g. 120/80)")
-        hr = st.number_input("Heart Rate", min_value=40, max_value=150)
-        daily_step = st.number_input("Daily Steps", min_value=0, max_value=30000, step=500)
-        data = pd.DataFrame({
-        "Gender": [gender],
-        "Age": [age],
-        "Occupation": [occupation],
-        "Sleep Duration": [sleep_duration],
-        "Quality of Sleep": [sleep_quality],
-        "Physical Activity Level": [physical_act],
-        "Stress Level": [stress_level],
-        "BMI Category": [bmi],
-        "Blood Pressure": [blood_pre],
-        "Heart Rate": [hr],
-        "Daily Steps": [daily_step],
+        sleep_duration = st.number_input("Sleep Duration", 1, 10)
+        sleep_quality = st.number_input("Quality of Sleep", 1, 10)
+        physical_act = st.number_input("Physical Activity Level", 1, 10)
+        stress_level = st.number_input("Stress Level", 1, 10)
+        bmi = st.selectbox("BMI Category", ["Normal", "Overweight", "Obese"])
+        blood_pre = st.text_input("Blood Pressure")
+        hr = st.number_input("Heart Rate", 30, 200)
+        daily_step = st.number_input("Daily Steps", 0, 30000, step=500)
+    
+        data_new = pd.DataFrame({
+            "Gender": [gender],
+            "Age": [age],
+            "Occupation": [occupation],
+            "Sleep Duration": [sleep_duration],
+            "Quality of Sleep": [sleep_quality],
+            "Physical Activity Level": [physical_act],
+            "Stress Level": [stress_level],
+            "BMI Category": [bmi],
+            "Blood Pressure": [blood_pre],
+            "Heart Rate": [hr],
+            "Daily Steps": [daily_step],
         })
-    data_new = data_new.reindex(
-        columns=st.session_state.feature_columns,
-        fill_value=0
+    if mode == "Upload CSV":
+
+        st.subheader("Upload CSV File")
+    
+        uploaded_file = st.file_uploader(
+            "Upload CSV with same structure as training data",
+            type=["csv"]
+        )
+    
+        if uploaded_file:
+            df_uploaded = pd.read_csv(uploaded_file)
+    
+            st.write("📄 Uploaded Data Preview")
+            st.dataframe(df_uploaded.head())
+    
+            df_uploaded = align_features(df_uploaded)
+    
+        data_new = align_features(data_new)
+    model_name = st.selectbox(
+    "Choose Model",
+    ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"]
     )
-    st.subheader("Choose Model")
-    model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True)
+    
+    model_map = {
+        "Logistic Regression": st.session_state.model_lr,
+        "Decision Tree": st.session_state.model_dt,
+        "Random Forest": st.session_state.model_rf,
+        "Gradient Boosting": st.session_state.model_gb,
+    }
+    
+    model = model_map[model_name]
     if st.button("Predict"):
-        if st.session_state.model_lr is None:
-            st.warning("Train a model first")
+        if model is None:
+            st.warning("Train the model first.")
             return
     
-    model_pred_map = {"Logistic Regression": st.session_state.model_lr, "Decision Tree": st.session_state.model_dt, "Random Forest": st.session_state.model_rf,"Gradient Boosting": st.session_state.model_gb}
-    model = model_pred_map[model_pred_name]
-    try:
-        prediction = model.predict(data)[0]
-        st.success(f"Predicted Sleep Disorder: **{prediction}**")
-    except NotFittedError:
-        st.error("Model is not fitted. Train it first.")
+        if mode == "Manual Entry":
+            pred = model.predict(data_new)[0]
+            proba = model.predict_proba(data_new).max()
     
-    st.info("**Upload csv file, ensure the columns are arranged just like the features you used to train the models**")
-    file = st.file_uploader("Upload File", type=["csv","xlsx"])
-    data_new = pd.DataFrame(file)
-    if st.button("Predict_Uploaded_File"):
-        if st.session_state.model_lr is None:
-            st.warning("Train a model first")
-            return
+            st.success(f"🛌 Prediction: **{pred}**")
+            st.info(f"Confidence: **{proba:.2%}**")
     
-    model_pred_map_2 = {"Logistic Regression": st.session_state.model_lr, "Decision Tree": st.session_state.model_dt, "Random Forest": st.session_state.model_rf,"Gradient Boosting": st.session_state.model_gb}
-    model = model_pred_map_2[model_pred_name]
-    try:
-        prediction_new = model.predict(data_new)
-        st.success("Predicted Sleep Disorder Completed for File")
-        predicted_df = pd.DataFrame(prediction_new)
-        st.dataframe(predicted_df)
-    except NotFittedError:
-        st.error("Model is not fitted. Train it first.")
+        else:
+            predictions = model.predict(df_uploaded)
+            df_uploaded["Prediction"] = predictions
+    
+            st.success("Batch prediction completed")
+            st.dataframe(df_uploaded)
+    
+            st.download_button(
+                "Download Results",
+                df_uploaded.to_csv(index=False),
+                "sleep_predictions.csv"
+            )
+    
 
     
 # ROUTER
