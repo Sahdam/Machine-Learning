@@ -351,7 +351,7 @@ def prediction_page():
 
     with col2:
         stress_level = st.slider("Stress Level", 1, 10)
-        bmi = st.selectbox("BMI Category", ["Normal", "Overweight", "Obese"])
+        bmi = st.selectbox("BMI Category", ["normalweight", "overweight", "obese"])
         blood_pre = st.text_input("Blood Pressure (e.g. 120/80)")
         hr = st.number_input("Heart Rate", min_value=40, max_value=150)
         daily_step = st.number_input("Daily Steps", min_value=0, max_value=30000, step=500)
