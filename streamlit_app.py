@@ -368,6 +368,10 @@ def prediction_page():
         "Heart Rate": [hr],
         "Daily Steps": [daily_step],
         })
+    data_new = data_new.reindex(
+        columns=st.session_state.feature_columns,
+        fill_value=0
+    )
     st.subheader("Choose Model")
     model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True)
     if st.button("Predict"):
