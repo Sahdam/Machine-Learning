@@ -370,10 +370,6 @@ def prediction_page():
         })
     st.subheader("Choose Model")
     model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True)
-    
-    st.info("**Upload csv file, ensure the columns are arranged just like the features you used to train the models**")
-    file = st.file_uploader("Upload File", type=["csv","xlsx"])
-    data_new = pd.DataFrame(file)
     if st.button("Predict"):
         if st.session_state.model_lr is None:
             st.warning("Train a model first")
@@ -387,6 +383,9 @@ def prediction_page():
     except NotFittedError:
         st.error("Model is not fitted. Train it first.")
     
+    st.info("**Upload csv file, ensure the columns are arranged just like the features you used to train the models**")
+    file = st.file_uploader("Upload File", type=["csv","xlsx"])
+    data_new = pd.DataFrame(file)
     if st.button("Predict_Uploaded_File"):
         if st.session_state.model_lr is None:
             st.warning("Train a model first")
