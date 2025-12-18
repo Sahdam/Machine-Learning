@@ -386,4 +386,4 @@ elif st.session_state.page == "Model Training":
 elif st.session_state.page == "Model Evaluation":
     evaluation_page()
 elif st.session_state.page == "Make Prediction":
-    def prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_act, stress_level,bmi,blood_pre, hr, daily_step)
+    prediction(gender, age, occupation, sleep_duration,sleep_quality,physical_act, stress_level,bmi,blood_pre, hr, daily_step)
