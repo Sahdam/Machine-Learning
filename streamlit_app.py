@@ -355,7 +355,7 @@ def prediction_page():
         blood_pre = st.text_input("Blood Pressure (e.g. 120/80)")
         hr = st.number_input("Heart Rate", min_value=40, max_value=150)
         daily_step = st.number_input("Daily Steps", min_value=0, max_value=30000, step=500)
-    data = pd.DataFrame({
+        data = pd.DataFrame({
         "Gender": [gender],
         "Age": [age],
         "Occupation": [occupation],
@@ -367,32 +367,32 @@ def prediction_page():
         "Blood Pressure": [blood_pre],
         "Heart Rate": [hr],
         "Daily Steps": [daily_step],
-    })
-    st.subheader("Choose Model")
-    model_pred_name = st.radio(
-        "",
-        ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],
-        horizontal=True,
-    )
-    if st.button("Predict"):
-        if st.session_state.model_lr is None:
-            st.warning("Train a model first")
-            return
-
-    model_pred_map = {
-         "Logistic Regression": st.session_state.model_lr,
-         "Decision Tree": st.session_state.model_dt,
-        "Random Forest": st.session_state.model_rf,
-         "Gradient Boosting": st.session_state.model_gb,
-        }
-
-    model = model_pred_map[model_pred_name]
-
-    try:
-        prediction = model.predict(data)[0]
-        st.success(f"Predicted Sleep Disorder: **{prediction}**")
-    except NotFittedError:
-        st.error("Model is not fitted. Train it first.")
+        })
+        st.subheader("Choose Model")
+        model_pred_name = st.radio(
+            "",
+            ["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],
+            horizontal=True,
+        )
+        if st.button("Predict"):
+            if st.session_state.model_lr is None:
+                st.warning("Train a model first")
+                return
+    
+        model_pred_map = {
+             "Logistic Regression": st.session_state.model_lr,
+             "Decision Tree": st.session_state.model_dt,
+            "Random Forest": st.session_state.model_rf,
+             "Gradient Boosting": st.session_state.model_gb,
+            }
+    
+        model = model_pred_map[model_pred_name]
+    
+        try:
+            prediction = model.predict(data)[0]
+            st.success(f"Predicted Sleep Disorder: **{prediction}**")
+        except NotFittedError:
+            st.error("Model is not fitted. Train it first.")
 
     
 # ROUTER
