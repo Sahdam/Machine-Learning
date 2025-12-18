@@ -375,7 +375,7 @@ def prediction_page():
             st.warning("Train a model first")
             return
     
-    model_pred_map = { "Logistic Regression": st.session_state.model_lr, "Decision Tree": st.session_state.model_dt, "Random Forest": st.session_state.model_rf,"Gradient Boosting": st.session_state.model_gb}
+    model_pred_map = {"Logistic Regression": st.session_state.model_lr, "Decision Tree": st.session_state.model_dt, "Random Forest": st.session_state.model_rf,"Gradient Boosting": st.session_state.model_gb}
     model = model_pred_map[model_pred_name]
     try:
         prediction = model.predict(data)[0]
