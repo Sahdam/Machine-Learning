@@ -51,7 +51,7 @@ with st.sidebar:
             "Train / Test Split",
             "Model Training",
             "Model Evaluation",
-            "Make Pediction"
+            "Prediction"
         ],
     )
 
@@ -398,5 +398,5 @@ elif st.session_state.page == "Model Training":
     training_page()
 elif st.session_state.page == "Model Evaluation":
     evaluation_page()
-elif st.session_state.page == "Make Prediction":
+elif st.session_state.page == "Prediction":
     prediction_page()
