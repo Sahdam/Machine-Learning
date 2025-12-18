@@ -369,7 +369,10 @@ def prediction_page():
         "Daily Steps": [daily_step],
         })
     st.subheader("Choose Model")
-    model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True,)
+    model_pred_name = st.radio("",["Logistic Regression", "Decision Tree", "Random Forest", "Gradient Boosting"],horizontal=True)
+    
+    st.info("Upload csv file, ensure the columns are arranged just like the features you used to train the models")
+    st.file_uploder("Upload File", type=["csv","xlsx"])
     if st.button("Predict"):
         if st.session_state.model_lr is None:
             st.warning("Train a model first")
@@ -382,6 +385,7 @@ def prediction_page():
         st.success(f"Predicted Sleep Disorder: **{prediction}**")
     except NotFittedError:
         st.error("Model is not fitted. Train it first.")
+    
 
     
 # ROUTER
