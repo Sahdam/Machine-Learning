@@ -407,29 +407,33 @@ def prediction_page():
     
     model = model_map[model_name]
     if st.button("Predict"):
-        if model is None:
-            st.warning("Train the model first.")
+        try:
+            if model is None:
+                st.warning("Train the model first.")
+                return
+        
+            if mode == "Manual Entry":
+                pred = model.predict(data_new)[0]
+                proba = model.predict_proba(data_new).max()
+        
+                st.success(f"Prediction: **{pred}**")
+                st.info(f"Confidence: **{proba:.2%}**")
+        
+            else:
+                predictions = model.predict(df_uploaded)
+                df_uploaded["Prediction"] = predictions
+        
+                st.success("Batch prediction completed")
+                st.dataframe(df_uploaded)
+        
+                st.download_button(
+                    "Download Results",
+                    df_uploaded.to_csv(index=False),
+                    "sleep_predictions.csv"
+                )
+        except NotFittedError:
+            st.warning("Model is not trained yet. Train the model first to see feature importance.")
             return
-    
-        if mode == "Manual Entry":
-            pred = model.predict(data_new)[0]
-            proba = model.predict_proba(data_new).max()
-    
-            st.success(f"Prediction: **{pred}**")
-            st.info(f"Confidence: **{proba:.2%}**")
-    
-        else:
-            predictions = model.predict(df_uploaded)
-            df_uploaded["Prediction"] = predictions
-    
-            st.success("Batch prediction completed")
-            st.dataframe(df_uploaded)
-    
-            st.download_button(
-                "Download Results",
-                df_uploaded.to_csv(index=False),
-                "sleep_predictions.csv"
-            )
     
 
     
