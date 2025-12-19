@@ -411,16 +411,16 @@ def prediction_page():
                 st.warning("Train the model first.")
                 return
         
-            try:
-                if mode == "Manual Entry":
+            if mode == "Manual Entry":
+                try:
                     pred = model.predict(data_new)[0]
                     proba = model.predict_proba(data_new).max()
             
                     st.success(f"Prediction: **{pred}**")
                     st.info(f"Confidence: **{proba:.2%}**")
-            except NotFittedError:
-                st.warning("Model is not trained yet. Train the model first to see feature importance.")
-                return
+                except NotFittedError:
+                    st.warning("Model is not trained yet. Train the model first to see feature importance.")
+                    return
         
             else:
                 try:
