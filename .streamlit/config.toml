@@ -2,10 +2,10 @@
 base = "light"
 
 # Core colors
-primaryColor = "#4f46e5"              # Main accent color
-backgroundColor = "#f9fafb"           # App background
-secondaryBackgroundColor = "#f3f4f6"  # Card & widget background
-textColor = "#111827"                  # Primary text color
+primaryColor = "#4f46e5"              
+backgroundColor = "#f9fafb"         
+secondaryBackgroundColor = "#f3f4f6"  
+textColor = "#111827"                  
 
 # Status colors
 redColor = "#ef4444"
@@ -26,15 +26,15 @@ baseFontSize = 16
 baseFontWeight = 400
 
 headingFont = "Inter, sans-serif"
-headingFontWeights = [700, 600, 500]
+headingFontWeights = [800, 700, 600]
 headingFontSizes = ["2rem", "1.75rem", "1.5rem"]
 
 codeFont = "JetBrains Mono, monospace"
 codeFontSize = "0.875rem"
 
 # UI radius & borders
-baseRadius = "0.75rem"
-buttonRadius = "0.75rem"
+baseRadius = "1.5rem"
+buttonRadius = "1.5rem"
 borderColor = "#e5e7eb"
 dataframeBorderColor = "#e5e7eb"
 dataframeHeaderBackgroundColor = "#e5e7eb"
