@@ -40,6 +40,7 @@ for k in ["X_train", "X_test", "y_train", "y_test"]:
 for m in ["model_lr", "model_dt", "model_rf", "model_gb"]:
     st.session_state.setdefault(m, None)
 
+st.navigation(pages, *, position="top", expanded=False)
 # SIDEBAR NAVIGATION
 with st.top:
     st.title("Navigation")
