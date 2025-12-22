@@ -41,7 +41,7 @@ for m in ["model_lr", "model_dt", "model_rf", "model_gb"]:
     st.session_state.setdefault(m, None)
 
 # SIDEBAR NAVIGATION
-with st.sidebar:
+with st.topbar:
     st.title("Navigation")
     st.session_state.page = st.radio(
         " ",[
